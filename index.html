@@ -1,0 +1,2486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamificando a Vida - Sua Jornada Épica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .app-container {
+            max-width: 420px;
+            height: 100vh;
+            max-height: 900px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        }
+        
+        /* Intro Styles */
+        .intro-screen {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1.5" fill="rgba(255,255,255,0.05)"/><circle cx="70" cy="80" r="0.8" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: twinkle 4s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .intro-title {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.8)); }
+        }
+        
+        .intro-text {
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        
+        .intro-button {
+            animation: fadeInUp 1s ease-out 1s both;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+        }
+        
+        .intro-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .character-selection {
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+        
+        .character-option {
+            background: rgba(51, 65, 85, 0.8);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .character-option:hover {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        
+        .character-option.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        /* Pixel Art Styles */
+        .pixel-avatar {
+            width: 120px;
+            height: 120px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            position: relative;
+        }
+        
+        .pixel-character {
+            width: 100%;
+            height: 100%;
+            background: #fbbf24;
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        /* Pixel Character Parts */
+        .pixel-head {
+            width: 60px;
+            height: 60px;
+            background: #fbbf24;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+        
+        .pixel-hair {
+            width: 64px;
+            height: 30px;
+            background: #8b4513;
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .pixel-eyes {
+            width: 8px;
+            height: 8px;
+            background: #000;
+            position: absolute;
+            top: 25px;
+        }
+        
+        .pixel-eye-left {
+            left: 15px;
+        }
+        
+        .pixel-eye-right {
+            right: 15px;
+        }
+        
+        .pixel-mouth {
+            width: 12px;
+            height: 4px;
+            background: #000;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .pixel-body {
+            width: 50px;
+            height: 40px;
+            background: #3b82f6;
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+        
+        .pixel-arms {
+            width: 20px;
+            height: 35px;
+            background: #fbbf24;
+            position: absolute;
+            top: 75px;
+            border-radius: 4px;
+        }
+        
+        .pixel-arm-left {
+            left: 15px;
+        }
+        
+        .pixel-arm-right {
+            right: 15px;
+        }
+        
+        .pixel-legs {
+            width: 20px;
+            height: 30px;
+            background: #1e40af;
+            position: absolute;
+            top: 110px;
+            border-radius: 4px;
+        }
+        
+        .pixel-leg-left {
+            left: 25px;
+        }
+        
+        .pixel-leg-right {
+            right: 25px;
+        }
+        
+        /* Scenario Styles */
+        .scenario-bg {
+            background: linear-gradient(180deg, #87ceeb 0%, #98fb98 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scenario-bg.night {
+            background: linear-gradient(180deg, #191970 0%, #2f4f4f 100%);
+        }
+        
+        .scenario-bg.rain {
+            background: linear-gradient(180deg, #696969 0%, #98fb98 100%);
+        }
+        
+        .scenario-bg.snow {
+            background: linear-gradient(180deg, #b0e0e6 0%, #ffffff 100%);
+        }
+        
+        .scenario-bg.desert {
+            background: linear-gradient(180deg, #ffd700 0%, #daa520 100%);
+        }
+        
+        .scenario-bg.forest {
+            background: linear-gradient(180deg, #2d5016 0%, #228b22 100%);
+        }
+        
+        .pixel-clouds {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 20px;
+            background: white;
+            clip-path: polygon(0 100%, 20% 80%, 40% 100%, 60% 60%, 80% 80%, 100% 40%, 100% 100%);
+        }
+        
+        .pixel-clouds::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: -60px;
+            width: 30px;
+            height: 15px;
+            background: white;
+            clip-path: polygon(0 100%, 25% 75%, 50% 100%, 75% 50%, 100% 75%, 100% 100%);
+        }
+        
+        .pixel-ground {
+            background: repeating-linear-gradient(
+                90deg,
+                #8b5a3c 0px,
+                #8b5a3c 8px,
+                #a0522d 8px,
+                #a0522d 16px
+            );
+            height: 20px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .pixel-grass {
+            background: repeating-linear-gradient(
+                90deg,
+                #228b22 0px,
+                #228b22 4px,
+                #32cd32 4px,
+                #32cd32 8px
+            );
+            height: 15px;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+        }
+        
+        .pixel-stars {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffff00;
+            border-radius: 50%;
+        }
+        
+        .pixel-moon {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 30px;
+            height: 30px;
+            background: #fffacd;
+            border-radius: 50%;
+        }
+        
+        .pixel-rain-drop {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: #87ceeb;
+            animation: rain-fall 1s linear infinite;
+        }
+        
+        @keyframes rain-fall {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(200px); }
+        }
+        
+        .pixel-snow-flake {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: snow-fall 3s linear infinite;
+        }
+        
+        @keyframes snow-fall {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(200px); }
+        }
+        
+        /* Main App Styles */
+        .hero-panel {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .journey-point {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .daily-reward {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
+            to { box-shadow: 0 0 30px rgba(245, 158, 11, 0.8); }
+        }
+        
+        .nav-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-icon:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-icon.active {
+            color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        
+        .floating-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .floating-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6);
+        }
+        
+        .project-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .level-progress {
+            background: linear-gradient(90deg, #10b981, #059669);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .xp-text {
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+        }
+        
+        .gold-text {
+            color: #fbbf24;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+        }
+        
+        .screen-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .challenge-popup {
+            animation: slideInUp 0.5s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .celebration {
+            animation: celebrate 1s ease-in-out;
+        }
+        
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            50% { transform: scale(1.2) rotate(5deg); }
+            75% { transform: scale(1.1) rotate(-2deg); }
+        }
+        
+        .level-up-celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: levelUpShow 3s ease-in-out;
+        }
+        
+        @keyframes levelUpShow {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .level-up-content {
+            text-align: center;
+            animation: levelUpBounce 3s ease-in-out;
+        }
+        
+        @keyframes levelUpBounce {
+            0%, 100% { transform: scale(0.8); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .form-input {
+            background: rgba(51, 65, 85, 0.8);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+        
+        .form-select {
+            background: rgba(51, 65, 85, 0.8);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            color: white;
+        }
+        
+        .difficulty-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .difficulty-btn.active {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        
+        .life-area-btn {
+            background: rgba(51, 65, 85, 0.6);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .life-area-btn.active {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+        }
+        
+        .task-input {
+            background: rgba(51, 65, 85, 0.6);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            color: white;
+        }
+        
+        .add-task-btn {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px dashed rgba(16, 185, 129, 0.5);
+            color: #10b981;
+            transition: all 0.3s ease;
+        }
+        
+        .add-task-btn:hover {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: #10b981;
+        }
+        
+        .back-btn {
+            background: rgba(51, 65, 85, 0.8);
+            color: white;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(71, 85, 105, 0.8);
+        }
+        
+        .create-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .create-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        
+        .date-input {
+            background: rgba(51, 65, 85, 0.8);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            color: white;
+        }
+        
+        .reward-input {
+            background: rgba(51, 65, 85, 0.6);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            color: white;
+            font-size: 0.875rem;
+        }
+        
+        .life-area-bar {
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .life-area-progress {
+            height: 8px;
+            background: linear-gradient(90deg, #10b981, #059669);
+            transition: width 0.3s ease;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .avatar-customization {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .avatar-option {
+            padding: 8px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(51, 65, 85, 0.6);
+        }
+        
+        .avatar-option:hover {
+            border-color: #3b82f6;
+        }
+        
+        .avatar-option.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .shop-item {
+            background: rgba(51, 65, 85, 0.8);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .shop-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        
+        .shop-item.owned {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        #avatar-section {
+            background-image: url("./chuva fundo.jpg");
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 200px;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen p-4">
+    <div class="app-container rounded-3xl overflow-hidden flex flex-col relative">
+        
+        <!-- Introduction Screen -->
+        <div id="intro-screen" class="intro-screen min-h-full flex flex-col items-center justify-center p-8 text-center">
+            <div class="mb-8">
+                <h1 class="intro-title text-4xl font-bold mb-4">Gamificando a Vida</h1>
+                <p class="intro-text text-slate-300 text-lg mb-8">
+                    Bem-vindo à sua jornada épica de transformação pessoal! 
+                    Transforme seus objetivos em uma aventura emocionante, 
+                    onde cada conquista te leva mais perto de se tornar a melhor versão de si mesmo.
+                </p>
+            </div>
+            
+            <div class="character-selection mb-8">
+                <h2 class="text-white text-xl font-semibold mb-4">Escolha seu Avatar</h2>
+                <div class="flex space-x-4 justify-center">
+                    <button class="character-option p-4 rounded-xl" data-character="male">
+                        <div class="w-16 h-16 mx-auto mb-2 relative">
+                            <div class="pixel-character">
+                                <div class="pixel-hair"></div>
+                                <div class="pixel-head">
+                                    <div class="pixel-eyes pixel-eye-left"></div>
+                                    <div class="pixel-eyes pixel-eye-right"></div>
+                                    <div class="pixel-mouth"></div>
+                                </div>
+                                <div class="pixel-body"></div>
+                                <div class="pixel-arms pixel-arm-left"></div>
+                                <div class="pixel-arms pixel-arm-right"></div>
+                                <div class="pixel-legs pixel-leg-left"></div>
+                                <div class="pixel-legs pixel-leg-right"></div>
+                            </div>
+                        </div>
+                        <span class="text-white text-sm">Masculino</span>
+                    </button>
+                    <button class="character-option p-4 rounded-xl" data-character="female">
+                        <div class="w-16 h-16 mx-auto mb-2 relative">
+                            <div class="pixel-character">
+                                <div class="pixel-hair" style="background: #8b4513; border-radius: 8px;"></div>
+                                <div class="pixel-head">
+                                    <div class="pixel-eyes pixel-eye-left"></div>
+                                    <div class="pixel-eyes pixel-eye-right"></div>
+                                    <div class="pixel-mouth"></div>
+                                </div>
+                                <div class="pixel-body" style="background: #ec4899;"></div>
+                                <div class="pixel-arms pixel-arm-left"></div>
+                                <div class="pixel-arms pixel-arm-right"></div>
+                                <div class="pixel-legs pixel-leg-left" style="background: #7c3aed;"></div>
+                                <div class="pixel-legs pixel-leg-right" style="background: #7c3aed;"></div>
+                            </div>
+                        </div>
+                        <span class="text-white text-sm">Feminino</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="start-journey-btn" class="intro-button px-8 py-4 rounded-full text-white font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Iniciar Jornada Épica
+            </button>
+        </div>
+        
+        <!-- Main Content Area -->
+        <main id="main-app" class="hidden flex-1 overflow-y-auto pb-20">
+            
+            <!-- Home Screen -->
+            <div id="home-screen" class="min-h-full">
+                <!-- Header -->
+                <header class="flex justify-between items-center p-4 bg-slate-800/50">
+                    <div>
+                        <h1 class="font-bold text-xl text-white">Gamificando a Vida</h1>
+                        <p class="text-sm text-slate-300">🔥 <span id="streak-days">0</span> dias de foco</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center space-x-1">
+                            <span class="text-xl">🪙</span>
+                            <span class="gold-text font-bold" id="gold-amount">0</span>
+                        </div>
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm" id="user-level">1</span>
+                        </div>
+                    </div>
+                </header>
+                
+                <!-- Avatar Section -->
+                <div class="scenario-bg relative h-48 flex items-end justify-center pb-4" id="avatar-section">
+                    <img src="./personagem.png" width="50">
+                </div>
+                
+                <!-- Level Progress -->
+                <div class="px-4 py-3 bg-slate-800/30">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-white font-medium">Nível <span id="current-level">1</span></span>
+                        <span class="xp-text font-bold"><span id="current-xp">0</span> / <span id="next-level-xp">100</span> XP</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-3">
+                        <div class="level-progress h-3 rounded-full transition-all duration-500" style="width: 0%" id="level-progress-bar"></div>
+                    </div>
+                </div>
+                
+                <!-- Hero Panel -->
+                <div class="p-4">
+                    <div class="hero-panel rounded-xl p-4 mb-4">
+                        <h2 class="text-white font-bold text-lg mb-3">Painel do Herói</h2>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <!-- Mission of the Day -->
+                            <div class="bg-slate-700/50 rounded-lg p-3">
+                                <h3 class="text-blue-300 font-semibold text-sm mb-1">Missão do Dia</h3>
+                                <p class="text-white text-xs mb-2" id="daily-mission">Crie seu primeiro projeto!</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-green-400 font-bold text-xs">+50 XP</span>
+                                    <span class="text-amber-400 font-bold text-xs">+25 🪙</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Recent Achievements -->
+                            <div class="bg-slate-700/50 rounded-lg p-3">
+                                <h3 class="text-purple-300 font-semibold text-sm mb-2">Conquistas</h3>
+                                <div class="grid grid-cols-3 gap-1">
+                                    <div class="bg-gray-500/20 rounded-lg p-1 text-center">
+                                        <div class="text-sm">🏆</div>
+                                        <span class="text-xs text-gray-400">Bloqueado</span>
+                                    </div>
+                                    <div class="bg-gray-500/20 rounded-lg p-1 text-center">
+                                        <div class="text-sm">⚡</div>
+                                        <span class="text-xs text-gray-400">Bloqueado</span>
+                                    </div>
+                                    <div class="bg-gray-500/20 rounded-lg p-1 text-center">
+                                        <div class="text-sm">🎯</div>
+                                        <span class="text-xs text-gray-400">Bloqueado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Journey Points -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="journey-point rounded-xl p-3 text-center">
+                                <div class="text-xl mb-1">📚</div>
+                                <h3 class="text-white font-semibold text-sm">Foco Atual</h3>
+                                <p class="text-blue-200 text-xs">Começando</p>
+                            </div>
+                            <div class="journey-point rounded-xl p-3 text-center">
+                                <div class="text-xl mb-1">🎯</div>
+                                <h3 class="text-white font-semibold text-sm">Meta Semanal</h3>
+                                <p class="text-blue-200 text-xs">0% Completa</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Daily Reward -->
+                    <div class="daily-reward rounded-xl p-4 text-center text-white" id="daily-reward-card">
+                        <h3 class="font-bold text-lg mb-2">Recompensa Diária!</h3>
+                        <div class="text-4xl mb-3">🎁</div>
+                        <button id="open-reward-btn" class="bg-white text-amber-600 font-bold py-2 px-6 rounded-full hover:bg-gray-100 transition">
+                            Coletar Recompensa
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Projects Screen -->
+            <div id="projects-screen" class="hidden min-h-full p-4">
+                <header class="mb-6">
+                    <h1 class="font-bold text-2xl text-white mb-2">Meus Projetos</h1>
+                    <p class="text-slate-300">Organize suas metas e conquiste seus objetivos</p>
+                </header>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Rotina -->
+                    <div class="project-card rounded-xl p-4 cursor-pointer" data-project-type="routine">
+                        <div class="text-3xl mb-2">📅</div>
+                        <h3 class="text-white font-bold mb-1">Rotina</h3>
+                        <p class="text-slate-300 text-sm mb-3"><span id="routine-count">0</span> projetos ativos</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-green-400 font-bold">0%</div>
+                            <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center">
+                                <div class="w-8 h-8 bg-green-500 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Complexo -->
+                    <div class="project-card rounded-xl p-4 cursor-pointer" data-project-type="complex">
+                        <div class="text-3xl mb-2">🔧</div>
+                        <h3 class="text-white font-bold mb-1">Complexo</h3>
+                        <p class="text-slate-300 text-sm mb-3"><span id="complex-count">0</span> projetos ativos</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-blue-400 font-bold">0</div>
+                            <div class="text-blue-400 text-sm">Projetos</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Desafio -->
+                    <div class="project-card rounded-xl p-4 cursor-pointer" data-project-type="challenge">
+                        <div class="text-3xl mb-2">⚡</div>
+                        <h3 class="text-white font-bold mb-1">Desafio</h3>
+                        <p class="text-slate-300 text-sm mb-3"><span id="challenge-count">0</span> desafios ativos</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-red-400 font-bold">--</div>
+                            <div class="text-red-400 text-sm">Dias restantes</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sprint -->
+                    <div class="project-card rounded-xl p-4 cursor-pointer" data-project-type="sprint">
+                        <div class="text-3xl mb-2">🏃‍♂️</div>
+                        <h3 class="text-white font-bold mb-1">Sprint</h3>
+                        <p class="text-slate-300 text-sm mb-3"><span id="sprint-count">0</span> sprints ativos</p>
+                        <div class="flex items-center justify-between">
+                            <div class="text-purple-400 font-bold">Baixa</div>
+                            <div class="text-purple-400 text-sm">Energia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Details Screen -->
+            <div id="project-details-screen" class="hidden min-h-full p-4">
+                <header class="mb-6 flex items-center">
+                    <button id="back-to-projects" class="back-btn p-2 rounded-lg mr-3">
+                        ←
+                    </button>
+                    <div>
+                        <h1 class="font-bold text-2xl text-white mb-1" id="project-details-title">Projetos de Rotina</h1>
+                        <p class="text-slate-300" id="project-details-subtitle">Seus hábitos e atividades regulares</p>
+                    </div>
+                </header>
+                
+                <div id="project-details-content" class="space-y-4">
+                    <!-- Project items will be dynamically added here -->
+                </div>
+                
+                <div class="text-center mt-8">
+                    <p class="text-slate-400 text-sm">Nenhum projeto encontrado</p>
+                    <p class="text-slate-500 text-xs mt-1">Clique no botão + para criar seu primeiro projeto</p>
+                </div>
+            </div>
+            
+            <!-- Life Wheel Screen -->
+            <div id="life-wheel-screen" class="hidden min-h-full p-4">
+                <header class="mb-6">
+                    <h1 class="font-bold text-2xl text-white mb-2">Roda da Vida</h1>
+                    <p class="text-slate-300">Acompanhe seu equilíbrio em todas as áreas</p>
+                </header>
+                
+                <!-- Chart Container -->
+                <div class="bg-slate-800/50 rounded-xl p-4 mb-6">
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="lifeWheelChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- All Life Areas with Progress Bars -->
+                <div class="space-y-3">
+                    <div class="bg-slate-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-white font-semibold">Carreira</h3>
+                            <span class="text-blue-400 font-bold">0/10</span>
+                        </div>
+                        <div class="life-area-bar">
+                            <div class="life-area-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-white font-semibold">Finanças</h3>
+                            <span class="text-blue-400 font-bold">0/10</span>
+                        </div>
+                        <div class="life-area-bar">
+                            <div class="life-area-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-white font-semibold">Saúde</h3>
+                            <span class="text-blue-400 font-bold">0/10</span>
+                        </div>
+                        <div class="life-area-bar">
+                            <div class="life-area-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-white font-semibold">Família</h3>
+                            <span class="text-blue-400 font-bold">0/10</span>
+                        </div>
+                        <div class="life-area-bar">
+                            <div class="life-area-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-white font-semibold">Social</h3>
+                            <span class="text-blue-400 font-bold">0/10</span>
+                        </div>
+                        <div class="life-area-bar">
+                            <div class="life-area-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-white font-semibold">Lazer</h3>
+                            <span class="text-blue-400 font-bold">0/10</span>
+                        </div>
+                        <div class="life-area-bar">
+                            <div class="life-area-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-white font-semibold">Intelectual</h3>
+                            <span class="text-blue-400 font-bold">0/10</span>
+                        </div>
+                        <div class="life-area-bar">
+                            <div class="life-area-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trophies Screen -->
+            <div id="trophies-screen" class="hidden min-h-full p-4">
+                <header class="mb-6">
+                    <h1 class="font-bold text-2xl text-white mb-2">Conquistas</h1>
+                    <p class="text-slate-300">Seus troféus e marcos alcançados</p>
+                </header>
+                
+                <div class="grid grid-cols-3 gap-4 mb-6" id="trophies-grid">
+                    <div class="bg-slate-800/30 rounded-xl p-4 text-center opacity-50">
+                        <div class="text-3xl mb-2">🏆</div>
+                        <h3 class="text-white font-semibold text-xs">Iniciante</h3>
+                        <p class="text-slate-400 text-xs mt-1">Bloqueado</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/30 rounded-xl p-4 text-center opacity-50">
+                        <div class="text-3xl mb-2">🥇</div>
+                        <h3 class="text-white font-semibold text-xs">Primeiro Projeto</h3>
+                        <p class="text-slate-400 text-xs mt-1">Bloqueado</p>
+                    </div>
+                    
+                    <div class="bg-slate-800/30 rounded-xl p-4 text-center opacity-50">
+                        <div class="text-3xl mb-2">🚀</div>
+                        <h3 class="text-white font-semibold text-xs">Mestre Sprint</h3>
+                        <p class="text-slate-400 text-xs mt-1">Bloqueado</p>
+                    </div>
+                </div>
+                
+                <button id="create-trophy-btn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">
+                    Criar Nova Conquista
+                </button>
+            </div>
+            
+            <!-- Profile Screen -->
+            <div id="profile-screen" class="hidden min-h-full p-4">
+                <header class="text-center mb-6">
+                    <div class="w-24 h-24 bg-slate-700 rounded-full mx-auto mb-3 overflow-hidden" id="profile-photo">
+                        <div class="w-full h-full bg-gradient-to-b from-slate-600 to-slate-700 flex items-center justify-center">
+                            <span class="text-3xl">👤</span>
+                        </div>
+                    </div>
+                    <h1 class="font-bold text-xl text-white">Meu Perfil</h1>
+                    <p class="text-slate-300">Nível <span id="profile-level">1</span> - Iniciante</p>
+                </header>
+                
+                <div class="space-y-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                        <h2 class="text-white font-bold mb-3">Estatísticas</h2>
+                        <div class="grid grid-cols-3 divide-x divide-slate-600">
+                            <div class="text-center">
+                                <div class="text-white font-bold text-lg" id="profile-active-projects">0</div>
+                                <div class="text-slate-300 text-xs">Projetos Ativos</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-white font-bold text-lg" id="profile-completed-projects">0</div>
+                                <div class="text-slate-300 text-xs">Concluídos</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-white font-bold text-lg" id="profile-focus-days">0</div>
+                                <div class="text-slate-300 text-xs">Dias de Foco</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <button id="change-photo-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
+                            <span>📷 Alterar Foto</span>
+                            <span class="text-slate-400">›</span>
+                        </button>
+                        
+                        <button id="edit-avatar-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
+                            <span>🎨 Editar Avatar</span>
+                            <span class="text-slate-400">›</span>
+                        </button>
+                        
+                        <button id="shop-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
+                            <span>🛍️ Loja</span>
+                            <span class="text-slate-400">›</span>
+                        </button>
+                        
+                        <button id="settings-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
+                            <span>⚙️ Configurações</span>
+                            <span class="text-slate-400">›</span>
+                        </button>
+                        
+                        <button id="account-data-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
+                            <span>👤 Dados da Conta</span>
+                            <span class="text-slate-400">›</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Avatar Customization Screen -->
+            <div id="avatar-customization-screen" class="hidden min-h-full p-4">
+                <header class="mb-6 flex items-center">
+                    <button id="back-to-profile" class="back-btn p-2 rounded-lg mr-3">
+                        ←
+                    </button>
+                    <div>
+                        <h1 class="font-bold text-2xl text-white mb-1">Editar Avatar</h1>
+                        <p class="text-slate-300">Personalize seu personagem</p>
+                    </div>
+                </header>
+                
+                <!-- Avatar Preview -->
+                <div class="bg-slate-800/50 rounded-xl p-6 mb-6 text-center">
+                    <div class="pixel-avatar mx-auto mb-4" id="avatar-preview">
+                        <div class="pixel-character">
+                            <div class="pixel-hair" id="preview-hair"></div>
+                            <div class="pixel-head">
+                                <div class="pixel-eyes pixel-eye-left"></div>
+                                <div class="pixel-eyes pixel-eye-right"></div>
+                                <div class="pixel-mouth"></div>
+                            </div>
+                            <div class="pixel-body" id="preview-body"></div>
+                            <div class="pixel-arms pixel-arm-left"></div>
+                            <div class="pixel-arms pixel-arm-right"></div>
+                            <div class="pixel-legs pixel-leg-left" id="preview-legs"></div>
+                            <div class="pixel-legs pixel-leg-right" id="preview-legs-right"></div>
+                        </div>
+                    </div>
+                    <h3 class="text-white font-semibold">Prévia do Avatar</h3>
+                </div>
+                
+                <!-- Customization Options -->
+                <div class="space-y-6">
+                    <!-- Hair Color -->
+                    <div>
+                        <h3 class="text-white font-semibold mb-3">Cor do Cabelo</h3>
+                        <div class="avatar-customization">
+                            <div class="avatar-option" data-hair-color="#8b4513">
+                                <div class="w-8 h-8 rounded" style="background: #8b4513;"></div>
+                            </div>
+                            <div class="avatar-option" data-hair-color="#000000">
+                                <div class="w-8 h-8 rounded" style="background: #000000;"></div>
+                            </div>
+                            <div class="avatar-option" data-hair-color="#ffd700">
+                                <div class="w-8 h-8 rounded" style="background: #ffd700;"></div>
+                            </div>
+                            <div class="avatar-option" data-hair-color="#ff6b35">
+                                <div class="w-8 h-8 rounded" style="background: #ff6b35;"></div>
+                            </div>
+                            <div class="avatar-option" data-hair-color="#8b008b">
+                                <div class="w-8 h-8 rounded" style="background: #8b008b;"></div>
+                            </div>
+                            <div class="avatar-option" data-hair-color="#32cd32">
+                                <div class="w-8 h-8 rounded" style="background: #32cd32;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Shirt Color -->
+                    <div>
+                        <h3 class="text-white font-semibold mb-3">Cor da Camisa</h3>
+                        <div class="avatar-customization">
+                            <div class="avatar-option" data-shirt-color="#3b82f6">
+                                <div class="w-8 h-8 rounded" style="background: #3b82f6;"></div>
+                            </div>
+                            <div class="avatar-option" data-shirt-color="#ec4899">
+                                <div class="w-8 h-8 rounded" style="background: #ec4899;"></div>
+                            </div>
+                            <div class="avatar-option" data-shirt-color="#10b981">
+                                <div class="w-8 h-8 rounded" style="background: #10b981;"></div>
+                            </div>
+                            <div class="avatar-option" data-shirt-color="#f59e0b">
+                                <div class="w-8 h-8 rounded" style="background: #f59e0b;"></div>
+                            </div>
+                            <div class="avatar-option" data-shirt-color="#8b5cf6">
+                                <div class="w-8 h-8 rounded" style="background: #8b5cf6;"></div>
+                            </div>
+                            <div class="avatar-option" data-shirt-color="#ef4444">
+                                <div class="w-8 h-8 rounded" style="background: #ef4444;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pants Color -->
+                    <div>
+                        <h3 class="text-white font-semibold mb-3">Cor da Calça</h3>
+                        <div class="avatar-customization">
+                            <div class="avatar-option" data-pants-color="#1e40af">
+                                <div class="w-8 h-8 rounded" style="background: #1e40af;"></div>
+                            </div>
+                            <div class="avatar-option" data-pants-color="#7c3aed">
+                                <div class="w-8 h-8 rounded" style="background: #7c3aed;"></div>
+                            </div>
+                            <div class="avatar-option" data-pants-color="#000000">
+                                <div class="w-8 h-8 rounded" style="background: #000000;"></div>
+                            </div>
+                            <div class="avatar-option" data-pants-color="#374151">
+                                <div class="w-8 h-8 rounded" style="background: #374151;"></div>
+                            </div>
+                            <div class="avatar-option" data-pants-color="#059669">
+                                <div class="w-8 h-8 rounded" style="background: #059669;"></div>
+                            </div>
+                            <div class="avatar-option" data-pants-color="#dc2626">
+                                <div class="w-8 h-8 rounded" style="background: #dc2626;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="save-avatar-btn" class="w-full create-btn font-bold py-3 rounded-xl mt-6">
+                    Salvar Avatar
+                </button>
+            </div>
+            
+            <!-- Shop Screen -->
+            <div id="shop-screen" class="hidden min-h-full p-4">
+                <header class="mb-6 flex items-center">
+                    <button id="back-to-profile-from-shop" class="back-btn p-2 rounded-lg mr-3">
+                        ←
+                    </button>
+                    <div>
+                        <h1 class="font-bold text-2xl text-white mb-1">Loja</h1>
+                        <p class="text-slate-300">Compre itens com suas moedas</p>
+                    </div>
+                </header>
+                
+                <div class="flex justify-center mb-6">
+                    <div class="bg-slate-800/50 rounded-xl p-4 flex items-center space-x-2">
+                        <span class="text-2xl">🪙</span>
+                        <span class="gold-text font-bold text-xl" id="shop-gold-amount">0</span>
+                    </div>
+                </div>
+                
+                <div class="space-y-4" id="shop-items">
+                    <!-- Avatar Accessories -->
+                    <div class="shop-item">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-white font-semibold">🎩 Chapéu Elegante</h3>
+                                <p class="text-slate-400 text-sm">Adicione estilo ao seu avatar</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="gold-text font-bold">500 🪙</div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                    Comprar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="shop-item">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-white font-semibold">👓 Óculos de Sol</h3>
+                                <p class="text-slate-400 text-sm">Para um visual mais cool</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="gold-text font-bold">300 🪙</div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                    Comprar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Scenario Themes -->
+                    <div class="shop-item">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-white font-semibold">🏖️ Tema Praia</h3>
+                                <p class="text-slate-400 text-sm">Cenário tropical para seu avatar</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="gold-text font-bold">1000 🪙</div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                    Comprar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="shop-item">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-white font-semibold">🏔️ Tema Montanha</h3>
+                                <p class="text-slate-400 text-sm">Cenário montanhoso épico</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="gold-text font-bold">1200 🪙</div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                    Comprar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Power-ups -->
+                    <div class="shop-item">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-white font-semibold">⚡ Boost de XP</h3>
+                                <p class="text-slate-400 text-sm">Dobra XP por 24 horas</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="gold-text font-bold">200 🪙</div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                    Comprar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        
+        <!-- Floating Action Button -->
+        <button id="add-project-btn" class="hidden floating-btn absolute bottom-24 right-5 w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl font-light">
+            +
+        </button>
+        
+        <!-- Bottom Navigation -->
+        <nav id="bottom-nav" class="hidden absolute bottom-0 left-0 right-0 bg-slate-800/90 backdrop-blur-sm border-t border-slate-700 flex justify-around p-3">
+            <button data-screen="home-screen" class="nav-icon active flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-xl mb-1">🏠</span>
+                <span class="text-xs">Home</span>
+            </button>
+            <button data-screen="projects-screen" class="nav-icon flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-xl mb-1">📂</span>
+                <span class="text-xs">Projetos</span>
+            </button>
+            <button data-screen="life-wheel-screen" class="nav-icon flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-xl mb-1">❤️</span>
+                <span class="text-xs">Roda da Vida</span>
+            </button>
+            <button data-screen="trophies-screen" class="nav-icon flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-xl mb-1">🏆</span>
+                <span class="text-xs">Troféus</span>
+            </button>
+            <button data-screen="profile-screen" class="nav-icon flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-xl mb-1">👤</span>
+                <span class="text-xs">Perfil</span>
+            </button>
+        </nav>
+        
+        <!-- Level Up Celebration -->
+        <div id="level-up-celebration" class="hidden level-up-celebration">
+            <div class="level-up-content">
+                <div class="text-8xl mb-4">🎉</div>
+                <h1 class="text-4xl font-bold text-white mb-2">LEVEL UP!</h1>
+                <p class="text-2xl text-blue-400 font-bold">Nível <span id="new-level">2</span></p>
+                <p class="text-lg text-slate-300 mt-2">Você está evoluindo!</p>
+            </div>
+        </div>
+        
+        <!-- Modals -->
+        <!-- Daily Reward Modal -->
+        <div id="reward-modal" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
+            <div class="bg-slate-800 rounded-2xl p-6 text-center shadow-2xl transform transition-all scale-95 border border-slate-600">
+                <div class="text-5xl mb-4">🎉</div>
+                <h2 class="font-bold text-xl text-white mb-2">Recompensa Coletada!</h2>
+                <p class="text-slate-300 mb-3">Você ganhou:</p>
+                <div class="space-y-2 mb-6">
+                    <p class="font-bold text-green-400 text-lg">+25 XP</p>
+                    <p class="font-bold text-amber-400 text-lg">+10 🪙 Ouro</p>
+                </div>
+                <button id="close-reward-modal" class="bg-blue-600 text-white font-bold py-2 px-8 rounded-full hover:bg-blue-700 transition">
+                    Continuar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Random Challenge Modal -->
+        <div id="challenge-modal" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600 challenge-popup">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-bold text-xl text-white">Desafio Aleatório!</h2>
+                    <button id="close-challenge-modal" class="text-slate-400 text-2xl hover:text-white">×</button>
+                </div>
+                <div class="text-center mb-4">
+                    <div class="text-4xl mb-3">⚡</div>
+                    <h3 class="text-white font-bold mb-2" id="challenge-title">Crie seu primeiro projeto</h3>
+                    <p class="text-slate-300 text-sm" id="challenge-description">Comece sua jornada criando seu primeiro projeto no app.</p>
+                </div>
+                <div class="flex justify-between items-center mb-6">
+                    <div class="text-center">
+                        <div class="text-green-400 font-bold">+50 XP</div>
+                        <div class="text-xs text-slate-400">Recompensa</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-amber-400 font-bold">+25 🪙</div>
+                        <div class="text-xs text-slate-400">Ouro</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-blue-400 font-bold">∞</div>
+                        <div class="text-xs text-slate-400">Prazo</div>
+                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <button id="accept-challenge" class="flex-1 bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition">
+                        Aceitar
+                    </button>
+                    <button id="decline-challenge" class="flex-1 bg-slate-600 text-white font-bold py-3 rounded-xl hover:bg-slate-700 transition">
+                        Recusar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Project Creation Modal -->
+        <div id="project-modal" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600 w-full max-w-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-bold text-xl text-white">Qual será seu projeto?</h2>
+                    <button id="close-project-modal" class="text-slate-400 text-2xl hover:text-white">×</button>
+                </div>
+                <div class="space-y-3">
+                    <button class="w-full bg-green-600/20 border border-green-600/30 text-green-300 p-4 rounded-xl text-left hover:bg-green-600/30 transition" data-project-type="routine">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">📅</span>
+                            <div>
+                                <div class="font-semibold">Rotina</div>
+                                <div class="text-xs opacity-75">Atividades regulares e hábitos</div>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="w-full bg-blue-600/20 border border-blue-600/30 text-blue-300 p-4 rounded-xl text-left hover:bg-blue-600/30 transition" data-project-type="complex">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">🔧</span>
+                            <div>
+                                <div class="font-semibold">Complexo</div>
+                                <div class="text-xs opacity-75">Projetos de longo prazo</div>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="w-full bg-red-600/20 border border-red-600/30 text-red-300 p-4 rounded-xl text-left hover:bg-red-600/30 transition" data-project-type="challenge">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">⚡</span>
+                            <div>
+                                <div class="font-semibold">Desafio</div>
+                                <div class="text-xs opacity-75">Metas com prazo definido</div>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="w-full bg-purple-600/20 border border-purple-600/30 text-purple-300 p-4 rounded-xl text-left hover:bg-purple-600/30 transition" data-project-type="sprint">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">🏃‍♂️</span>
+                            <div>
+                                <div class="font-semibold">Sprint</div>
+                                <div class="text-xs opacity-75">Projetos rápidos e intensos</div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Project Form Modal -->
+        <div id="project-form-modal" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600 w-full max-w-md max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-bold text-xl text-white" id="form-title">Criar Projeto</h2>
+                    <button id="close-form-modal" class="text-slate-400 text-2xl hover:text-white">×</button>
+                </div>
+                
+                <form id="project-form" class="space-y-4">
+                    <!-- Project Name -->
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Nome do Projeto</label>
+                        <input type="text" id="project-name" class="form-input w-full p-3 rounded-lg" placeholder="Digite o nome do projeto" required>
+                    </div>
+                    
+                    <!-- Life Area -->
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Área da Vida</label>
+                        <select id="project-life-area" class="form-select w-full p-3 rounded-lg" required>
+                            <option value="">Selecione uma área</option>
+                            <option value="carreira">Carreira</option>
+                            <option value="financas">Finanças</option>
+                            <option value="saude">Saúde</option>
+                            <option value="familia">Família</option>
+                            <option value="social">Social</option>
+                            <option value="lazer">Lazer</option>
+                            <option value="intelectual">Intelectual</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Difficulty -->
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Dificuldade</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" class="difficulty-btn bg-green-600/20 text-green-300 p-3 rounded-lg" data-difficulty="facil">
+                                <div class="text-lg mb-1">😊</div>
+                                <div class="text-xs">Fácil</div>
+                            </button>
+                            <button type="button" class="difficulty-btn bg-yellow-600/20 text-yellow-300 p-3 rounded-lg" data-difficulty="medio">
+                                <div class="text-lg mb-1">😐</div>
+                                <div class="text-xs">Médio</div>
+                            </button>
+                            <button type="button" class="difficulty-btn bg-red-600/20 text-red-300 p-3 rounded-lg" data-difficulty="dificil">
+                                <div class="text-lg mb-1">😤</div>
+                                <div class="text-xs">Difícil</div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Date fields for challenges -->
+                    <div id="date-fields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Data de Início</label>
+                            <input type="date" id="project-start-date" class="date-input w-full p-3 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Data de Término</label>
+                            <input type="date" id="project-end-date" class="date-input w-full p-3 rounded-lg">
+                        </div>
+                    </div>
+                    
+                    <!-- Tasks Section -->
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Tarefas</label>
+                        <div id="tasks-container" class="space-y-2">
+                            <input type="text" class="task-input w-full p-2 rounded-lg text-sm" placeholder="Digite uma tarefa...">
+                        </div>
+                        <button type="button" id="add-task-btn" class="add-task-btn w-full p-2 rounded-lg mt-2 text-sm">
+                            + Adicionar Tarefa
+                        </button>
+                    </div>
+                    
+                    <!-- Custom Rewards -->
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Recompensas Personalizadas</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="number" id="custom-xp" class="reward-input p-2 rounded-lg" placeholder="XP Extra" min="0">
+                            <input type="number" id="custom-gold" class="reward-input p-2 rounded-lg" placeholder="Ouro Extra" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3 pt-4">
+                        <button type="button" id="cancel-form" class="flex-1 back-btn py-3 rounded-xl">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="flex-1 create-btn py-3 rounded-xl">
+                            Criar Projeto
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Trophy Creation Modal -->
+        <div id="trophy-form-modal" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600 w-full max-w-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-bold text-xl text-white">Criar Nova Conquista</h2>
+                    <button id="close-trophy-form" class="text-slate-400 text-2xl hover:text-white">×</button>
+                </div>
+                
+                <form id="trophy-form" class="space-y-4">
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Nome da Conquista</label>
+                        <input type="text" id="trophy-name" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Mestre da Produtividade" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Ícone</label>
+                        <div class="grid grid-cols-6 gap-2">
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="🏆">🏆</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="🥇">🥇</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="🚀">🚀</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="⭐">⭐</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="💎">💎</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="👑">👑</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="🎯">🎯</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="⚡">⚡</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="🔥">🔥</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="💪">💪</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="🧠">🧠</button>
+                            <button type="button" class="avatar-option p-2" data-trophy-icon="❤️">❤️</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white font-semibold mb-2">Descrição</label>
+                        <textarea id="trophy-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Descreva como conquistar este troféu..." required></textarea>
+                    </div>
+                    
+                    <div class="flex space-x-3 pt-4">
+                        <button type="button" id="cancel-trophy-form" class="flex-1 back-btn py-3 rounded-xl">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="flex-1 create-btn py-3 rounded-xl">
+                            Criar Conquista
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        // Global state - Starting fresh for new user
+        let currentUser = {
+            level: 1,
+            xp: 0,
+            nextLevelXp: 100,
+            gold: 0,
+            streakDays: 0,
+            avatar: {
+                gender: 'male',
+                hairColor: '#8b4513',
+                shirtColor: '#3b82f6',
+                pantsColor: '#1e40af'
+            },
+            scenario: 'day',
+            projects: [],
+            trophies: [],
+            completedProjects: 0,
+            activeChallengeAccepted: false
+        };
+        
+        let scenarios = ['day', 'night', 'rain', 'snow', 'desert', 'forest'];
+        let currentScenarioIndex = 0;
+        let currentScreen = 'home-screen';
+        let selectedCharacter = null;
+        let selectedProjectType = null;
+        let selectedDifficulty = null;
+        let selectedTrophyIcon = null;
+        let selectedProject = null;
+        
+        // DOM Elements
+        const screens = ['home-screen', 'projects-screen', 'project-details-screen', 'life-wheel-screen', 'trophies-screen', 'profile-screen', 'avatar-customization-screen', 'shop-screen'];
+        const navButtons = document.querySelectorAll('.nav-icon');
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeIntro();
+        });
+        
+        // Introduction
+        function initializeIntro() {
+            const characterOptions = document.querySelectorAll('.character-option');
+            const startButton = document.getElementById('start-journey-btn');
+            
+            characterOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    characterOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedCharacter = option.dataset.character;
+                    startButton.disabled = false;
+                });
+            });
+            
+            startButton.addEventListener('click', () => {
+                if (selectedCharacter) {
+                    startMainApp();
+                }
+            });
+        }
+        
+        function startMainApp() {
+            // Update avatar based on selection
+            currentUser.avatar.gender = selectedCharacter;
+            if (selectedCharacter === 'female') {
+                currentUser.avatar.shirtColor = '#ec4899';
+                currentUser.avatar.pantsColor = '#7c3aed';
+            }
+            
+            updateAvatarDisplay();
+            
+            // Hide intro and show main app
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+            document.getElementById('add-project-btn').classList.remove('hidden');
+            document.getElementById('bottom-nav').classList.remove('hidden');
+            
+            // Initialize main app
+            initializeNavigation();
+            initializeModals();
+            initializeLifeWheel();
+            updateUserStats();
+            updateProjectCounts();
+            
+            // Show welcome challenge after 3 seconds
+            setTimeout(showWelcomeChallenge, 3000);
+            
+            // Change scenario every 60 seconds
+            setInterval(changeScenario, 60000);
+        }
+        
+        // Avatar Management
+        function updateAvatarDisplay() {
+            const avatarHair = document.getElementById('avatar-hair');
+            const avatarBody = document.getElementById('avatar-body');
+            const avatarLegs = document.getElementById('avatar-legs');
+            const avatarLegsRight = document.getElementById('avatar-legs-right');
+            
+            if (avatarHair) avatarHair.style.background = currentUser.avatar.hairColor;
+            if (avatarBody) avatarBody.style.background = currentUser.avatar.shirtColor;
+            if (avatarLegs) avatarLegs.style.background = currentUser.avatar.pantsColor;
+            if (avatarLegsRight) avatarLegsRight.style.background = currentUser.avatar.pantsColor;
+            
+            // Update preview if on customization screen
+            const previewHair = document.getElementById('preview-hair');
+            const previewBody = document.getElementById('preview-body');
+            const previewLegs = document.getElementById('preview-legs');
+            const previewLegsRight = document.getElementById('preview-legs-right');
+            
+            if (previewHair) previewHair.style.background = currentUser.avatar.hairColor;
+            if (previewBody) previewBody.style.background = currentUser.avatar.shirtColor;
+            if (previewLegs) previewLegs.style.background = currentUser.avatar.pantsColor;
+            if (previewLegsRight) previewLegsRight.style.background = currentUser.avatar.pantsColor;
+        }
+        
+        // Navigation
+        function initializeNavigation() {
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetScreen = button.dataset.screen;
+                    switchScreen(targetScreen);
+                    
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+            
+            // Project details navigation
+            document.querySelectorAll('[data-project-type]').forEach(card => {
+                if (card.classList.contains('project-card')) {
+                    card.addEventListener('click', () => {
+                        const projectType = card.dataset.projectType;
+                        showProjectDetails(projectType);
+                    });
+                }
+            });
+            
+            // Back buttons
+            document.getElementById('back-to-projects')?.addEventListener('click', () => {
+                switchScreen('projects-screen');
+                updateNavigation('projects-screen');
+            });
+            
+            document.getElementById('back-to-profile')?.addEventListener('click', () => {
+                switchScreen('profile-screen');
+                updateNavigation('profile-screen');
+            });
+            
+            document.getElementById('back-to-profile-from-shop')?.addEventListener('click', () => {
+                switchScreen('profile-screen');
+                updateNavigation('profile-screen');
+            });
+            
+            // Profile menu buttons
+            document.getElementById('change-photo-btn')?.addEventListener('click', () => {
+                alert('Funcionalidade de alterar foto em desenvolvimento!');
+            });
+            
+            document.getElementById('edit-avatar-btn')?.addEventListener('click', () => {
+                switchScreen('avatar-customization-screen');
+                updateAvatarDisplay();
+            });
+            
+            document.getElementById('shop-btn')?.addEventListener('click', () => {
+                switchScreen('shop-screen');
+                updateShopGold();
+            });
+            
+            document.getElementById('settings-btn')?.addEventListener('click', () => {
+                alert('Configurações em desenvolvimento!');
+            });
+            
+            document.getElementById('account-data-btn')?.addEventListener('click', () => {
+                alert('Dados da conta em desenvolvimento!');
+            });
+        }
+        
+        function switchScreen(screenId) {
+            screens.forEach(screen => {
+                const element = document.getElementById(screen);
+                if (element) {
+                    element.classList.add('hidden');
+                }
+            });
+            
+            const targetElement = document.getElementById(screenId);
+            if (targetElement) {
+                targetElement.classList.remove('hidden');
+                currentScreen = screenId;
+            }
+        }
+        
+        function updateNavigation(screenId) {
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            const targetNav = document.querySelector(`[data-screen="${screenId}"]`);
+            if (targetNav) {
+                targetNav.classList.add('active');
+            }
+        }
+        
+        function showProjectDetails(projectType) {
+            const titles = {
+                routine: 'Projetos de Rotina',
+                complex: 'Projetos Complexos',
+                challenge: 'Desafios',
+                sprint: 'Sprints'
+            };
+            
+            const subtitles = {
+                routine: 'Seus hábitos e atividades regulares',
+                complex: 'Projetos de longo prazo e objetivos grandes',
+                challenge: 'Metas com prazo definido',
+                sprint: 'Projetos rápidos e intensos'
+            };
+            
+            document.getElementById('project-details-title').textContent = titles[projectType];
+            document.getElementById('project-details-subtitle').textContent = subtitles[projectType];
+            
+            // Filter and display projects
+            const filteredProjects = currentUser.projects.filter(p => p.type === projectType);
+            const contentContainer = document.getElementById('project-details-content');
+            
+            if (filteredProjects.length === 0) {
+                contentContainer.innerHTML = `
+                    <div class="text-center mt-8">
+                        <p class="text-slate-400 text-sm">Nenhum projeto encontrado</p>
+                        <p class="text-slate-500 text-xs mt-1">Clique no botão + para criar seu primeiro projeto</p>
+                    </div>
+                `;
+            } else {
+                contentContainer.innerHTML = filteredProjects.map(project => `
+                    <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
+                        <h3 class="text-white font-bold mb-2">${project.name}</h3>
+                        <p class="text-slate-300 text-sm mb-1">Área: ${project.lifeArea}</p>
+                        <p class="text-slate-400 text-sm mb-3">Dificuldade: ${project.difficulty}</p>
+                        <div class="flex justify-between items-center mb-3">
+                        <span class="text-green-400 font-bold">${project.progress}%</span>
+                        <span class="text-blue-400 text-sm">${project.tasks.filter(t => t.completed).length}/${project.tasks.length} tarefas</span>
+                        </div>
+                        <div class="flex justify-end space-x-2">
+                        <!-- Botão Editar chama a função updateProject -->
+                        <button
+                            onclick="populateFormForEdit(${project.id})"
+                            class="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-xs"
+                        >
+                            Editar
+                        </button>
+                        <!-- Botão Excluir chama a função deleteProject -->
+                        <button
+                            onclick="deleteProject(${project.id})"
+                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs"
+                        >
+                            Excluir
+                        </button>
+                        </div>
+                    </div>
+                    `).join('');
+            }
+            
+            switchScreen('project-details-screen');
+        }
+        
+        // Modals
+        function initializeModals() {
+            // Daily Reward Modal
+            const rewardModal = document.getElementById('reward-modal');
+            const openRewardBtn = document.getElementById('open-reward-btn');
+            const closeRewardBtn = document.getElementById('close-reward-modal');
+            
+            openRewardBtn?.addEventListener('click', () => {
+                showModal('reward-modal');
+                collectDailyReward();
+            });
+            
+            closeRewardBtn?.addEventListener('click', () => {
+                hideModal('reward-modal');
+                updateDailyRewardCard();
+            });
+            
+            // Challenge Modal
+            const challengeModal = document.getElementById('challenge-modal');
+            const closeChallengeBtn = document.getElementById('close-challenge-modal');
+            const acceptChallengeBtn = document.getElementById('accept-challenge');
+            const declineChallengeBtn = document.getElementById('decline-challenge');
+            
+            closeChallengeBtn?.addEventListener('click', () => hideModal('challenge-modal'));
+            acceptChallengeBtn?.addEventListener('click', () => {
+                acceptChallenge();
+                hideModal('challenge-modal');
+            });
+            declineChallengeBtn?.addEventListener('click', () => hideModal('challenge-modal'));
+            
+            // Project Modal
+            const projectModal = document.getElementById('project-modal');
+            const addProjectBtn = document.getElementById('add-project-btn');
+            const closeProjectBtn = document.getElementById('close-project-modal');
+            
+            addProjectBtn?.addEventListener('click', () => showModal('project-modal'));
+            closeProjectBtn?.addEventListener('click', () => hideModal('project-modal'));
+            
+            // Project type selection
+            document.querySelectorAll('#project-modal [data-project-type]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectedProjectType = btn.dataset.projectType;
+                    hideModal('project-modal');
+                    showProjectForm();
+                });
+            });
+            
+            // Project Form Modal
+            initializeProjectForm();
+            
+            // Trophy Creation
+            initializeTrophyCreation();
+            
+            // Avatar Customization
+            initializeAvatarCustomization();
+        }
+        
+        function initializeProjectForm() {
+            const formModal = document.getElementById('project-form-modal');
+            const closeFormBtn = document.getElementById('close-form-modal');
+            const cancelFormBtn = document.getElementById('cancel-form');
+            const projectForm = document.getElementById('project-form');
+            
+            closeFormBtn?.addEventListener('click', () => hideModal('project-form-modal'));
+            cancelFormBtn?.addEventListener('click', () => hideModal('project-form-modal'));
+            
+            // Difficulty selection
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedDifficulty = btn.dataset.difficulty;
+                });
+            });
+            
+            // Add task functionality
+            document.getElementById('add-task-btn')?.addEventListener('click', () => {
+                const container = document.getElementById('tasks-container');
+                const newTask = document.createElement('input');
+                newTask.type = 'text';
+                newTask.className = 'task-input w-full p-2 rounded-lg text-sm';
+                newTask.placeholder = 'Digite uma tarefa...';
+                container.appendChild(newTask);
+            });
+            
+            // Form submission
+            projectForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveProject();
+            });
+        }
+        
+        function showProjectForm() {
+            const titles = {
+                routine: 'Criar Rotina',
+                complex: 'Criar Projeto Complexo',
+                challenge: 'Criar Desafio',
+                sprint: 'Criar Sprint'
+            };
+            
+            document.getElementById('form-title').textContent = titles[selectedProjectType];
+            
+            // Show/hide date fields for challenges
+            const dateFields = document.getElementById('date-fields');
+            if (selectedProjectType === 'challenge') {
+                dateFields.classList.remove('hidden');
+            } else {
+                dateFields.classList.add('hidden');
+            }
+            
+            showModal('project-form-modal');
+        }
+        
+        /**
+         * Cria um novo projeto ou atualiza um existente se receber projectId.
+         * @param {number|null} projectId — ID do projeto para editar, ou null para criar.
+         */
+        function saveProject() {
+            // 1) Coleta valores do formulário
+            const name       = document.getElementById('project-name').value;
+            const lifeArea   = document.getElementById('project-life-area').value;
+            const startDate  = document.getElementById('project-start-date').value;
+            const endDate    = document.getElementById('project-end-date').value;
+            const customXp   = parseInt(document.getElementById('custom-xp').value)   || 0;
+            const customGold = parseInt(document.getElementById('custom-gold').value) || 0;
+
+            const taskInputs = document.querySelectorAll('#tasks-container .task-input');
+            const tasks = Array.from(taskInputs)
+                .map(i => i.value.trim())
+                .filter(t => t)
+                .map(text => ({ text, completed: false }));
+
+            const difficultyMultipliers = {
+                facil:  { xp: 1,   gold: 1 },
+                medio:  { xp: 1.5, gold: 1.5 },
+                dificil:{ xp: 2,   gold: 2 }
+            };
+            const baseXp   = 50;
+            const baseGold = 25;
+            const mul      = difficultyMultipliers[selectedDifficulty] || difficultyMultipliers.facil;
+
+            // Monta objeto com campos comuns
+            const projectData = {
+                name,
+                type:        selectedProjectType,
+                lifeArea,
+                difficulty:  selectedDifficulty,
+                startDate,
+                endDate,
+                tasks,
+                xpReward:    Math.floor(baseXp   * mul.xp)   + customXp,
+                goldReward:  Math.floor(baseGold * mul.gold) + customGold,
+                updatedAt:   new Date().toISOString()
+            };
+
+            if (selectedProject) {
+
+                const idx = currentUser.projects.findIndex(p => p.id === selectedProject);
+                if (idx === -1) {
+                    showErrorMessage('Projeto não encontrado.');
+                    return;
+                }
+
+                currentUser.projects[idx] = projectData;
+                showSuccessMessage('Projeto atualizado com sucesso!');
+                selectedProject = null;
+            } else {
+
+                const newProject = {
+                id:        Date.now(),
+                ...projectData,
+                progress: 0,
+                createdAt: new Date().toISOString()
+                };
+                currentUser.projects.push(newProject);
+                // recompensa de criar
+                currentUser.xp  += 25;
+                currentUser.gold += 10;
+                checkLevelUp();
+                updateUserStats();
+                showSuccessMessage('Projeto criado com sucesso!');
+            }
+            
+            updateProjectCounts();
+            // 3) Fecha modal e reseta formulário
+            hideModal('project-form-modal');
+            const form = document.getElementById('project-form');
+            form.reset();
+            selectedDifficulty = null;
+            document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+            // reseta tarefas
+            document.getElementById('tasks-container').innerHTML =
+                '<input type="text" class="task-input w-full p-2 rounded-lg text-sm" placeholder="Digite uma tarefa...">';
+        }
+
+        /**
+         * Abre o modal de edição, injeta valores e reconfigura o form para usar updateProject.
+         * @param {number} projectId 
+         */
+        function populateFormForEdit(projectId) {
+            const project = currentUser.projects.find(p => p.id === projectId);
+            if (!project) {
+                showErrorMessage('Projeto não encontrado.');
+                return;
+            }
+
+            // Exibe o modal
+            showModal('project-form-modal');
+            selectedProject = projectId;
+
+            // Preenche campos
+            document.getElementById('project-name').value       = project.name;
+            document.getElementById('project-life-area').value  = project.lifeArea;
+            document.getElementById('project-start-date').value = project.startDate;
+            document.getElementById('project-end-date').value   = project.endDate;
+
+            // Dificuldade
+            selectedDifficulty = project.difficulty;
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.difficulty === project.difficulty);
+            });
+
+            // Tarefas
+            const tasksContainer = document.getElementById('tasks-container');
+            tasksContainer.innerHTML = '';
+            project.tasks.forEach(t => {
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.className = 'task-input w-full p-2 rounded-lg text-sm';
+                inp.value = t.text;
+                tasksContainer.appendChild(inp);
+            });
+            // um campo vazio extra
+            const blank = document.createElement('input');
+            blank.type = 'text';
+            blank.className = 'task-input w-full p-2 rounded-lg text-sm';
+            blank.placeholder = 'Digite uma tarefa...';
+            tasksContainer.appendChild(blank);
+
+            // Recompensas custom
+            const mult = { facil:{xp:1,gold:1}, medio:{xp:1.5,gold:1.5}, dificil:{xp:2,gold:2} };
+            const baseXp=50, baseGold=25;
+            const m = mult[project.difficulty]||mult.facil;
+            const calcXp   = Math.floor(baseXp   * m.xp);
+            const calcGold = Math.floor(baseGold * m.gold);
+            document.getElementById('custom-xp').value   = project.xpReward   - calcXp;
+            document.getElementById('custom-gold').value = project.goldReward - calcGold;
+
+            // Atualiza o texto do botão
+            const submitBtn = form.querySelector('.create-btn');
+            submitBtn.text = 'Salvar Projeto';
+        }
+
+        /**
+         * Remove um projeto do usuário.
+         * @param {number} projectId 
+         */
+        function deleteProject(projectId) {
+            const idx = currentUser.projects.findIndex(p => p.id === projectId);
+            if (idx === -1) {
+                showErrorMessage('Projeto não encontrado.');
+                return;
+            }
+
+            // Remove o projeto
+            currentUser.projects.splice(idx, 1);
+
+            // Atualiza UI
+            updateProjectListDisplay();
+            updateProjectCounts();        // Atualiza total de projetos, progresso, etc.
+            showSuccessMessage('Projeto removido com sucesso!');
+        }
+
+        
+        function initializeTrophyCreation() {
+            const createTrophyBtn = document.getElementById('create-trophy-btn');
+            const trophyFormModal = document.getElementById('trophy-form-modal');
+            const closeTrophyFormBtn = document.getElementById('close-trophy-form');
+            const cancelTrophyFormBtn = document.getElementById('cancel-trophy-form');
+            const trophyForm = document.getElementById('trophy-form');
+            
+            createTrophyBtn?.addEventListener('click', () => {
+                showModal('trophy-form-modal');
+            });
+            
+            closeTrophyFormBtn?.addEventListener('click', () => hideModal('trophy-form-modal'));
+            cancelTrophyFormBtn?.addEventListener('click', () => hideModal('trophy-form-modal'));
+            
+            // Trophy icon selection
+            document.querySelectorAll('[data-trophy-icon]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('[data-trophy-icon]').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedTrophyIcon = btn.dataset.trophyIcon;
+                });
+            });
+            
+            // Form submission
+            trophyForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                createTrophy();
+            });
+        }
+        
+        function createTrophy() {
+            const name = document.getElementById('trophy-name').value;
+            const description = document.getElementById('trophy-description').value;
+            
+            if (!selectedTrophyIcon) {
+                alert('Por favor, selecione um ícone para a conquista.');
+                return;
+            }
+            
+            const trophy = {
+                id: Date.now(),
+                name,
+                icon: selectedTrophyIcon,
+                description,
+                unlocked: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            currentUser.trophies.push(trophy);
+            updateTrophiesDisplay();
+            
+            // Close modal and reset form
+            hideModal('trophy-form-modal');
+            document.getElementById('trophy-form').reset();
+            selectedTrophyIcon = null;
+            document.querySelectorAll('[data-trophy-icon]').forEach(b => b.classList.remove('selected'));
+            
+            showSuccessMessage('Conquista criada com sucesso!');
+        }
+        
+        function initializeAvatarCustomization() {
+            // Avatar customization options
+            document.querySelectorAll('[data-hair-color]').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('[data-hair-color]').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    currentUser.avatar.hairColor = option.dataset.hairColor;
+                    updateAvatarDisplay();
+                });
+            });
+            
+            document.querySelectorAll('[data-shirt-color]').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('[data-shirt-color]').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    currentUser.avatar.shirtColor = option.dataset.shirtColor;
+                    updateAvatarDisplay();
+                });
+            });
+            
+            document.querySelectorAll('[data-pants-color]').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('[data-pants-color]').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    currentUser.avatar.pantsColor = option.dataset.pantsColor;
+                    updateAvatarDisplay();
+                });
+            });
+            
+            // Save avatar
+            document.getElementById('save-avatar-btn')?.addEventListener('click', () => {
+                switchScreen('profile-screen');
+                updateNavigation('profile-screen');
+                showSuccessMessage('Avatar salvo com sucesso!');
+            });
+        }
+        
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    const content = modal.querySelector('div');
+                    if (content) content.classList.remove('scale-95');
+                }, 10);
+            }
+        }
+        
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                const content = modal.querySelector('div');
+                if (content) content.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 200);
+            }
+        }
+        
+        // Life Wheel Chart
+        function initializeLifeWheel() {
+            const ctx = document.getElementById('lifeWheelChart');
+            if (!ctx) return;
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Carreira', 'Finanças', 'Saúde', 'Família', 'Social', 'Lazer', 'Intelectual'],
+                    datasets: [{
+                        label: 'Pontuação Atual',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: { 
+                                font: { size: 12 },
+                                color: 'rgba(255, 255, 255, 0.8)'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                stepSize: 2,
+                                color: 'rgba(255, 255, 255, 0.6)'
+                            },
+                            min: 0,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+        
+        // User Stats
+        function updateUserStats() {
+            document.getElementById('user-level').textContent = currentUser.level;
+            document.getElementById('current-level').textContent = currentUser.level;
+            document.getElementById('current-xp').textContent = currentUser.xp.toLocaleString();
+            document.getElementById('next-level-xp').textContent = currentUser.nextLevelXp.toLocaleString();
+            document.getElementById('gold-amount').textContent = currentUser.gold.toLocaleString();
+            document.getElementById('streak-days').textContent = currentUser.streakDays;
+            
+            // Update profile stats
+            document.getElementById('profile-level').textContent = currentUser.level;
+            document.getElementById('profile-active-projects').textContent = currentUser.projects.length;
+            document.getElementById('profile-completed-projects').textContent = currentUser.completedProjects;
+            document.getElementById('profile-focus-days').textContent = currentUser.streakDays;
+            
+            // Update progress bar
+            const progressPercent = (currentUser.xp / currentUser.nextLevelXp) * 100;
+            const progressBar = document.getElementById('level-progress-bar');
+            if (progressBar) {
+                progressBar.style.width = progressPercent + '%';
+            }
+        }
+        
+        function updateProjectCounts() {
+            const routineCount = currentUser.projects.filter(p => p.type === 'routine').length;
+            const complexCount = currentUser.projects.filter(p => p.type === 'complex').length;
+            const challengeCount = currentUser.projects.filter(p => p.type === 'challenge').length;
+            const sprintCount = currentUser.projects.filter(p => p.type === 'sprint').length;
+            
+            document.getElementById('routine-count').textContent = routineCount;
+            document.getElementById('complex-count').textContent = complexCount;
+            document.getElementById('challenge-count').textContent = challengeCount;
+            document.getElementById('sprint-count').textContent = sprintCount;
+        }
+        
+        function updateTrophiesDisplay() {
+            const trophiesGrid = document.getElementById('trophies-grid');
+            if (!trophiesGrid) return;
+            
+            // Default trophies
+            const defaultTrophies = [
+                { icon: '🏆', name: 'Iniciante', description: 'Bloqueado', unlocked: false },
+                { icon: '🥇', name: 'Primeiro Projeto', description: 'Bloqueado', unlocked: false },
+                { icon: '🚀', name: 'Mestre Sprint', description: 'Bloqueado', unlocked: false }
+            ];
+            
+            const allTrophies = [...defaultTrophies, ...currentUser.trophies];
+            
+            trophiesGrid.innerHTML = allTrophies.map(trophy => `
+                <div class="bg-slate-800/${trophy.unlocked ? '50' : '30'} rounded-xl p-4 text-center ${trophy.unlocked ? '' : 'opacity-50'}">
+                    <div class="text-3xl mb-2">${trophy.icon}</div>
+                    <h3 class="text-white font-semibold text-xs">${trophy.name}</h3>
+                    <p class="text-${trophy.unlocked ? 'green' : 'slate'}-400 text-xs mt-1">${trophy.unlocked ? 'Desbloqueado' : 'Bloqueado'}</p>
+                </div>
+            `).join('');
+        }
+        
+        function updateShopGold() {
+            const shopGoldElement = document.getElementById('shop-gold-amount');
+            if (shopGoldElement) {
+                shopGoldElement.textContent = currentUser.gold.toLocaleString();
+            }
+        }
+        
+        // Daily Reward
+        function collectDailyReward() {
+            currentUser.xp += 25;
+            currentUser.gold += 10;
+            currentUser.streakDays += 1;
+            updateUserStats();
+            
+            // Check for level up
+            checkLevelUp();
+        }
+        
+        function updateDailyRewardCard() {
+            const card = document.getElementById('daily-reward-card');
+            if (card) {
+                card.innerHTML = `
+                    <h3 class="font-bold text-lg mb-2">Recompensa Coletada!</h3>
+                    <div class="text-2xl mb-3">✅</div>
+                    <p class="text-sm opacity-90">Volte amanhã para mais recompensas</p>
+                `;
+                card.classList.remove('daily-reward');
+                card.classList.add('bg-slate-600');
+            }
+        }
+        
+        // Random Challenge
+        function showWelcomeChallenge() {
+            if (!currentUser.activeChallengeAccepted) {
+                showModal('challenge-modal');
+            }
+        }
+        
+        function acceptChallenge() {
+            currentUser.activeChallengeAccepted = true;
+            currentUser.xp += 25;
+            currentUser.gold += 10;
+            updateUserStats();
+            checkLevelUp();
+        }
+        
+        // Level Up
+        function checkLevelUp() {
+            if (currentUser.xp >= currentUser.nextLevelXp) {
+                levelUp();
+            }
+        }
+        
+        function levelUp() {
+            const oldLevel = currentUser.level;
+            currentUser.level++;
+            currentUser.xp = currentUser.xp - currentUser.nextLevelXp;
+            currentUser.nextLevelXp = Math.floor(currentUser.nextLevelXp * 1.2);
+            
+            // Show celebration
+            showLevelUpCelebration();
+            updateUserStats();
+        }
+        
+        function showLevelUpCelebration() {
+            const celebration = document.getElementById('level-up-celebration');
+            const newLevelSpan = document.getElementById('new-level');
+            
+            newLevelSpan.textContent = currentUser.level;
+            celebration.classList.remove('hidden');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                celebration.classList.add('hidden');
+            }, 3000);
+            
+            // Avatar celebration
+            const avatar = document.getElementById('main-avatar');
+            if (avatar) {
+                avatar.classList.add('celebration');
+                setTimeout(() => avatar.classList.remove('celebration'), 1000);
+            }
+        }
+        
+        // Scenario Management
+        function changeScenario() {
+            currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
+            const newScenario = scenarios[currentScenarioIndex];
+            
+            const avatarSection = document.getElementById('avatar-section');
+            // if (avatarSection) {
+            //     // Remove all scenario classes
+            //     scenarios.forEach(scenario => {
+            //         avatarSection.classList.remove(scenario);
+            //     });
+                
+            //     // Add new scenario class
+            //     if (newScenario !== 'day') {
+            //         avatarSection.classList.add(newScenario);
+            //     }
+                
+            //     // Add weather effects
+            //     addWeatherEffects(newScenario, avatarSection);
+            // }
+        }
+        
+        function addWeatherEffects(scenario, container) {
+            // Remove existing weather effects
+            container.querySelectorAll('.pixel-stars, .pixel-moon, .pixel-rain-drop, .pixel-snow-flake').forEach(el => el.remove());
+            
+            if (scenario === 'night') {
+                // Add stars
+                for (let i = 0; i < 5; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'pixel-stars';
+                    star.style.left = Math.random() * 80 + 10 + '%';
+                    star.style.top = Math.random() * 40 + 10 + '%';
+                    container.appendChild(star);
+                }
+                
+                // Add moon
+                const moon = document.createElement('div');
+                moon.className = 'pixel-moon';
+                container.appendChild(moon);
+            } else if (scenario === 'rain') {
+                // Add rain drops
+                for (let i = 0; i < 10; i++) {
+                    const drop = document.createElement('div');
+                    drop.className = 'pixel-rain-drop';
+                    drop.style.left = Math.random() * 100 + '%';
+                    drop.style.animationDelay = Math.random() * 1 + 's';
+                    container.appendChild(drop);
+                }
+            } else if (scenario === 'snow') {
+                // Add snow flakes
+                for (let i = 0; i < 8; i++) {
+                    const flake = document.createElement('div');
+                    flake.className = 'pixel-snow-flake';
+                    flake.style.left = Math.random() * 100 + '%';
+                    flake.style.animationDelay = Math.random() * 3 + 's';
+                    container.appendChild(flake);
+                }
+            }
+        }
+        
+        // Utility Functions
+        function showSuccessMessage(message) {
+            // Create a temporary success message
+            const successDiv = document.createElement('div');
+            successDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg z-50 shadow-lg';
+            successDiv.textContent = message;
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+
