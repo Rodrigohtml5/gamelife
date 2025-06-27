@@ -1808,7 +1808,6 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedProjectType = null;
         selectedProject = null;
         showModal('project-modal');
-    });
 
     closeProjectBtn?.addEventListener('click', () => {
         hideModal('project-modal');
@@ -2996,6 +2995,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Rotina: alternância entre modos e seleção de dias
 document.addEventListener('DOMContentLoaded', () => {
+    const btnDays = document.getElementById('btn-select-days');
+    const btnTimes = document.getElementById('btn-select-times');
+    const daysGroup = document.getElementById('routine-days-group');
+    const timesGroup = document.getElementById('routine-times-group');
+    const freqInput = document.getElementById('routine-frequency');
+    let selectedDays = [];
+
+    if (btnDays && btnTimes && daysGroup && timesGroup && freqInput) {
         btnDays.addEventListener('click', () => {
             btnDays.classList.add('active');
             btnTimes.classList.remove('active');
@@ -3025,24 +3032,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
-    // Ao salvar projeto, sobrescreva a coleta dos campos:
-    const oldSaveProject = window.saveProject;
-    window.saveProject = function() {
-        // ...código anterior...
-        let schedule = [];
-        let timesPerWeek = null;
-        if (!daysGroup.classList.contains('hidden')) {
-            schedule = selectedDays.slice();
-        } else if (!timesGroup.classList.contains('hidden')) {
-            timesPerWeek = parseInt(freqInput.value) || null;
-        }
-        // ...continue normalmente, usando schedule e timesPerWeek...
-        // (adicione schedule e timesPerWeek ao objeto projectData)
-        // ...restante do código...
-        oldSaveProject.apply(this, arguments);
-    };
 });
+
+// (Removido código inválido que sobrescrevia saveProject e causava erro de sintaxe)
     </script>
 </body>
 </html>
