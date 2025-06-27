@@ -97,10 +97,73 @@
             border-color: #3b82f6;
             transform: scale(1.05);
         }
-        
+
         .character-option.selected {
             border-color: #3b82f6;
             background: rgba(59, 130, 246, 0.2);
+        }
+
+        .character-img,
+        .avatar-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .character-option:hover .character-img {
+            transform: scale(1.1);
+        }
+
+        .weather-effect {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .weather-img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .sun-effect {
+            animation: rotateSun 6s linear infinite;
+        }
+
+        .rain-effect {
+            animation: rainMove 1s linear infinite;
+        }
+
+        .snow-effect {
+            animation: snowMove 2s linear infinite;
+        }
+
+        .wind-effect {
+            animation: windMove 3s ease-in-out infinite;
+        }
+
+        @keyframes rotateSun {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rainMove {
+            from { transform: translateY(-10px); }
+            to { transform: translateY(10px); }
+        }
+
+        @keyframes snowMove {
+            from { transform: translateY(-5px); }
+            to { transform: translateY(5px); }
+        }
+
+        @keyframes windMove {
+            from { transform: translateX(-5px); }
+            to { transform: translateX(5px); }
         }
         
         /* Pixel Art Styles */
@@ -653,39 +716,11 @@
                 <h2 class="text-white text-xl font-semibold mb-4">Escolha seu Avatar</h2>
                 <div class="flex space-x-4 justify-center">
                     <button class="character-option p-4 rounded-xl" data-character="male">
-                        <div class="w-16 h-16 mx-auto mb-2 relative">
-                            <div class="pixel-character">
-                                <div class="pixel-hair"></div>
-                                <div class="pixel-head">
-                                    <div class="pixel-eyes pixel-eye-left"></div>
-                                    <div class="pixel-eyes pixel-eye-right"></div>
-                                    <div class="pixel-mouth"></div>
-                                </div>
-                                <div class="pixel-body"></div>
-                                <div class="pixel-arms pixel-arm-left"></div>
-                                <div class="pixel-arms pixel-arm-right"></div>
-                                <div class="pixel-legs pixel-leg-left"></div>
-                                <div class="pixel-legs pixel-leg-right"></div>
-                            </div>
-                        </div>
+                        <img src="./male.svg" alt="Masculino" class="character-img w-16 h-16 mx-auto mb-2">
                         <span class="text-white text-sm">Masculino</span>
                     </button>
                     <button class="character-option p-4 rounded-xl" data-character="female">
-                        <div class="w-16 h-16 mx-auto mb-2 relative">
-                            <div class="pixel-character">
-                                <div class="pixel-hair" style="background: #8b4513; border-radius: 8px;"></div>
-                                <div class="pixel-head">
-                                    <div class="pixel-eyes pixel-eye-left"></div>
-                                    <div class="pixel-eyes pixel-eye-right"></div>
-                                    <div class="pixel-mouth"></div>
-                                </div>
-                                <div class="pixel-body" style="background: #ec4899;"></div>
-                                <div class="pixel-arms pixel-arm-left"></div>
-                                <div class="pixel-arms pixel-arm-right"></div>
-                                <div class="pixel-legs pixel-leg-left" style="background: #7c3aed;"></div>
-                                <div class="pixel-legs pixel-leg-right" style="background: #7c3aed;"></div>
-                            </div>
-                        </div>
+                        <img src="./female.svg" alt="Feminino" class="character-img w-16 h-16 mx-auto mb-2">
                         <span class="text-white text-sm">Feminino</span>
                     </button>
                 </div>
@@ -720,7 +755,8 @@
                 
                 <!-- Avatar Section -->
                 <div class="scenario-bg relative h-48 flex items-end justify-center pb-4" id="avatar-section">
-                    <img src="./personagem.png" width="50">
+                    <img id="home-avatar" class="avatar-img" src="./male.svg" alt="Avatar" />
+                    <div id="weather-effect" class="weather-effect"></div>
                 </div>
                 
                 <!-- Level Progress -->
@@ -1633,8 +1669,10 @@
                 currentUser.avatar.shirtColor = '#ec4899';
                 currentUser.avatar.pantsColor = '#7c3aed';
             }
-            
+
+            renderAvatar();
             updateAvatarDisplay();
+            updateWeatherEffects(currentUser.scenario);
             
             // Hide intro and show main app
             document.getElementById('intro-screen').classList.add('hidden');
@@ -1657,23 +1695,25 @@
         }
         
         // Avatar Management
+        function renderAvatar() {
+            const avatarImg = document.getElementById('home-avatar');
+            if (!avatarImg) return;
+            avatarImg.src = currentUser.avatar.gender === 'female' ? './female.svg' : './male.svg';
+            updateWeatherEffects(currentUser.scenario);
+        }
+
         function updateAvatarDisplay() {
-            const avatarHair = document.getElementById('avatar-hair');
-            const avatarBody = document.getElementById('avatar-body');
-            const avatarLegs = document.getElementById('avatar-legs');
-            const avatarLegsRight = document.getElementById('avatar-legs-right');
-            
-            if (avatarHair) avatarHair.style.background = currentUser.avatar.hairColor;
-            if (avatarBody) avatarBody.style.background = currentUser.avatar.shirtColor;
-            if (avatarLegs) avatarLegs.style.background = currentUser.avatar.pantsColor;
-            if (avatarLegsRight) avatarLegsRight.style.background = currentUser.avatar.pantsColor;
-            
+            const homeAvatar = document.getElementById('home-avatar');
+            if (homeAvatar) {
+                homeAvatar.src = currentUser.avatar.gender === 'female' ? './female.svg' : './male.svg';
+            }
+
             // Update preview if on customization screen
             const previewHair = document.getElementById('preview-hair');
             const previewBody = document.getElementById('preview-body');
             const previewLegs = document.getElementById('preview-legs');
             const previewLegsRight = document.getElementById('preview-legs-right');
-            
+
             if (previewHair) previewHair.style.background = currentUser.avatar.hairColor;
             if (previewBody) previewBody.style.background = currentUser.avatar.shirtColor;
             if (previewLegs) previewLegs.style.background = currentUser.avatar.pantsColor;
@@ -2411,61 +2451,40 @@
         function changeScenario() {
             currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
             const newScenario = scenarios[currentScenarioIndex];
-            
-            const avatarSection = document.getElementById('avatar-section');
-            // if (avatarSection) {
-            //     // Remove all scenario classes
-            //     scenarios.forEach(scenario => {
-            //         avatarSection.classList.remove(scenario);
-            //     });
-                
-            //     // Add new scenario class
-            //     if (newScenario !== 'day') {
-            //         avatarSection.classList.add(newScenario);
-            //     }
-                
-            //     // Add weather effects
-            //     addWeatherEffects(newScenario, avatarSection);
-            // }
+
+            currentUser.scenario = newScenario;
+            updateWeatherEffects(newScenario);
         }
         
-        function addWeatherEffects(scenario, container) {
-            // Remove existing weather effects
-            container.querySelectorAll('.pixel-stars, .pixel-moon, .pixel-rain-drop, .pixel-snow-flake').forEach(el => el.remove());
-            
-            if (scenario === 'night') {
-                // Add stars
-                for (let i = 0; i < 5; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'pixel-stars';
-                    star.style.left = Math.random() * 80 + 10 + '%';
-                    star.style.top = Math.random() * 40 + 10 + '%';
-                    container.appendChild(star);
-                }
-                
-                // Add moon
-                const moon = document.createElement('div');
-                moon.className = 'pixel-moon';
-                container.appendChild(moon);
-            } else if (scenario === 'rain') {
-                // Add rain drops
-                for (let i = 0; i < 10; i++) {
-                    const drop = document.createElement('div');
-                    drop.className = 'pixel-rain-drop';
-                    drop.style.left = Math.random() * 100 + '%';
-                    drop.style.animationDelay = Math.random() * 1 + 's';
-                    container.appendChild(drop);
-                }
-            } else if (scenario === 'snow') {
-                // Add snow flakes
-                for (let i = 0; i < 8; i++) {
-                    const flake = document.createElement('div');
-                    flake.className = 'pixel-snow-flake';
-                    flake.style.left = Math.random() * 100 + '%';
-                    flake.style.animationDelay = Math.random() * 3 + 's';
-                    container.appendChild(flake);
-                }
+        function updateWeatherEffects(scenario) {
+            const container = document.getElementById('weather-effect');
+            if (!container) return;
+
+            container.innerHTML = '';
+            const img = document.createElement('img');
+            img.className = 'weather-img';
+
+            switch (scenario) {
+                case 'rain':
+                    img.src = './rain.svg';
+                    img.classList.add('rain-effect');
+                    break;
+                case 'snow':
+                    img.src = './snow.svg';
+                    img.classList.add('snow-effect');
+                    break;
+                case 'desert':
+                case 'forest':
+                    img.src = './wind.svg';
+                    img.classList.add('wind-effect');
+                    break;
+                default:
+                    img.src = './sun.svg';
+                    img.classList.add('sun-effect');
+                    break;
             }
+
+            container.appendChild(img);
         }
         
         // Utility Functions
