@@ -716,11 +716,11 @@
                 <h2 class="text-white text-xl font-semibold mb-4">Escolha seu Avatar</h2>
                 <div class="flex space-x-4 justify-center">
                     <button class="character-option p-4 rounded-xl" data-character="male">
-                        <img src="./male.svg" alt="Masculino" class="character-img w-16 h-16 mx-auto mb-2">
+                        <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg" alt="Masculino" class="character-img w-16 h-16 mx-auto mb-2">
                         <span class="text-white text-sm">Masculino</span>
                     </button>
                     <button class="character-option p-4 rounded-xl" data-character="female">
-                        <img src="./female.svg" alt="Feminino" class="character-img w-16 h-16 mx-auto mb-2">
+                        <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/female.svg" alt="Feminino" class="character-img w-16 h-16 mx-auto mb-2">
                         <span class="text-white text-sm">Feminino</span>
                     </button>
                 </div>
@@ -755,7 +755,7 @@
                 
                 <!-- Avatar Section -->
                 <div class="scenario-bg relative h-48 flex items-end justify-center pb-4" id="avatar-section">
-                    <img id="home-avatar" class="avatar-img" src="./male.svg" alt="Avatar" />
+                    <img id="home-avatar" class="avatar-img" src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg" alt="Avatar" />
                     <div id="weather-effect" class="weather-effect"></div>
                 </div>
                 
@@ -1698,14 +1698,14 @@
         function renderAvatar() {
             const avatarImg = document.getElementById('home-avatar');
             if (!avatarImg) return;
-            avatarImg.src = currentUser.avatar.gender === 'female' ? './female.svg' : './male.svg';
+            avatarImg.src = currentUser.avatar.gender === 'female' ? 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/female.svg' : 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg';
             updateWeatherEffects(currentUser.scenario);
         }
 
         function updateAvatarDisplay() {
             const homeAvatar = document.getElementById('home-avatar');
             if (homeAvatar) {
-                homeAvatar.src = currentUser.avatar.gender === 'female' ? './female.svg' : './male.svg';
+                homeAvatar.src = currentUser.avatar.gender === 'female' ? 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/female.svg' : 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg';
             }
 
             // Update preview if on customization screen
@@ -2466,20 +2466,20 @@
 
             switch (scenario) {
                 case 'rain':
-                    img.src = './rain.svg';
+                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/rain.svg';
                     img.classList.add('rain-effect');
                     break;
                 case 'snow':
-                    img.src = './snow.svg';
+                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/snow.svg';
                     img.classList.add('snow-effect');
                     break;
                 case 'desert':
                 case 'forest':
-                    img.src = './wind.svg';
+                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/wind.svg';
                     img.classList.add('wind-effect');
                     break;
                 default:
-                    img.src = './sun.svg';
+                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/sun.svg';
                     img.classList.add('sun-effect');
                     break;
             }
