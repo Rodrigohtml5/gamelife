@@ -1642,7 +1642,7 @@
                     </div>
 
                     <!-- Sprint fields -->
-                    <div id="sprint-fields" class="hidden space-y-4">
+                    
                         <div>
                             <label class="block text-white font-semibold mb-2">Descrição da Sprint</label>
                             <textarea id="sprint-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Objetivos da sprint..."></textarea>
@@ -1651,7 +1651,7 @@
                             <label class="block text-white font-semibold mb-2">Cards</label>
                             <div id="sprint-cards-placeholder" class="p-2 rounded-lg bg-slate-700 text-white text-sm">Gerenciamento de cards em breve...</div>
                         </div>
-                    </div>
+                   
 
                     
                     <!-- Tasks Section -->
@@ -2425,7 +2425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Campos adicionais
             document.getElementById('routine-frequency').value = project.schedule?.frequency || '';
             document.querySelectorAll('#routine-fields .routine-day').forEach(cb => {
-                cb.checked = project.schedule?.days?.includes(cb.value);
+                cb.checked = project.schedule && project.schedule.includes(cb.value);
             });
             document.getElementById('complex-description').value = project.complexDescription || '';
             document.getElementById('challenge-description').value = project.challengeDescription || '';
@@ -2442,7 +2442,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('custom-gold').value = project.goldReward - calcGold;
 
             // Atualiza o texto do botão
-            const form = document.getElementById('projectForm.');
+            const form = document.getElementById('project-form');
             const submitBtn = form.querySelector('.create-btn');            
             submitBtn.textContent = 'Salvar Projeto';
         }
