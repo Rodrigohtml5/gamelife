@@ -1736,6 +1736,14 @@
             </div>
         </div>
         
+        <!-- Project Detail Screen -->
+        <div id="project-detail-screen" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto relative">
+                <button id="close-project-detail" class="absolute top-3 right-4 text-slate-400 text-2xl hover:text-white">×</button>
+                <div id="project-detail-content"></div>
+            </div>
+        </div>
+        
     </div>
 
     <script>
@@ -2043,7 +2051,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Já completou a semana?
                         const completed = done >= total;
                         return `
-                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800 cursor-pointer" data-project-id="${project.id}">
+                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
                                 <h3 class="text-white font-bold mb-2">${project.name}</h3>
                                 <p class="text-slate-300 text-sm mb-1">Dias: ${dias}</p>
                                 <p class="text-slate-400 text-sm mb-1">Dificuldade: ${project.difficulty}</p>
@@ -2060,15 +2068,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         `;
                     } else {
-                        // Exemplo para um card de projeto (rotina, complexo, desafio, sprint)
+                        // ...exibição dos outros tipos de projeto...
                         return `
-                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800 cursor-pointer" data-project-id="${project.id}">
+                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
                                 <h3 class="text-white font-bold mb-2">${project.name}</h3>
                                 <p class="text-slate-300 text-sm mb-1">Área: ${project.lifeArea}</p>
-                                <p class="text-slate-400 text-sm mb-1">Dificuldade: ${project.difficulty}</p>
-                                <div class="flex justify-end space-x-2 mt-2">
-                                    <button onclick="populateFormForEdit(${project.id}); event.stopPropagation();" class="px-2 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-xs">Editar</button>
-                                    <button onclick="deleteProject(${project.id}); event.stopPropagation();" class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs">Excluir</button>
+                                <p class="text-slate-400 text-sm mb-3">Dificuldade: ${project.difficulty}</p>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-green-400 font-bold">${project.progress}%</span>
+                                    <span class="text-blue-400 text-sm">${project.tasks.filter(t => t.completed).length}/${project.tasks.length} tarefas</span>
+                                </div>
+                                <div class="flex justify-end space-x-2">
+                                    <button onclick="populateFormForEdit(${project.id})" class="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-xs">Editar</button>
+                                    <button onclick="deleteProject(${project.id})" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs">Excluir</button>
                                 </div>
                             </div>
                         `;
@@ -2079,14 +2091,140 @@ document.addEventListener('DOMContentLoaded', () => {
             switchScreen('project-details-screen');
         }
 
-         
+        function showProjectDetailScreen(projectId) {
+            const project = currentUser.projects.find(p => p.id === projectId);
+            if (!project) return;
 
-        function updateProjectListDisplay() {
-            if (currentProjectListType) {
-                showProjectDetails(currentProjectListType);
+            let html = `
+                <h2 class="text-white font-bold text-xl mb-2">${project.name}</h2>
+                <div class="text-slate-400 text-sm mb-2">Área: ${project.lifeArea ? project.lifeArea.charAt(0).toUpperCase() + project.lifeArea.slice(1) : ''}</div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs bg-slate-700 px-2 py-1 rounded">Dificuldade: ${project.difficulty}</span>
+                    <span class="text-xs bg-slate-700 px-2 py-1 rounded">XP: ${project.xpReward}</span>
+                    <span class="text-xs bg-slate-700 px-2 py-1 rounded">Ouro: ${project.goldReward}</span>
+                </div>
+            `;
+
+            // ROTINA
+            if (project.type === 'routine') {
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Detalhes da Rotina</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.schedule?.length ? 'Dias: ' + project.schedule.join(', ') : project.timesPerWeek + 'x por semana'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Check-in</div>
+                        <div class="flex gap-2 mb-2">
+                `;
+                if (project.schedule?.length) {
+                    // Dias da semana
+                    const weekDays = ['dom','seg','ter','qua','qui','sex','sab'];
+                    weekDays.forEach(day => {
+                        const today = new Date();
+                        const todayStr = today.toISOString().slice(0,10);
+                        const canMark = project.schedule.includes(day) && !project.weekCompletions?.includes(todayStr) && weekDays[today.getDay()] === day;
+                        html += `<button class="routine-check-btn px-2 py-1 rounded ${canMark ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-400'}" 
+                            data-project-id="${project.id}" data-day="${day}" ${canMark ? '' : 'disabled'}>${day.charAt(0).toUpperCase() + day.slice(1)}</button>`;
+                    });
+                } else {
+                    // Vezes por semana
+                    html += `<button class="routine-check-btn px-4 py-1 rounded bg-green-600 text-white" data-project-id="${project.id}">Marcar hoje</button>`;
+                }
+                html += `</div>
+                    <div class="text-xs text-slate-400">Progresso semanal: ${project.weekCompletions?.length || 0}/${project.schedule?.length || project.timesPerWeek || 1}</div>
+                    </div>
+                `;
             }
-        }
 
+            // COMPLEXO
+            if (project.type === 'complex') {
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Descrição</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.complexDescription || 'Sem descrição.'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Tarefas</div>
+                        <ul class="space-y-1">
+                            ${project.tasks.map((t, i) => `
+                                <li>
+                                    <input type="checkbox" class="complex-task-check" data-project-id="${project.id}" data-task-index="${i}" ${t.completed ? 'checked' : ''}>
+                                    <span class="${t.completed ? 'line-through text-slate-500' : 'text-white'}">${t.text}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <button class="add-subtask-btn mt-2 px-2 py-1 bg-blue-600 text-white rounded text-xs" data-project-id="${project.id}">+ Subtarefa</button>
+                    </div>
+                `;
+            }
+
+            // DESAFIO
+            if (project.type === 'challenge') {
+                // Barra de progresso (dias)
+                let totalDays = 1;
+                let doneDays = 0;
+                if (project.startDate && project.endDate) {
+                    const start = new Date(project.startDate);
+                    const end = new Date(project.endDate);
+                    totalDays = Math.max(1, Math.ceil((end - start) / (1000*60*60*24)) + 1);
+                    doneDays = (project.completions || []).length;
+                }
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Descrição do Desafio</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.challengeDescription || 'Sem descrição.'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Progresso</div>
+                        <div class="w-full bg-slate-700 rounded-full h-3 mb-2">
+                            <div class="bg-blue-500 h-3 rounded-full" style="width: ${(doneDays/totalDays)*100}%"></div>
+                        </div>
+                        <div class="text-xs text-slate-400">${doneDays}/${totalDays} dias</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="complete-challenge-btn px-3 py-1 bg-green-600 text-white rounded text-xs" data-project-id="${project.id}">Completar Desafio</button>
+                        <button class="give-up-challenge-btn px-3 py-1 bg-red-600 text-white rounded text-xs" data-project-id="${project.id}">Desistir</button>
+                    </div>
+                `;
+            }
+
+            // SPRINT
+            if (project.type === 'sprint') {
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Descrição da Sprint</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.sprintDescription || 'Sem descrição.'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Etapas</div>
+                        <ul class="space-y-2">
+                            ${(project.sprintCards || []).map((card, i) => `
+                                <li class="flex items-center gap-2">
+                                    <span class="text-white">${card.title}</span>
+                                    <select class="sprint-stage-select bg-slate-700 text-white rounded px-2 py-1 text-xs" data-project-id="${project.id}" data-card-index="${i}">
+                                        <option value="aguardando" ${card.status === 'aguardando' ? 'selected' : ''}>Aguardando</option>
+                                        <option value="andamento" ${card.status === 'andamento' ? 'selected' : ''}>Em andamento</option>
+                                        <option value="concluido" ${card.status === 'concluido' ? 'selected' : ''}>Concluído</option>
+                                    </select>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Exibe na tela
+            document.getElementById('project-detail-content').innerHTML = html;
+            document.getElementById('project-detail-screen').classList.remove('hidden');
+
+            // Fechar modal
+            document.getElementById('close-project-detail').onclick = () => {
+                document.getElementById('project-detail-screen').classList.add('hidden');
+            };
+
+            // Listeners para ações específicas (check-in, completar desafio, etc)
+            addProjectDetailListeners(project);
+        }
         
         // Modals
         function initializeModals() {
@@ -2826,123 +2964,84 @@ document.addEventListener('DOMContentLoaded', () => {
             currentUser.level++;
             currentUser.xp = currentUser.xp - currentUser.nextLevelXp;
             currentUser.nextLevelXp = Math.floor(currentUser.nextLevelXp * 1.2);
-            
-            // Show celebration
-            showLevelUpCelebration();
-            updateUserStats();
-        }
-        
-        function showLevelUpCelebration() {
-            const celebration = document.getElementById('level-up-celebration');
-            const newLevelSpan = document.getElementById('new-level');
-            
-            newLevelSpan.textContent = currentUser.level;
-            celebration.classList.remove('hidden');
-            
-            // Hide after 3 seconds
+        const total = project.schedule?.length || project.timesPerWeek || 1;
+        if (project.weekCompletions.length >= total) completed = true;
+
+        if (completed) {
+            // Dá recompensa
+            const mult = { facil:1, medio:1.5, dificil:2 };
+            const xp = Math.floor(10 * (mult[project.difficulty]||1));
+            const gold = Math.floor(5 * (mult[project.difficulty]||1));
+            currentUser.xp += xp;
+            currentUser.gold += gold;
+            showSuccessMessage(`Rotina da semana concluída! +${xp} XP, +${gold} 🪙`);
+            checkLevelUp();
+
+            // Pergunta se renova
             setTimeout(() => {
-                celebration.classList.add('hidden');
-            }, 3000);
-            
-            // Avatar celebration
-            const avatar = document.getElementById('main-avatar');
-            if (avatar) {
-                avatar.classList.add('celebration');
-                setTimeout(() => avatar.classList.remove('celebration'), 1000);
-            }
+                if (confirm('Deseja renovar a rotina para a próxima semana?')) {
+                    project.weekCompletions = [];
+                } else {
+                    deleteProject(project.id);
+                }
+                updateProjectListDisplay();
+            }, 500);
+        } else {
+            showSuccessMessage('Rotina marcada para hoje!');
         }
-        
-        // Scenario Management
-        function changeScenario() {
-            currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
-            const newScenario = scenarios[currentScenarioIndex];
-
-            currentUser.scenario = newScenario;
-            updateWeatherEffects(newScenario);
-        }
-        
-        function updateWeatherEffects(scenario) {
-            const container = document.getElementById('weather-effect');
-            if (!container) return;
-
-            container.innerHTML = '';
-            const img = document.createElement('img');
-            img.className = 'weather-img';
-
-            switch (scenario) {
-                case 'rain':
-                    img.src = './rain.svg';
-                    img.classList.add('rain-effect');
-                    break;
-                case 'snow':
-                    img.src = './snow.svg';
-                    img.classList.add('snow-effect');
-                    break;
-                case 'desert':
-                case 'forest':
-                    img.src = './wind.svg';
-                    img.classList.add('wind-effect');
-                    break;
-                default:
-                    img.src = './sun.svg';
-                    img.classList.add('sun-effect');
-                    break;
-            }
-
-            container.appendChild(img);
-        }
-        
-        // Utility Functions
-        function showSuccessMessage(message) {
-            // Create a temporary success message
-            const successDiv = document.createElement('div');
-            successDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg z-50 shadow-lg';
-            successDiv.textContent = message;
-            document.body.appendChild(successDiv);
-            
-            setTimeout(() => {
-                successDiv.remove();
-            }, 3000);
-        }
-
-        
-        function showErrorMessage(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-lg z-50 shadow-lg';
-            errorDiv.textContent = message;
-            document.body.appendChild(errorDiv);
-
-            setTimeout(() => {
-                errorDiv.remove();
-            }, 3000);
-        }
-
-        function canMarkRoutine(project) {
-    const today = new Date();
-    const weekDay = ['dom','seg','ter','qua','qui','sex','sab'][today.getDay()];
-    const todayStr = today.toISOString().slice(0,10);
-
-    // Por dias da semana
-    if (project.schedule && project.schedule.length) {
-        if (!project.schedule.includes(weekDay)) return false; // não é dia da rotina
-        if (project.weekCompletions?.includes(todayStr)) return false; // já marcou hoje
-        return true;
+        updateProjectListDisplay();
+        updateUserStats();
     }
-    // Por quantidade na semana
-    if (project.timesPerWeek) {
-        if (project.weekCompletions?.includes(todayStr)) return false; // já marcou hoje
-        if ((project.weekCompletions?.length || 0) >= project.timesPerWeek) return false; // já atingiu o limite
-        return true;
-    }
-    return false;
-}
+});
 
-document.addEventListener('click', function(e) {
-    const card = e.target.closest('.project-card[data-project-id]');
-    if (card && !e.target.closest('button')) {
-        const projectId = Number(card.dataset.projectId);
-        showProjectDetailScreen(projectId);
+// Rotina: alternância entre modos e seleção de dias
+document.addEventListener('DOMContentLoaded', () => {
+        btnDays.addEventListener('click', () => {
+            btnDays.classList.add('active');
+            btnTimes.classList.remove('active');
+            daysGroup.classList.remove('hidden');
+            timesGroup.classList.add('hidden');
+            freqInput.value = '';
+        });
+        btnTimes.addEventListener('click', () => {
+            btnTimes.classList.add('active');
+            btnDays.classList.remove('active');
+            daysGroup.classList.add('hidden');
+            timesGroup.classList.remove('hidden');
+            // Limpa seleção de dias
+            daysGroup.querySelectorAll('.routine-day-btn').forEach(btn => btn.classList.remove('selected'));
+            selectedDays = [];
+        });
+        // Seleção dos dias
+        daysGroup.querySelectorAll('.routine-day-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('selected');
+                const day = btn.dataset.day;
+                if (btn.classList.contains('selected')) {
+                    selectedDays.push(day);
+                } else {
+                    selectedDays = selectedDays.filter(d => d !== day);
+                }
+            });
+        });
     }
+
+    // Ao salvar projeto, sobrescreva a coleta dos campos:
+    const oldSaveProject = window.saveProject;
+    window.saveProject = function() {
+        // ...código anterior...
+        let schedule = [];
+        let timesPerWeek = null;
+        if (!daysGroup.classList.contains('hidden')) {
+            schedule = selectedDays.slice();
+        } else if (!timesGroup.classList.contains('hidden')) {
+            timesPerWeek = parseInt(freqInput.value) || null;
+        }
+        // ...continue normalmente, usando schedule e timesPerWeek...
+        // (adicione schedule e timesPerWeek ao objeto projectData)
+        // ...restante do código...
+        oldSaveProject.apply(this, arguments);
+    };
 });
     </script>
 </body>
