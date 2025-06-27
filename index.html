@@ -2919,7 +2919,71 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorDiv.remove();
             }, 3000);
         }
-        
+
+        function canMarkRoutine(project) {
+    const today = new Date();
+    const weekDay = ['dom','seg','ter','qua','qui','sex','sab'][today.getDay()];
+    const todayStr = today.toISOString().slice(0,10);
+
+    // Por dias da semana
+    if (project.schedule && project.schedule.length) {
+        if (!project.schedule.includes(weekDay)) return false; // não é dia da rotina
+        if (project.weekCompletions?.includes(todayStr)) return false; // já marcou hoje
+        return true;
+    }
+    // Por quantidade na semana
+    if (project.timesPerWeek) {
+        if (project.weekCompletions?.includes(todayStr)) return false; // já marcou hoje
+        if ((project.weekCompletions?.length || 0) >= project.timesPerWeek) return false; // já atingiu o limite
+        return true;
+    }
+    return false;
+}
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('mark-routine-btn')) {
+        const projectId = Number(e.target.dataset.projectId);
+        const project = currentUser.projects.find(p => p.id === projectId);
+        if (!project) return;
+
+        const todayStr = new Date().toISOString().slice(0,10);
+        if (!project.weekCompletions) project.weekCompletions = [];
+        if (!project.weekCompletions.includes(todayStr)) {
+            project.weekCompletions.push(todayStr);
+            project.completions.push(todayStr);
+        }
+
+        // Verifica se completou a semana
+        let completed = false;
+        const total = project.schedule?.length || project.timesPerWeek || 1;
+        if (project.weekCompletions.length >= total) completed = true;
+
+        if (completed) {
+            // Dá recompensa
+            const mult = { facil:1, medio:1.5, dificil:2 };
+            const xp = Math.floor(10 * (mult[project.difficulty]||1));
+            const gold = Math.floor(5 * (mult[project.difficulty]||1));
+            currentUser.xp += xp;
+            currentUser.gold += gold;
+            showSuccessMessage(`Rotina da semana concluída! +${xp} XP, +${gold} 🪙`);
+            checkLevelUp();
+
+            // Pergunta se renova
+            setTimeout(() => {
+                if (confirm('Deseja renovar a rotina para a próxima semana?')) {
+                    project.weekCompletions = [];
+                } else {
+                    deleteProject(project.id);
+                }
+                updateProjectListDisplay();
+            }, 500);
+        } else {
+            showSuccessMessage('Rotina marcada para hoje!');
+        }
+        updateProjectListDisplay();
+        updateUserStats();
+    }
+});
     </script>
 </body>
 </html>
