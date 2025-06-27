@@ -690,11 +690,13 @@
         }
 
         #avatar-section {
-            background-image: url("./chuva fundo.jpg");
+        background-image: url("./chuva fundo.jpg");
             background-color: transparent;
+            background: linear-gradient(180deg, #1e3a8a, #1e40af);
             background-repeat: no-repeat;
             background-position: center;
             background-size: 200px;
+            background-size: cover;
         }
     </style>
 </head>
@@ -812,11 +814,14 @@
                                 <div class="text-xl mb-1">📚</div>
                                 <h3 class="text-white font-semibold text-sm">Foco Atual</h3>
                                 <p class="text-blue-200 text-xs">Começando</p>
+                                <p class="text-blue-200 text-xs" id="current-focus-text">Começando
                             </div>
                             <div class="journey-point rounded-xl p-3 text-center">
                                 <div class="text-xl mb-1">🎯</div>
                                 <h3 class="text-white font-semibold text-sm">Meta Semanal</h3>
                                 <p class="text-blue-200 text-xs">0% Completa</p>
+                                <h3 class="text-white font-semibold text-sm">Missão do Dia</h3>
+                                <p class="text-blue-200 text-xs" id="daily-mission-text">Sem missão
                             </div>
                         </div>
                     </div>
@@ -930,9 +935,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Carreira</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-carreira">0/10</span>
                         </div>
                         <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
+                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-carreira" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -941,9 +948,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Finanças</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-financas">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-financas" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -952,9 +961,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Saúde</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-saude">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-saude" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -963,9 +974,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Família</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-familia">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-familia" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -974,9 +987,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Social</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-social">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-social" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -985,9 +1000,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Lazer</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-lazer">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-lazer" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -996,9 +1013,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Intelectual</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-intelectual">0/10</span
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-intelectual" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -1081,6 +1100,11 @@
                         
                         <button id="shop-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
                             <span>🛍️ Loja</span>
+                            <span class="text-slate-400">›</span>
+                        </button>
+
+                        <button id="inventory-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
+                            <span>🎒 Meus Itens</span>
                             <span class="text-slate-400">›</span>
                         </button>
                         
@@ -1242,6 +1266,7 @@
                             <div class="text-right">
                                 <div class="gold-text font-bold">500 🪙</div>
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Chapéu Elegante" data-price="500">
                                     Comprar
                                 </button>
                             </div>
@@ -1257,6 +1282,7 @@
                             <div class="text-right">
                                 <div class="gold-text font-bold">300 🪙</div>
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Óculos de Sol" data-price="300">
                                     Comprar
                                 </button>
                             </div>
@@ -1273,6 +1299,7 @@
                             <div class="text-right">
                                 <div class="gold-text font-bold">1000 🪙</div>
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Tema Praia" data-price="1000">
                                     Comprar
                                 </button>
                             </div>
@@ -1288,6 +1315,7 @@
                             <div class="text-right">
                                 <div class="gold-text font-bold">1200 🪙</div>
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Tema Montanha" data-price="1200">
                                     Comprar
                                 </button>
                             </div>
@@ -1304,6 +1332,7 @@
                             <div class="text-right">
                                 <div class="gold-text font-bold">200 🪙</div>
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Boost de XP" data-price="200">
                                     Comprar
                                 </button>
                             </div>
@@ -1312,6 +1341,17 @@
                 </div>
             </div>
             
+            
+            <!-- Inventory Screen -->
+            <div id="inventory-screen" class="hidden min-h-full p-4">
+                <header class="mb-6 flex items-center">
+                    <button id="back-to-profile-from-inventory" class="back-btn p-2 rounded-lg mr-3">←</button>
+                    <h1 class="font-bold text-2xl text-white">Meus Itens</h1>
+                </header>
+                <div id="inventory-items" class="space-y-2"></div>
+            </div>
+
+
         </main>
         
         <!-- Floating Action Button -->
@@ -1487,6 +1527,26 @@
                             <option value="intelectual">Intelectual</option>
                         </select>
                     </div>
+                    <option value="intelectual">Intelectual</option>
+
+                    </select>
+            </div>
+
+            <!-- Routine specific fields -->
+            <div id="routine-fields" class="hidden space-y-2">
+                <label class="block text-white font-semibold">Frequência</label>
+                <div class="grid grid-cols-7 gap-1 text-center text-xs text-white">
+                    <label><input type="checkbox" value="dom" class="mr-1">Dom</label>
+                    <label><input type="checkbox" value="seg" class="mr-1">Seg</label>
+                    <label><input type="checkbox" value="ter" class="mr-1">Ter</label>
+                    <label><input type="checkbox" value="qua" class="mr-1">Qua</label>
+                    <label><input type="checkbox" value="qui" class="mr-1">Qui</label>
+                    <label><input type="checkbox" value="sex" class="mr-1">Sex</label>
+                    <label><input type="checkbox" value="sab" class="mr-1">Sáb</label>
+                </div>
+                <div class="text-center text-slate-400 text-xs">ou</div>
+                <input type="number" id="routine-times" class="p-2 w-full rounded-lg" min="1" max="7" placeholder="Vezes por semana">
+            </div>
                     
                     <!-- Difficulty -->
                     <div>
@@ -1517,6 +1577,20 @@
                             <label class="block text-white font-semibold mb-2">Data de Término</label>
                             <input type="date" id="project-end-date" class="date-input w-full p-3 rounded-lg">
                         </div>
+                    </div>
+
+                                  
+
+                    <!-- Challenge extra fields -->
+                    <div id="challenge-fields" class="hidden">
+                        <label class="block text-white font-semibold mb-2">Descrição do Desafio</label>
+                        <textarea id="challenge-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
+                    </div>
+
+                    <!-- Sprint extra fields -->
+                    <div id="sprint-fields" class="hidden">
+                        <label class="block text-white font-semibold mb-2">Descrição da Sprint</label>
+                        <textarea id="sprint-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
                     </div>
 
                      <!-- Routine specific fields -->
@@ -1673,8 +1747,12 @@
             projects: [],
             trophies: [],
             completedProjects: 0,
-            activeChallengeAccepted: false
+             activeChallengeAccepted: false
+            activeChallengeAccepted: false,
+            inventory: []
         };
+
+        let lifeWheelChart;
         
         let scenarios = ['day', 'night', 'rain', 'snow', 'desert', 'forest'];
         let currentScenarioIndex = 0;
@@ -1686,8 +1764,9 @@
         let selectedProject = null;
         let currentProjectListType = null;
         
-        // DOM Elements
+         // DOM Elements
         const screens = ['home-screen', 'projects-screen', 'project-details-screen', 'life-wheel-screen', 'trophies-screen', 'profile-screen', 'avatar-customization-screen', 'shop-screen'];
+        const screens = ['home-screen', 'projects-screen', 'project-details-screen', 'life-wheel-screen', 'trophies-screen', 'profile-screen', 'avatar-customization-screen', 'shop-screen', 'inventory-screen'];
         const navButtons = document.querySelectorAll('.nav-icon');
         
         // Initialize app
@@ -1822,9 +1901,40 @@
                 updateAvatarDisplay();
             });
             
-            document.getElementById('shop-btn')?.addEventListener('click', () => {
+             document.getElementById('shop-btn')?.addEventListener('click', () => {
                 switchScreen('shop-screen');
                 updateShopGold();
+           document.getElementById('shop-btn')?.addEventListener('click', () => {
+               switchScreen('shop-screen');
+               updateShopGold();
+           });
+
+            document.querySelectorAll('#shop-items button[data-item]')?.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const price = parseInt(btn.dataset.price);
+                    const item = btn.dataset.item;
+                    if (currentUser.gold >= price) {
+                        currentUser.gold -= price;
+                        currentUser.inventory.push(item);
+                        btn.disabled = true;
+                        btn.textContent = 'Adquirido';
+                        btn.parentElement.parentElement.parentElement.classList.add('owned');
+                        updateShopGold();
+                    } else {
+                        showErrorMessage('Ouro insuficiente!');
+                    }
+                });
+            });
+
+           document.getElementById('settings-btn')?.addEventListener('click', () => {
+                alert('Configurações em desenvolvimento!');
+           document.getElementById('settings-btn')?.addEventListener('click', () => {
+               alert('Configurações em desenvolvimento!');
+           });
+
+            document.getElementById('back-to-profile-from-inventory')?.addEventListener('click', () => {
+                switchScreen('profile-screen');
+                updateNavigation('profile-screen');
             });
             
             document.getElementById('settings-btn')?.addEventListener('click', () => {
@@ -2035,25 +2145,22 @@
             
 
              // Show/hide date fields for challenges
+
             // Show or hide fields based on project type
             // Show/hide date fields for challenges
             const dateFields = document.getElementById('date-fields');
-            const routineFields = document.getElementById('routine-fields');
-            const complexFields = document.getElementById('complex-fields');
-            const challengeExtra = document.getElementById('challenge-extra-fields');
-            const sprintFields = document.getElementById('sprint-fields');
-
-
             if (selectedProjectType === 'challenge') {
                 dateFields.classList.remove('hidden');
-                challengeExtra.classList.remove('hidden');
             } else {
                 dateFields.classList.add('hidden');
-                challengeExtra.classList.add('hidden');
             }
-            
+            const routineFields = document.getElementById('routine-fields');
+            const challengeFields = document.getElementById('challenge-fields');
+            const sprintFields = document.getElementById('sprint-fields');
+
+            dateFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
             routineFields.classList.toggle('hidden', selectedProjectType !== 'routine');
-            complexFields.classList.toggle('hidden', selectedProjectType !== 'complex');
+            challengeFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
             sprintFields.classList.toggle('hidden', selectedProjectType !== 'sprint');
             
             showModal('project-form-modal');
@@ -2072,16 +2179,11 @@
             const customXp   = parseInt(document.getElementById('custom-xp').value)   || 0;
             const customGold = parseInt(document.getElementById('custom-gold').value) || 0;
 
-              // Extra fields per project type
-            const schedule = {
-                days: Array.from(document.querySelectorAll('#routine-fields .routine-day:checked')).map(c => c.value),
-                frequency: parseInt(document.getElementById('routine-frequency')?.value) || 0
-            };
-            const complexDescription   = document.getElementById('complex-description')?.value.trim() || '';
-            const challengeDescription = document.getElementById('challenge-description')?.value.trim() || '';
-            const rewardText           = document.getElementById('challenge-reward')?.value.trim() || '';
-            const sprintDescription    = document.getElementById('sprint-description')?.value.trim() || '';
-            const sprintCards          = [];
+            const schedule = Array.from(document.querySelectorAll('#routine-fields input[type=checkbox]:checked'))
+                .map(cb => cb.value);
+            const timesPerWeek = parseInt(document.getElementById('routine-times').value) || null;
+            const challengeDescription = document.getElementById('challenge-description').value.trim();
+            const sprintDescription = document.getElementById('sprint-description').value.trim();
 
 
 
@@ -2109,6 +2211,10 @@
                 startDate,
                 endDate,
                 tasks,
+                schedule,
+                timesPerWeek,
+                challengeDescription,
+                sprintDescription,
                 xpReward:    Math.floor(baseXp   * mul.xp)   + customXp,
                 goldReward:  Math.floor(baseGold * mul.gold) + customGold,
                 updatedAt:   new Date().toISOString()
@@ -2152,6 +2258,13 @@
             hideModal('project-form-modal');
             const form = document.getElementById('project-form');
             form.reset();
+            document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => cb.checked = false);
+            document.getElementById('routine-times').value = '';
+            document.getElementById('challenge-description').value = '';
+            document.getElementById('sprint-description').value = '';
+            document.getElementById('routine-fields').classList.add('hidden');
+            document.getElementById('challenge-fields').classList.add('hidden');
+            document.getElementById('sprint-fields').classList.add('hidden');
             selectedDifficulty = null;
             document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
             // reseta tarefas
@@ -2163,11 +2276,11 @@
          * Abre o modal de edição, injeta valores e reconfigura o form para usar updateProject.
          * @param {number} projectId 
          */
-        function populateFormForEdit(projectId) {
+            function populateFormForEdit(projectId) {
             const project = currentUser.projects.find(p => p.id === projectId);
             if (!project) {
-                showErrorMessage('Projeto não encontrado.');
-                return;
+            showErrorMessage('Projeto não encontrado.');
+            return;
             }
 
             // Exibe o modal
@@ -2177,11 +2290,32 @@
             showProjectForm();
             selectedProject = projectId;
 
+            const form = document.getElementById('project-form');
+
             // Preenche campos
             document.getElementById('project-name').value       = project.name;
             document.getElementById('project-life-area').value  = project.lifeArea;
             document.getElementById('project-start-date').value = project.startDate;
             document.getElementById('project-end-date').value   = project.endDate;
+
+            // Campos extras por tipo
+            document.getElementById('routine-fields').classList.add('hidden');
+            document.getElementById('challenge-fields').classList.add('hidden');
+            document.getElementById('sprint-fields').classList.add('hidden');
+
+            if (project.type === 'routine') {
+                document.getElementById('routine-fields').classList.remove('hidden');
+                document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => {
+                    cb.checked = project.schedule && project.schedule.includes(cb.value);
+                });
+                document.getElementById('routine-times').value = project.timesPerWeek || '';
+            } else if (project.type === 'challenge') {
+                document.getElementById('challenge-fields').classList.remove('hidden');
+                document.getElementById('challenge-description').value = project.challengeDescription || '';
+            } else if (project.type === 'sprint') {
+                document.getElementById('sprint-fields').classList.remove('hidden');
+                document.getElementById('sprint-description').value = project.sprintDescription || '';
+            }
 
             // Dificuldade
             selectedDifficulty = project.difficulty;
@@ -2228,9 +2362,8 @@
             // Atualiza o texto do botão
             const form = document.getElementById('project-form');
             const submitBtn = form.querySelector('.create-btn');
-             submitBtn.text = 'Salvar Projeto';
-            submitBtn.textContent = 'Salvar Projeto';
             submitBtn.text = 'Salvar Projeto';
+            submitBtn.textContent = 'Salvar Projeto';
         }
 
         /**
@@ -2243,6 +2376,7 @@
                 showErrorMessage('Projeto não encontrado.');
                 return;
             }
+        }
 
             // Remove o projeto
             currentUser.projects.splice(idx, 1);
@@ -2254,7 +2388,7 @@
         }
 
         
-        function initializeTrophyCreation() {
+         initializeTrophyCreation() {
             const createTrophyBtn = document.getElementById('create-trophy-btn');
             const trophyFormModal = document.getElementById('trophy-form-modal');
             const closeTrophyFormBtn = document.getElementById('close-trophy-form');
@@ -2282,7 +2416,7 @@
                 e.preventDefault();
                 createTrophy();
             });
-        }
+        }function
         
         function createTrophy() {
             const name = document.getElementById('trophy-name').value;
@@ -2377,6 +2511,7 @@
             if (!ctx) return;
             
             new Chart(ctx, {
+                lifeWheelChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
                     labels: ['Carreira', 'Finanças', 'Saúde', 'Família', 'Social', 'Lazer', 'Intelectual'],
@@ -2452,8 +2587,15 @@
             document.getElementById('complex-count').textContent = complexCount;
             document.getElementById('challenge-count').textContent = challengeCount;
             document.getElementById('sprint-count').textContent = sprintCount;
+
+            updateLifeData();
         }
-        
+            function updateProjectListDisplay() {
+            if (currentScreen === 'project-details-screen') {
+                showProjectDetails(selectedProjectType);
+            }
+        }
+
         function updateTrophiesDisplay() {
             const trophiesGrid = document.getElementById('trophies-grid');
             if (!trophiesGrid) return;
@@ -2483,6 +2625,81 @@
             }
         }
         
+
+
+        function updateInventoryDisplay() {
+            const container = document.getElementById('inventory-items');
+            if (!container) return;
+            if (currentUser.inventory.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-sm">Nenhum item adquirido</p>';
+                return;
+            }
+            container.innerHTML = currentUser.inventory.map(item => `
+                <div class="bg-slate-800/50 rounded-lg p-3 text-white">${item}</div>
+            `).join('');
+        }
+
+        function updateLifeData() {
+            const counts = {
+                carreira: 0,
+                financas: 0,
+                saude: 0,
+                familia: 0,
+                social: 0,
+                lazer: 0,
+                intelectual: 0
+            };
+
+            currentUser.projects.forEach(p => {
+                if (counts[p.lifeArea] !== undefined) counts[p.lifeArea]++;
+            });
+
+            if (lifeWheelChart) {
+                lifeWheelChart.data.datasets[0].data = [
+                    counts.carreira,
+                    counts.financas,
+                    counts.saude,
+                    counts.familia,
+                    counts.social,
+                    counts.lazer,
+                    counts.intelectual
+                ];
+                lifeWheelChart.update();
+            }
+
+            const areas = ['carreira','financas','saude','familia','social','lazer','intelectual'];
+            areas.forEach(area => {
+                const count = counts[area];
+                const bar = document.getElementById(`progress-${area}`);
+                const text = document.getElementById(`count-${area}`);
+                if (bar) bar.style.width = Math.min(count * 10, 100) + '%';
+                if (text) text.textContent = `${count}/10`;
+            });
+
+            // Atualiza foco atual e missão do dia
+            updateFocusAndMission(counts);
+        }
+
+        function updateFocusAndMission(counts) {
+            // Determine foco atual
+            let focusArea = 'Nenhum';
+            let max = 0;
+            for (const [area, value] of Object.entries(counts)) {
+                if (value > max) { max = value; focusArea = area; }
+            }
+            const focusMap = {
+                carreira:'Carreira', financas:'Finanças', saude:'Saúde', familia:'Família',
+                social:'Social', lazer:'Lazer', intelectual:'Intelectual'
+            };
+            const focusText = document.getElementById('current-focus-text');
+            if (focusText) focusText.textContent = focusMap[focusArea] || 'Nenhum';
+
+            // Missão do dia = primeiro projeto com tarefas pendentes
+            const missionEl = document.getElementById('daily-mission-text');
+            const mission = currentUser.projects.find(p => p.tasks.some(t => !t.completed));
+            if (missionEl) missionEl.textContent = mission ? mission.name : 'Sem missão';
+        }
+
         // Daily Reward
         function collectDailyReward() {
             currentUser.xp += 25;
@@ -2613,6 +2830,17 @@
             }, 3000);
         }
 
+        
+        function showErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-lg z-50 shadow-lg';
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 3000);
+        }
         
     </script>
 </body>
