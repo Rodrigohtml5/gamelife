@@ -698,6 +698,26 @@
             background-size: 200px;
             background-size: cover;
         }
+
+        .routine-day-btn {
+    background: rgba(59,130,246,0.15);
+    color: #fff;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.routine-day-btn.selected, .routine-day-btn:active {
+    background: #3b82f6;
+    color: #fff;
+    border-color: #3b82f6;
+}
+.routine-day-btn:hover {
+    background: #2563eb;
+    color: #fff;
+}
     </style>
 </head>
 <body class="bg-slate-900 flex items-center justify-center min-h-screen p-4">
@@ -958,30 +978,30 @@
                     </div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-white font-semibold">Saúde</h3>
-                            <span class="text-blue-400 font-bold">0/10</span>
-                            <span class="text-blue-400 font-bold" id="count-saude">0/10</span>
-                        </div>
-                        <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
-                            <div class="life-area-progress" id="progress-saude" style="width: 0%"></div>
-                        </div>
-                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
-                    </div>
-                    
-                    <div class="bg-slate-800/50 rounded-lg p-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-white font-semibold">Família</h3>
-                            <span class="text-blue-400 font-bold">0/10</span>
-                            <span class="text-blue-400 font-bold" id="count-familia">0/10</span>
-                        </div>
-                        <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
-                            <div class="life-area-progress" id="progress-familia" style="width: 0%"></div>
-                        </div>
-                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
-                    </div>
+    <div class="flex justify-between items-center mb-2">
+        <h3 class="text-white font-semibold">Saúde</h3>
+        <span class="text-blue-400 font-bold">0/10</span>
+        <span class="text-blue-400 font-bold" id="count-saude">0/10</span>
+    </div>
+    <div class="life-area-bar">
+        <div class="life-area-progress" style="width: 0%"></div>
+        <div class="life-area-progress" id="progress-saude" style="width: 0%"></div>
+    </div>
+    <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+</div>
+
+<div class="bg-slate-800/50 rounded-lg p-3">
+    <div class="flex justify-between items-center mb-2">
+        <h3 class="text-white font-semibold">Família</h3>
+        <span class="text-blue-400 font-bold">0/10</span>
+        <span class="text-blue-400 font-bold" id="count-familia">0/10</span>
+    </div>
+    <div class="life-area-bar">
+        <div class="life-area-progress" style="width: 0%"></div>
+        <div class="life-area-progress" id="progress-familia" style="width: 0%"></div>
+    </div>
+    <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+</div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
                         <div class="flex justify-between items-center mb-2">
@@ -1444,7 +1464,7 @@
         
         <!-- Project Creation Modal -->
         <div id="project-modal" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
-            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600 w-full max-w-sm">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="font-bold text-xl text-white">Qual será seu projeto?</h2>
                     <button id="close-project-modal" class="text-slate-400 text-2xl hover:text-white">×</button>
@@ -1776,8 +1796,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeProjectBtn  = document.getElementById('close-project-modal');
 
     addProjectBtn?.addEventListener('click', () => {
-        // Reinicia o fluxo de criação
         selectedProjectType = null;
+        selectedProject = null;
         showModal('project-modal');
     });
 
@@ -2085,7 +2105,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const addProjectBtn = document.getElementById('add-project-btn');
             const closeProjectBtn = document.getElementById('close-project-modal');
             
-            addProjectBtn?.addEventListener('click', () => showModal('project-modal'));
+            addProjectBtn?.addEventListener('click', () => {
+                selectedProjectType = null;
+                selectedProject = null;
+                showModal('project-modal');
+            });
             closeProjectBtn?.addEventListener('click', () => hideModal('project-modal'));
             
             // Project type selection
@@ -2105,7 +2129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Avatar Customization
             initializeAvatarCustomization();
-        
+        } // <-- Add this closing brace to fix the error
         
         function initializeProjectForm() {
             // Garante que, sempre que o usuário clicar em “+”, o botão mostrará “Criar Projeto”
@@ -2145,7 +2169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 saveProject();
             });
-        }
+        } // <-- This closing brace was missing
         
                 function showProjectForm() {
                       // 1) Atualiza o título
@@ -2155,32 +2179,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     challenge: 'Criar Desafio',
                     sprint: 'Criar Sprint'
                 };
+                document.getElementById('form-title').textContent = titles[selectedProjectType] || 'Criar Projeto';
 
-            document.getElementById('form-title').textContent = titles[selectedProjectType];
-            }   
-           
-             // Show/hide date fields for challenges
-             
+                // Mostra/esconde campos extras
+                const dateFields = document.getElementById('date-fields');
+                const routineFields = document.getElementById('routine-fields');
+                const challengeFields = document.getElementById('challenge-fields');
+                const sprintFields = document.getElementById('sprint-fields');
+                const complexFields = document.getElementById('complex-fields');
 
-            // Show or hide fields based on project type
-            // Show/hide date fields for challenges
-           
-            if (selectedProjectType === 'challenge') {
-                dateFields.classList.remove('hidden');
-            } else {
-                dateFields.classList.add('hidden');
-            }
-            const routineFields = document.getElementById('routine-fields');
-            const challengeFields = document.getElementById('challenge-fields');
-            const sprintFields = document.getElementById('sprint-fields');
+                if (dateFields) dateFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
+                if (routineFields) routineFields.classList.toggle('hidden', selectedProjectType !== 'routine');
+                if (challengeFields) challengeFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
+                if (sprintFields) sprintFields.classList.toggle('hidden', selectedProjectType !== 'sprint');
+                if (complexFields) complexFields.classList.toggle('hidden', selectedProjectType !== 'complex');
 
-            dateFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
-            routineFields.classList.toggle('hidden', selectedProjectType !== 'routine');
-            challengeFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
-            sprintFields.classList.toggle('hidden', selectedProjectType !== 'sprint');
-            
-            showModal('project-form-modal');
-        }
+                // Limpa campos extras
+                document.getElementById('project-form').reset();
+                document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => cb.checked = false);
+                document.getElementById('routine-frequency').value = '';
+                document.getElementById('challenge-description').value = '';
+                document.getElementById('sprint-description').value = '';
+                document.getElementById('complex-description').value = '';
+                selectedDifficulty = null;
+                document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('tasks-container').innerHTML =
+                    '<input type="text" class="task-input w-full p-2 rounded-lg text-sm" placeholder="Digite uma tarefa...">';
+
+                // Atualiza botão
+                document.querySelector('#project-form .create-btn').textContent = 'Criar Projeto';
+
+                showModal('project-form-modal');
+                }
         
         /**
          * Cria um novo projeto ou atualiza um existente se receber projectId.
@@ -2197,7 +2227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const schedule = Array.from(document.querySelectorAll('#routine-fields input[type=checkbox]:checked'))
                 .map(cb => cb.value);
-            const timesPerWeek = parseInt(document.getElementById('routine-times').value) || null;
+            const timesPerWeek = parseInt(document.getElementById('routine-frequency').value) || null;
             const challengeDescription = document.getElementById('challenge-description').value.trim();
             const sprintDescription = document.getElementById('sprint-description').value.trim();
 
@@ -2257,10 +2287,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
 
                 const newProject = {
-                id:        Date.now(),
-                ...projectData,
-                progress: 0,
-                createdAt: new Date().toISOString()
+    id:        Date.now(),
+    ...projectData,
+    progress: 0,
+    createdAt: new Date().toISOString(),
+    completions: [],         // ← datas concluídas (para histórico)
+    weekCompletions: [],     // ← datas concluídas nesta semana
                 };
                 currentUser.projects.push(newProject);
                 // recompensa de criar
@@ -2278,12 +2310,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('project-form');
             form.reset();
             document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => cb.checked = false);
-            document.getElementById('routine-times').value = '';
+            document.getElementById('routine-frequency').value = '';
             document.getElementById('challenge-description').value = '';
             document.getElementById('sprint-description').value = '';
-            document.getElementById('routine-fields').classList.add('hidden');
-            document.getElementById('challenge-fields').classList.add('hidden');
-            document.getElementById('sprint-fields').classList.add('hidden');
+            document.getElementById('complex-description').value = '';
             selectedDifficulty = null;
             document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
             // reseta tarefas
@@ -2295,7 +2325,7 @@ document.addEventListener('DOMContentLoaded', () => {
          * Abre o modal de edição, injeta valores e reconfigura o form para usar updateProject.
          * @param {number} projectId 
          */
-            function populateFormForEdit(projectId) {
+        function populateFormForEdit(projectId) {
             const project = currentUser.projects.find(p => p.id === projectId);
             if (!project) {
             showErrorMessage('Projeto não encontrado.');
@@ -2339,7 +2369,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => {
                     cb.checked = project.schedule && project.schedule.includes(cb.value);
                 });
-                document.getElementById('routine-times').value = project.timesPerWeek || '';
+                document.getElementById('routine-frequency').value = project.timesPerWeek || '';
             } else if (project.type === 'challenge') {
                 document.getElementById('challenge-fields').classList.remove('hidden');
                 document.getElementById('challenge-description').value = project.challengeDescription || '';
@@ -2406,7 +2436,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showErrorMessage('Projeto não encontrado.');
                 return;
             }
-        }
 
             // Remove o projeto
             currentUser.projects.splice(idx, 1);
@@ -2415,8 +2444,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateProjectListDisplay();
             updateProjectCounts();        // Atualiza total de projetos, progresso, etc.
             showSuccessMessage('Projeto removido com sucesso!');
-        
-
+        }
         
          function initializeTrophyCreation() {
             const createTrophyBtn = document.getElementById('create-trophy-btn');
@@ -2620,8 +2648,8 @@ document.addEventListener('DOMContentLoaded', () => {
             updateLifeData();
         }
             function updateProjectListDisplay() {
-            if (currentScreen === 'project-details-screen') {
-                showProjectDetails(selectedProjectType);
+            if (currentProjectListType) {
+                showProjectDetails(currentProjectListType);
             }
         }
 
@@ -2874,4 +2902,3 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
 </body>
 </html>
-
