@@ -713,19 +713,19 @@
             </div>
             
             <div class="character-selection mb-8">
-                <h2 class="text-white text-xl font-semibold mb-4">Escolha seu Avatar</h2>
-                <div class="flex space-x-4 justify-center">
-                    <button class="character-option p-4 rounded-xl" data-character="male">
-                        <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg" alt="Masculino" class="character-img w-16 h-16 mx-auto mb-2">
-                        <span class="text-white text-sm">Masculino</span>
-                    </button>
-                    <button class="character-option p-4 rounded-xl" data-character="female">
-                        <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/female.svg" alt="Feminino" class="character-img w-16 h-16 mx-auto mb-2">
-                        <span class="text-white text-sm">Feminino</span>
-                    </button>
-                </div>
-            </div>
-            
+            <h2 class="text-white text-xl font-semibold mb-4">Escolha seu Avatar</h2>
+            <div class="flex space-x-4 justify-center">
+                  <button class="character-option p-4 rounded-xl" data-character="male">
+      <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/Imagens/menino.png" alt="Masculino" class="character-img w-16 h-16 mx-auto mb-2">
+      <span class="text-white text-sm">Masculino</span>
+    </button>
+    <button class="character-option p-4 rounded-xl" data-character="female">
+      <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/Imagens/menina.png" alt="Feminino" class="character-img w-16 h-16 mx-auto mb-2">
+      <span class="text-white text-sm">Feminino</span>
+    </button>
+  </div>
+</div>
+
             <button id="start-journey-btn" class="intro-button px-8 py-4 rounded-full text-white font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                 Iniciar Jornada Épica
             </button>
@@ -1518,6 +1518,59 @@
                             <input type="date" id="project-end-date" class="date-input w-full p-3 rounded-lg">
                         </div>
                     </div>
+
+                     <!-- Routine specific fields -->
+                    <div id="routine-fields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Dias da Semana</label>
+                            <div class="grid grid-cols-7 gap-1 text-xs text-white">
+                                <label><input type="checkbox" value="dom" class="routine-day mr-1">Dom</label>
+                                <label><input type="checkbox" value="seg" class="routine-day mr-1">Seg</label>
+                                <label><input type="checkbox" value="ter" class="routine-day mr-1">Ter</label>
+                                <label><input type="checkbox" value="qua" class="routine-day mr-1">Qua</label>
+                                <label><input type="checkbox" value="qui" class="routine-day mr-1">Qui</label>
+                                <label><input type="checkbox" value="sex" class="routine-day mr-1">Sex</label>
+                                <label><input type="checkbox" value="sab" class="routine-day mr-1">Sáb</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Vezes na Semana</label>
+                            <input type="number" id="routine-frequency" class="form-input w-full p-3 rounded-lg" min="1" max="7">
+                        </div>
+                    </div>
+
+                    <!-- Complex project fields -->
+                    <div id="complex-fields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Descrição ou Marcos</label>
+                            <textarea id="complex-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Descreva o projeto ou seus marcos..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Challenge extra fields -->
+                    <div id="challenge-extra-fields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Descrição do Desafio</label>
+                            <textarea id="challenge-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Detalhes do desafio..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Recompensa Textual</label>
+                            <input type="text" id="challenge-reward" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Medalha especial">
+                        </div>
+                    </div>
+
+                    <!-- Sprint fields -->
+                    <div id="sprint-fields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Descrição da Sprint</label>
+                            <textarea id="sprint-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Objetivos da sprint..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Cards</label>
+                            <div id="sprint-cards-placeholder" class="p-2 rounded-lg bg-slate-700 text-white text-sm">Gerenciamento de cards em breve...</div>
+                        </div>
+                    </div>
+
                     
                     <!-- Tasks Section -->
                     <div>
@@ -1631,6 +1684,7 @@
         let selectedDifficulty = null;
         let selectedTrophyIcon = null;
         let selectedProject = null;
+        let currentProjectListType = null;
         
         // DOM Elements
         const screens = ['home-screen', 'projects-screen', 'project-details-screen', 'life-wheel-screen', 'trophies-screen', 'profile-screen', 'avatar-customization-screen', 'shop-screen'];
@@ -1698,14 +1752,14 @@
         function renderAvatar() {
             const avatarImg = document.getElementById('home-avatar');
             if (!avatarImg) return;
-            avatarImg.src = currentUser.avatar.gender === 'female' ? 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/female.svg' : 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg';
+            avatarImg.src = currentUser.avatar.gender === 'female' ? './Imagens/menina.png' : './Imagens/menino.png';
             updateWeatherEffects(currentUser.scenario);
         }
 
         function updateAvatarDisplay() {
             const homeAvatar = document.getElementById('home-avatar');
             if (homeAvatar) {
-                homeAvatar.src = currentUser.avatar.gender === 'female' ? 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/female.svg' : 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg';
+                homeAvatar.src = currentUser.avatar.gender === 'female' ? './Imagens/menina.png' : './Imagens/menino.png';
             }
 
             // Update preview if on customization screen
@@ -1806,6 +1860,7 @@
         }
         
         function showProjectDetails(projectType) {
+            currentProjectListType = projectType;
             const titles = {
                 routine: 'Projetos de Rotina',
                 complex: 'Projetos Complexos',
@@ -1866,6 +1921,15 @@
             
             switchScreen('project-details-screen');
         }
+
+         
+
+        function updateProjectListDisplay() {
+            if (currentProjectListType) {
+                showProjectDetails(currentProjectListType);
+            }
+        }
+
         
         // Modals
         function initializeModals() {
@@ -1969,13 +2033,28 @@
             
             document.getElementById('form-title').textContent = titles[selectedProjectType];
             
+
+             // Show/hide date fields for challenges
+            // Show or hide fields based on project type
             // Show/hide date fields for challenges
             const dateFields = document.getElementById('date-fields');
+            const routineFields = document.getElementById('routine-fields');
+            const complexFields = document.getElementById('complex-fields');
+            const challengeExtra = document.getElementById('challenge-extra-fields');
+            const sprintFields = document.getElementById('sprint-fields');
+
+
             if (selectedProjectType === 'challenge') {
                 dateFields.classList.remove('hidden');
+                challengeExtra.classList.remove('hidden');
             } else {
                 dateFields.classList.add('hidden');
+                challengeExtra.classList.add('hidden');
             }
+            
+            routineFields.classList.toggle('hidden', selectedProjectType !== 'routine');
+            complexFields.classList.toggle('hidden', selectedProjectType !== 'complex');
+            sprintFields.classList.toggle('hidden', selectedProjectType !== 'sprint');
             
             showModal('project-form-modal');
         }
@@ -1992,6 +2071,19 @@
             const endDate    = document.getElementById('project-end-date').value;
             const customXp   = parseInt(document.getElementById('custom-xp').value)   || 0;
             const customGold = parseInt(document.getElementById('custom-gold').value) || 0;
+
+              // Extra fields per project type
+            const schedule = {
+                days: Array.from(document.querySelectorAll('#routine-fields .routine-day:checked')).map(c => c.value),
+                frequency: parseInt(document.getElementById('routine-frequency')?.value) || 0
+            };
+            const complexDescription   = document.getElementById('complex-description')?.value.trim() || '';
+            const challengeDescription = document.getElementById('challenge-description')?.value.trim() || '';
+            const rewardText           = document.getElementById('challenge-reward')?.value.trim() || '';
+            const sprintDescription    = document.getElementById('sprint-description')?.value.trim() || '';
+            const sprintCards          = [];
+
+
 
             const taskInputs = document.querySelectorAll('#tasks-container .task-input');
             const tasks = Array.from(taskInputs)
@@ -2020,6 +2112,11 @@
                 xpReward:    Math.floor(baseXp   * mul.xp)   + customXp,
                 goldReward:  Math.floor(baseGold * mul.gold) + customGold,
                 updatedAt:   new Date().toISOString()
+    
+               
+               
+          
+             
             };
 
             if (selectedProject) {
@@ -2075,6 +2172,9 @@
 
             // Exibe o modal
             showModal('project-form-modal');
+            // Define tipo e exibe o modal com campos corretos
+            selectedProjectType = project.type;
+            showProjectForm();
             selectedProject = projectId;
 
             // Preenche campos
@@ -2106,6 +2206,16 @@
             blank.placeholder = 'Digite uma tarefa...';
             tasksContainer.appendChild(blank);
 
+            // Campos adicionais
+            document.getElementById('routine-frequency').value = project.schedule?.frequency || '';
+            document.querySelectorAll('#routine-fields .routine-day').forEach(cb => {
+                cb.checked = project.schedule?.days?.includes(cb.value);
+            });
+            document.getElementById('complex-description').value = project.complexDescription || '';
+            document.getElementById('challenge-description').value = project.challengeDescription || '';
+            document.getElementById('challenge-reward').value = project.rewardText || '';
+            document.getElementById('sprint-description').value = project.sprintDescription || '';
+
             // Recompensas custom
             const mult = { facil:{xp:1,gold:1}, medio:{xp:1.5,gold:1.5}, dificil:{xp:2,gold:2} };
             const baseXp=50, baseGold=25;
@@ -2116,7 +2226,10 @@
             document.getElementById('custom-gold').value = project.goldReward - calcGold;
 
             // Atualiza o texto do botão
+            const form = document.getElementById('project-form');
             const submitBtn = form.querySelector('.create-btn');
+             submitBtn.text = 'Salvar Projeto';
+            submitBtn.textContent = 'Salvar Projeto';
             submitBtn.text = 'Salvar Projeto';
         }
 
@@ -2466,20 +2579,20 @@
 
             switch (scenario) {
                 case 'rain':
-                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/rain.svg';
+                    img.src = './rain.svg';
                     img.classList.add('rain-effect');
                     break;
                 case 'snow':
-                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/snow.svg';
+                    img.src = './snow.svg';
                     img.classList.add('snow-effect');
                     break;
                 case 'desert':
                 case 'forest':
-                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/wind.svg';
+                    img.src = './wind.svg';
                     img.classList.add('wind-effect');
                     break;
                 default:
-                    img.src = 'C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/sun.svg';
+                    img.src = './sun.svg';
                     img.classList.add('sun-effect');
                     break;
             }
@@ -2499,6 +2612,8 @@
                 successDiv.remove();
             }, 3000);
         }
+
+        
     </script>
 </body>
 </html>
