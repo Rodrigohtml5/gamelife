@@ -718,6 +718,9 @@
     background: #2563eb;
     color: #fff;
 }
+.routine-mode-btn.active {
+    background: #3b82f6;
+}
     </style>
 </head>
 <body class="bg-slate-900 flex items-center justify-center min-h-screen p-4">
@@ -1543,39 +1546,40 @@
                         </select>
                     </div>                   
                         <!-- Routine specific fields -->
-                <div id="routine-fields" class="hidden space-y-4">
-                <!-- Dias da Semana -->
-                <div>
-                    <label class="block text-white font-semibold mb-2">Dias da Semana</label>
-                    <div class="grid grid-cols-7 gap-1 text-xs text-white">
-                    <label><input type="checkbox" value="dom" class="routine-day mr-1">Dom</label>
-                    <label><input type="checkbox" value="seg" class="routine-day mr-1">Seg</label>
-                    <label><input type="checkbox" value="ter" class="routine-day mr-1">Ter</label>
-                    <label><input type="checkbox" value="qua" class="routine-day mr-1">Qua</label>
-                    <label><input type="checkbox" value="qui" class="routine-day mr-1">Qui</label>
-                    <label><input type="checkbox" value="sex" class="routine-day mr-1">Sex</label>
-                    <label><input type="checkbox" value="sab" class="routine-day mr-1">Sáb</label>
-                    </div>
-                </div>
+                <div id="routine-fields" class="space-y-4">
+    <label class="block text-white font-semibold mb-2">Frequência</label>
+    <div class="flex flex-col gap-2">
+        <!-- Alternador entre modos -->
+        <div class="flex gap-2">
+            <button type="button" id="btn-select-days" class="routine-mode-btn bg-blue-700 text-white px-3 py-1 rounded active">Escolher Dias</button>
+            <button type="button" id="btn-select-times" class="routine-mode-btn bg-blue-700 text-white px-3 py-1 rounded">Vezes na Semana</button>
+        </div>
+        <!-- Dias da semana -->
+        <div id="routine-days-group" class="flex gap-1 justify-between">
+            <button type="button" class="routine-day-btn" data-day="dom">Dom</button>
+            <button type="button" class="routine-day-btn" data-day="seg">Seg</button>
+            <button type="button" class="routine-day-btn" data-day="ter">Ter</button>
+            <button type="button" class="routine-day-btn" data-day="qua">Qua</button>
+            <button type="button" class="routine-day-btn" data-day="qui">Qui</button>
+            <button type="button" class="routine-day-btn" data-day="sex">Sex</button>
+            <button type="button" class="routine-day-btn" data-day="sab">Sáb</button>
+        </div>
+        <!-- Vezes por semana -->
+        <div id="routine-times-group" class="hidden">
+            <input
+                type="number"
+                id="routine-frequency"
+                class="form-input w-full p-3 rounded-lg text-sm"
+                min="1"
+                max="7"
+                placeholder="Vezes por semana"
+            />
+        </div>
+    </div>
+</div>
 
-                <div class="text-center text-slate-400 text-xs">ou</div>
-
-                <!-- Frequência (vezes por semana) -->
-                <div>
-                    <label class="block text-white font-semibold mb-2">Vezes na Semana</label>
-                    <input
-                    type="number"
-                    id="routine-frequency"
-                    class="form-input w-full p-3 rounded-lg text-sm"
-                    min="1"
-                    max="7"
-                    placeholder="Vezes por semana"
-                    />
-                </div>
-                </div>
-
-                <!-- Difficulty -->
-                <div>
+                    <!-- Difficulty -->
+                    <div>
                 <label class="block text-white font-semibold mb-2">Dificuldade</label>
                 <div class="grid grid-cols-3 gap-2">
                     <button type="button" class="difficulty-btn bg-green-600/20 text-green-300 p-3 rounded-lg" data-difficulty="facil">
@@ -1583,9 +1587,6 @@
                     <div class="text-xs">Fácil</div>
                     </button>
                     <button type="button" class="difficulty-btn bg-yellow-600/20 text-yellow-300 p-3 rounded-lg" data-difficulty="medio">
-                    <div class="text-lg mb-1">😐</div>
-                    <div class="text-xs">Médio</div>
-                    </button>
                     <button type="button" class="difficulty-btn bg-red-600/20 text-red-300 p-3 rounded-lg" data-difficulty="dificil">
                     <div class="text-lg mb-1">😤</div>
                     <div class="text-xs">Difícil</div>
@@ -2983,6 +2984,64 @@ document.addEventListener('click', function(e) {
         updateProjectListDisplay();
         updateUserStats();
     }
+});
+
+// Rotina: alternância entre modos e seleção de dias
+document.addEventListener('DOMContentLoaded', () => {
+    const btnDays = document.getElementById('btn-select-days');
+    const btnTimes = document.getElementById('btn-select-times');
+    const daysGroup = document.getElementById('routine-days-group');
+    const timesGroup = document.getElementById('routine-times-group');
+    const freqInput = document.getElementById('routine-frequency');
+    let selectedDays = [];
+
+    if (btnDays && btnTimes && daysGroup && timesGroup) {
+        btnDays.addEventListener('click', () => {
+            btnDays.classList.add('active');
+            btnTimes.classList.remove('active');
+            daysGroup.classList.remove('hidden');
+            timesGroup.classList.add('hidden');
+            freqInput.value = '';
+        });
+        btnTimes.addEventListener('click', () => {
+            btnTimes.classList.add('active');
+            btnDays.classList.remove('active');
+            daysGroup.classList.add('hidden');
+            timesGroup.classList.remove('hidden');
+            // Limpa seleção de dias
+            daysGroup.querySelectorAll('.routine-day-btn').forEach(btn => btn.classList.remove('selected'));
+            selectedDays = [];
+        });
+        // Seleção dos dias
+        daysGroup.querySelectorAll('.routine-day-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('selected');
+                const day = btn.dataset.day;
+                if (btn.classList.contains('selected')) {
+                    selectedDays.push(day);
+                } else {
+                    selectedDays = selectedDays.filter(d => d !== day);
+                }
+            });
+        });
+    }
+
+    // Ao salvar projeto, sobrescreva a coleta dos campos:
+    const oldSaveProject = window.saveProject;
+    window.saveProject = function() {
+        // ...código anterior...
+        let schedule = [];
+        let timesPerWeek = null;
+        if (!daysGroup.classList.contains('hidden')) {
+            schedule = selectedDays.slice();
+        } else if (!timesGroup.classList.contains('hidden')) {
+            timesPerWeek = parseInt(freqInput.value) || null;
+        }
+        // ...continue normalmente, usando schedule e timesPerWeek...
+        // (adicione schedule e timesPerWeek ao objeto projectData)
+        // ...restante do código...
+        oldSaveProject.apply(this, arguments);
+    };
 });
     </script>
 </body>
