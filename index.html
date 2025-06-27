@@ -1017,17 +1017,17 @@
                     </div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-white font-semibold">Lazer</h3>
-                            <span class="text-blue-400 font-bold">0/10</span>
-                            <span class="text-blue-400 font-bold" id="count-lazer">0/10</span>
-                        </div>
-                        <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
-                            <div class="life-area-progress" id="progress-lazer" style="width: 0%"></div>
-                        </div>
-                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
-                    </div>
+    <div class="flex justify-between items-center mb-2">
+        <h3 class="text-white font-semibold">Lazer</h3>
+        <span class="text-blue-400 font-bold">0/10</span>
+        <span class="text-blue-400 font-bold" id="count-lazer">0/10</span>
+    </div>
+    <div class="life-area-bar">
+        <div class="life-area-progress" style="width: 0%"></div>
+        <div class="life-area-progress" id="progress-lazer" style="width: 0%"></div>
+    </div>
+    <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+</div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
                         <div class="flex justify-between items-center mb-2">
@@ -2006,21 +2006,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 challenge: 'Desafios',
                 sprint: 'Sprints'
             };
-            
             const subtitles = {
                 routine: 'Seus hábitos e atividades regulares',
                 complex: 'Projetos de longo prazo e objetivos grandes',
                 challenge: 'Metas com prazo definido',
                 sprint: 'Projetos rápidos e intensos'
             };
-            
+
             document.getElementById('project-details-title').textContent = titles[projectType];
             document.getElementById('project-details-subtitle').textContent = subtitles[projectType];
-            
+
             // Filter and display projects
             const filteredProjects = currentUser.projects.filter(p => p.type === projectType);
             const contentContainer = document.getElementById('project-details-content');
-            
+
             if (filteredProjects.length === 0) {
                 contentContainer.innerHTML = `
                     <div class="text-center mt-8">
@@ -2029,33 +2028,55 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
             } else {
-                contentContainer.innerHTML = filteredProjects.map(project => `
-                    <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
-                        <h3 class="text-white font-bold mb-2">${project.name}</h3>
-                        <p class="text-slate-300 text-sm mb-1">Área: ${project.lifeArea}</p>
-                        <p class="text-slate-400 text-sm mb-3">Dificuldade: ${project.difficulty}</p>
-                        <div class="flex justify-between items-center mb-3">
-                        <span class="text-green-400 font-bold">${project.progress}%</span>
-                        <span class="text-blue-400 text-sm">${project.tasks.filter(t => t.completed).length}/${project.tasks.length} tarefas</span>
-                        </div>
-                        <div class="flex justify-end space-x-2">
-                        <!-- Botão Editar chama a função updateProject -->
-                        <button
-                            onclick="populateFormForEdit(${project.id})"
-                            class="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-xs"
-                        >
-                            Editar
-                        </button>
-                        <!-- Botão Excluir chama a função deleteProject -->
-                        <button
-                            onclick="deleteProject(${project.id})"
-                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs"
-                        >
-                            Excluir
-                        </button>
-                        </div>
-                    </div>
-                    `).join('');
+                contentContainer.innerHTML = filteredProjects.map(project => {
+                    if (project.type === 'routine') {
+                        // Dias da semana ou vezes por semana
+                        const dias = project.schedule?.length
+                            ? project.schedule.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')
+                            : `${project.timesPerWeek}x/semana`;
+                        // Progresso semanal
+                        const total = project.schedule?.length || project.timesPerWeek || 1;
+                        const done = project.weekCompletions?.length || 0;
+                        // Pode marcar hoje?
+                        const canMark = canMarkRoutine(project);
+                        // Já completou a semana?
+                        const completed = done >= total;
+                        return `
+                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
+                                <h3 class="text-white font-bold mb-2">${project.name}</h3>
+                                <p class="text-slate-300 text-sm mb-1">Dias: ${dias}</p>
+                                <p class="text-slate-400 text-sm mb-1">Dificuldade: ${project.difficulty}</p>
+                                <div class="flex items-center mb-2">
+                                    <span class="text-green-400 font-bold">${done}/${total} concluídos na semana</span>
+                                </div>
+                                <button class="mark-routine-btn bg-green-600 text-white px-3 py-1 rounded text-xs mb-2"
+                                    data-project-id="${project.id}" ${!canMark || completed ? 'disabled' : ''}>
+                                    ${completed ? 'Semana concluída!' : 'Marcar como feito hoje'}
+                                </button>
+                                <button onclick="deleteProject(${project.id})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs ml-2">
+                                    Deletar Rotina
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        // ...exibição dos outros tipos de projeto...
+                        return `
+                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
+                                <h3 class="text-white font-bold mb-2">${project.name}</h3>
+                                <p class="text-slate-300 text-sm mb-1">Área: ${project.lifeArea}</p>
+                                <p class="text-slate-400 text-sm mb-3">Dificuldade: ${project.difficulty}</p>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-green-400 font-bold">${project.progress}%</span>
+                                    <span class="text-blue-400 text-sm">${project.tasks.filter(t => t.completed).length}/${project.tasks.length} tarefas</span>
+                                </div>
+                                <div class="flex justify-end space-x-2">
+                                    <button onclick="populateFormForEdit(${project.id})" class="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-xs">Editar</button>
+                                    <button onclick="deleteProject(${project.id})" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs">Excluir</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
             }
             
             switchScreen('project-details-screen');
