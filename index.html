@@ -1766,49 +1766,65 @@
                 ];
                 const navButtons = document.querySelectorAll('.nav-icon');
 
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeIntro();
-        });
-        
-        // Introduction
-        function initializeIntro() {
-            const characterOptions = document.querySelectorAll('.character-option');
-            const startButton = document.getElementById('start-journey-btn');
-            
-            characterOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    characterOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedCharacter = option.dataset.character;
-                    startButton.disabled = false;
+    // Initialize app
+document.addEventListener('DOMContentLoaded', () => {
+    initializeIntro();
+
+    // Project Modal: abrir/fechar
+    const projectModal     = document.getElementById('project-modal');
+    const addProjectBtn    = document.getElementById('add-project-btn');
+    const closeProjectBtn  = document.getElementById('close-project-modal');
+
+    addProjectBtn?.addEventListener('click', () => {
+        // Reinicia o fluxo de criação
+        selectedProjectType = null;
+        showModal('project-modal');
+    });
+
+    closeProjectBtn?.addEventListener('click', () => {
+        hideModal('project-modal');
+    });
+});
+
+            // Introduction
+            function initializeIntro() {
+                const characterOptions = document.querySelectorAll('.character-option');
+                const startButton = document.getElementById('start-journey-btn');
+                
+                characterOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        characterOptions.forEach(opt => opt.classList.remove('selected'));
+                        option.classList.add('selected');
+                        selectedCharacter = option.dataset.character;
+                        startButton.disabled = false;
+                    });
                 });
-            });
-            
-            startButton.addEventListener('click', () => {
-                if (selectedCharacter) {
-                    startMainApp();
-                }
-            });
-        }
-        
-        function startMainApp() {
-            // Update avatar based on selection
-            currentUser.avatar.gender = selectedCharacter;
-            if (selectedCharacter === 'female') {
-                currentUser.avatar.shirtColor = '#ec4899';
-                currentUser.avatar.pantsColor = '#7c3aed';
+                
+                startButton.addEventListener('click', () => {
+                    if (selectedCharacter) {
+                        startMainApp();
+                    }
+                });
             }
 
-            renderAvatar();
-            updateAvatarDisplay();
-            updateWeatherEffects(currentUser.scenario);
-            
-            // Hide intro and show main app
-            document.getElementById('intro-screen').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-            document.getElementById('add-project-btn').classList.remove('hidden');
-            document.getElementById('bottom-nav').classList.remove('hidden');
+            function startMainApp() {
+                // Update avatar based on selection
+                currentUser.avatar.gender = selectedCharacter;
+                if (selectedCharacter === 'female') {
+                    currentUser.avatar.shirtColor = '#ec4899';
+                    currentUser.avatar.pantsColor = '#7c3aed';
+                }
+
+                renderAvatar();
+                updateAvatarDisplay();
+                updateWeatherEffects(currentUser.scenario);
+                
+                // Hide intro and show main app
+                document.getElementById('intro-screen').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                document.getElementById('add-project-btn').classList.remove('hidden');
+                document.getElementById('bottom-nav').classList.remove('hidden');
+            }
             
             // Initialize main app
             initializeNavigation();
@@ -1822,7 +1838,7 @@
             
             // Change scenario every 60 seconds
             setInterval(changeScenario, 60000);
-        }
+        
         
         // Avatar Management
         function renderAvatar() {
