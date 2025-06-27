@@ -2092,11 +2092,16 @@
         
         
         function initializeProjectForm() {
+            // Garante que, sempre que o usuário clicar em “+”, o botão mostrará “Criar Projeto”
+                selectedProject = null;
+                const projectForm = document.getElementById('project-form');
+                projectForm.querySelector('.create-btn').textContent = 'Criar Projeto';
+
+            
             const formModal = document.getElementById('project-form-modal');
             const closeFormBtn = document.getElementById('close-form-modal');
             const cancelFormBtn = document.getElementById('cancel-form');
-            const projectForm = document.getElementById('project-form');
-            
+                   
             closeFormBtn?.addEventListener('click', () => hideModal('project-form-modal'));
             cancelFormBtn?.addEventListener('click', () => hideModal('project-form-modal'));
             
@@ -2136,18 +2141,8 @@
                 };
 
             document.getElementById('form-title').textContent = titles[selectedProjectType];
-            }
-
-             // 2) Exibe somente os campos do tipo ativo:
-                document.getElementById('date-fields').classList.toggle('hidden', selectedProjectType !== 'challenge');
-                document.getElementById('routine-fields').classList.toggle('hidden', selectedProjectType !== 'routine');
-                document.getElementById('challenge-fields').classList.toggle('hidden', selectedProjectType !== 'challenge');
-                document.getElementById('sprint-fields').classList.toggle('hidden', selectedProjectType !== 'sprint');
-
-                // 3) Finalmente, abre o modal
-                showModal('project-form-modal');
-
-            
+            }   
+           
              // Show/hide date fields for challenges
              
 
@@ -2238,7 +2233,9 @@
                     return;
                 }
 
-                currentUser.projects[idx] = projectData;
+                
+                const existing = currentUser.projects[idx];
+                currentUser.projects[idx] = { ...existing, ...projectData };
                 showSuccessMessage('Projeto atualizado com sucesso!');
                 selectedProject = null;
             } else {
@@ -2259,6 +2256,7 @@
             }
             
             updateProjectCounts();
+            updateProjectListDisplay();
             // 3) Fecha modal e reseta formulário
             hideModal('project-form-modal');
             const form = document.getElementById('project-form');
@@ -2288,6 +2286,18 @@
             return;
             }
 
+            // Keep track of the project type being edited
+            selectedProjectType = project.type;
+
+            // Show or hide date fields based on the type
+            const dateFields = document.getElementById('date-fields');
+            if (selectedProjectType === 'challenge') {
+                dateFields.classList.remove('hidden');
+            } else {
+                dateFields.classList.add('hidden');
+            }
+
+           
             // Exibe o modal
             showModal('project-form-modal');
             // Define tipo e exibe o modal com campos corretos
@@ -2365,9 +2375,8 @@
             document.getElementById('custom-gold').value = project.goldReward - calcGold;
 
             // Atualiza o texto do botão
-            const form = document.getElementById('project-form');
-            const submitBtn = form.querySelector('.create-btn');
-            submitBtn.text = 'Salvar Projeto';
+            const form = document.getElementById('projectForm.');
+            const submitBtn = form.querySelector('.create-btn');            
             submitBtn.textContent = 'Salvar Projeto';
         }
 
