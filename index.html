@@ -1013,7 +1013,7 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Intelectual</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
-                            <span class="text-blue-400 font-bold" id="count-intelectual">0/10</span
+                            <span class="text-blue-400 font-bold" id="count-intelectual">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
@@ -1265,7 +1265,6 @@
                             </div>
                             <div class="text-right">
                                 <div class="gold-text font-bold">500 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Chapéu Elegante" data-price="500">
                                     Comprar
                                 </button>
@@ -1281,8 +1280,7 @@
                             </div>
                             <div class="text-right">
                                 <div class="gold-text font-bold">300 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Óculos de Sol" data-price="300">
+                                  <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Óculos de Sol" data-price="300">
                                     Comprar
                                 </button>
                             </div>
@@ -1298,8 +1296,7 @@
                             </div>
                             <div class="text-right">
                                 <div class="gold-text font-bold">1000 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Tema Praia" data-price="1000">
+                                   <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Tema Praia" data-price="1000">
                                     Comprar
                                 </button>
                             </div>
@@ -1313,8 +1310,7 @@
                                 <p class="text-slate-400 text-sm">Cenário montanhoso épico</p>
                             </div>
                             <div class="text-right">
-                                <div class="gold-text font-bold">1200 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <div class="gold-text font-bold">1200 🪙</div>                                
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Tema Montanha" data-price="1200">
                                     Comprar
                                 </button>
@@ -1330,8 +1326,7 @@
                                 <p class="text-slate-400 text-sm">Dobra XP por 24 horas</p>
                             </div>
                             <div class="text-right">
-                                <div class="gold-text font-bold">200 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <div class="gold-text font-bold">200 🪙</div>                              
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Boost de XP" data-price="200">
                                     Comprar
                                 </button>
@@ -1526,100 +1521,93 @@
                             <option value="lazer">Lazer</option>
                             <option value="intelectual">Intelectual</option>
                         </select>
+                    </div>                   
+                        <!-- Routine specific fields -->
+                <div id="routine-fields" class="hidden space-y-4">
+                <!-- Dias da Semana -->
+                <div>
+                    <label class="block text-white font-semibold mb-2">Dias da Semana</label>
+                    <div class="grid grid-cols-7 gap-1 text-xs text-white">
+                    <label><input type="checkbox" value="dom" class="routine-day mr-1">Dom</label>
+                    <label><input type="checkbox" value="seg" class="routine-day mr-1">Seg</label>
+                    <label><input type="checkbox" value="ter" class="routine-day mr-1">Ter</label>
+                    <label><input type="checkbox" value="qua" class="routine-day mr-1">Qua</label>
+                    <label><input type="checkbox" value="qui" class="routine-day mr-1">Qui</label>
+                    <label><input type="checkbox" value="sex" class="routine-day mr-1">Sex</label>
+                    <label><input type="checkbox" value="sab" class="routine-day mr-1">Sáb</label>
                     </div>
-                    <option value="intelectual">Intelectual</option>
-
-                    </select>
-            </div>
-
-            <!-- Routine specific fields -->
-            <div id="routine-fields" class="hidden space-y-2">
-                <label class="block text-white font-semibold">Frequência</label>
-                <div class="grid grid-cols-7 gap-1 text-center text-xs text-white">
-                    <label><input type="checkbox" value="dom" class="mr-1">Dom</label>
-                    <label><input type="checkbox" value="seg" class="mr-1">Seg</label>
-                    <label><input type="checkbox" value="ter" class="mr-1">Ter</label>
-                    <label><input type="checkbox" value="qua" class="mr-1">Qua</label>
-                    <label><input type="checkbox" value="qui" class="mr-1">Qui</label>
-                    <label><input type="checkbox" value="sex" class="mr-1">Sex</label>
-                    <label><input type="checkbox" value="sab" class="mr-1">Sáb</label>
                 </div>
+
                 <div class="text-center text-slate-400 text-xs">ou</div>
-                <input type="number" id="routine-times" class="p-2 w-full rounded-lg" min="1" max="7" placeholder="Vezes por semana">
-            </div>
-                    
-                    <!-- Difficulty -->
-                    <div>
-                        <label class="block text-white font-semibold mb-2">Dificuldade</label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button type="button" class="difficulty-btn bg-green-600/20 text-green-300 p-3 rounded-lg" data-difficulty="facil">
-                                <div class="text-lg mb-1">😊</div>
-                                <div class="text-xs">Fácil</div>
-                            </button>
-                            <button type="button" class="difficulty-btn bg-yellow-600/20 text-yellow-300 p-3 rounded-lg" data-difficulty="medio">
-                                <div class="text-lg mb-1">😐</div>
-                                <div class="text-xs">Médio</div>
-                            </button>
-                            <button type="button" class="difficulty-btn bg-red-600/20 text-red-300 p-3 rounded-lg" data-difficulty="dificil">
-                                <div class="text-lg mb-1">😤</div>
-                                <div class="text-xs">Difícil</div>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Date fields for challenges -->
-                    <div id="date-fields" class="hidden space-y-4">
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Data de Início</label>
-                            <input type="date" id="project-start-date" class="date-input w-full p-3 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Data de Término</label>
-                            <input type="date" id="project-end-date" class="date-input w-full p-3 rounded-lg">
-                        </div>
-                    </div>
 
-                                  
+                <!-- Frequência (vezes por semana) -->
+                <div>
+                    <label class="block text-white font-semibold mb-2">Vezes na Semana</label>
+                    <input
+                    type="number"
+                    id="routine-frequency"
+                    class="form-input w-full p-3 rounded-lg text-sm"
+                    min="1"
+                    max="7"
+                    placeholder="Vezes por semana"
+                    />
+                </div>
+                </div>
 
-                    <!-- Challenge extra fields -->
-                    <div id="challenge-fields" class="hidden">
-                        <label class="block text-white font-semibold mb-2">Descrição do Desafio</label>
-                        <textarea id="challenge-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
-                    </div>
+                <!-- Difficulty -->
+                <div>
+                <label class="block text-white font-semibold mb-2">Dificuldade</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button" class="difficulty-btn bg-green-600/20 text-green-300 p-3 rounded-lg" data-difficulty="facil">
+                    <div class="text-lg mb-1">😊</div>
+                    <div class="text-xs">Fácil</div>
+                    </button>
+                    <button type="button" class="difficulty-btn bg-yellow-600/20 text-yellow-300 p-3 rounded-lg" data-difficulty="medio">
+                    <div class="text-lg mb-1">😐</div>
+                    <div class="text-xs">Médio</div>
+                    </button>
+                    <button type="button" class="difficulty-btn bg-red-600/20 text-red-300 p-3 rounded-lg" data-difficulty="dificil">
+                    <div class="text-lg mb-1">😤</div>
+                    <div class="text-xs">Difícil</div>
+                    </button>
+                </div>
+                </div>
 
-                    <!-- Sprint extra fields -->
-                    <div id="sprint-fields" class="hidden">
-                        <label class="block text-white font-semibold mb-2">Descrição da Sprint</label>
-                        <textarea id="sprint-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
-                    </div>
+                <!-- Date fields for challenges -->
+                <div id="date-fields" class="hidden space-y-4">
+                <div>
+                    <label class="block text-white font-semibold mb-2">Data de Início</label>
+                    <input type="date" id="project-start-date" class="date-input w-full p-3 rounded-lg" />
+                </div>
+                <div>
+                    <label class="block text-white font-semibold mb-2">Data de Término</label>
+                    <input type="date" id="project-end-date" class="date-input w-full p-3 rounded-lg" />
+                </div>
+                </div>
 
-                     <!-- Routine specific fields -->
-                    <div id="routine-fields" class="hidden space-y-4">
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Dias da Semana</label>
-                            <div class="grid grid-cols-7 gap-1 text-xs text-white">
-                                <label><input type="checkbox" value="dom" class="routine-day mr-1">Dom</label>
-                                <label><input type="checkbox" value="seg" class="routine-day mr-1">Seg</label>
-                                <label><input type="checkbox" value="ter" class="routine-day mr-1">Ter</label>
-                                <label><input type="checkbox" value="qua" class="routine-day mr-1">Qua</label>
-                                <label><input type="checkbox" value="qui" class="routine-day mr-1">Qui</label>
-                                <label><input type="checkbox" value="sex" class="routine-day mr-1">Sex</label>
-                                <label><input type="checkbox" value="sab" class="routine-day mr-1">Sáb</label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Vezes na Semana</label>
-                            <input type="number" id="routine-frequency" class="form-input w-full p-3 rounded-lg" min="1" max="7">
-                        </div>
-                    </div>
+                <!-- Challenge extra fields -->
+                <div id="challenge-fields" class="hidden space-y-4">
+                <label class="block text-white font-semibold mb-2">Descrição do Desafio</label>
+                <textarea id="challenge-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
+                </div>
 
-                    <!-- Complex project fields -->
-                    <div id="complex-fields" class="hidden space-y-4">
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Descrição ou Marcos</label>
-                            <textarea id="complex-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Descreva o projeto ou seus marcos..."></textarea>
-                        </div>
-                    </div>
+                <!-- Sprint extra fields -->
+                <div id="sprint-fields" class="hidden space-y-4">
+                <label class="block text-white font-semibold mb-2">Descrição da Sprint</label>
+                <textarea id="sprint-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
+                </div>
+
+                <!-- Complex project fields -->
+                <div id="complex-fields" class="hidden space-y-4">
+                <div>
+                    <label class="block text-white font-semibold mb-2">Descrição ou Marcos</label>
+                    <textarea
+                    id="complex-description"
+                    class="form-input w-full p-3 rounded-lg h-20 resize-none"
+                    placeholder="Descreva o projeto ou seus marcos..."
+                    ></textarea>
+                </div>
+                </div>
 
                     <!-- Challenge extra fields -->
                     <div id="challenge-extra-fields" class="hidden space-y-4">
@@ -1914,10 +1902,7 @@
             
              document.getElementById('shop-btn')?.addEventListener('click', () => {
                 switchScreen('shop-screen');
-                updateShopGold();
-           document.getElementById('shop-btn')?.addEventListener('click', () => {
-               switchScreen('shop-screen');
-               updateShopGold();
+                updateShopGold();           
            });
 
             document.querySelectorAll('#shop-items button[data-item]')?.forEach(btn => {
@@ -1936,27 +1921,22 @@
                     }
                 });
             });
+                    // Ao clicar em “Configurações”
+                    document.getElementById('settings-btn')?.addEventListener('click', () => {
+                        alert('Configurações em desenvolvimento!');
+                    });
 
-           document.getElementById('settings-btn')?.addEventListener('click', () => {
-                alert('Configurações em desenvolvimento!');
-           document.getElementById('settings-btn')?.addEventListener('click', () => {
-               alert('Configurações em desenvolvimento!');
-           });
+                    // Ao clicar em “Dados da Conta”
+                    document.getElementById('account-data-btn')?.addEventListener('click', () => {
+                        alert('Dados da conta em desenvolvimento!');
+                    });
 
-            document.getElementById('back-to-profile-from-inventory')?.addEventListener('click', () => {
-                switchScreen('profile-screen');
-                updateNavigation('profile-screen');
-            });
-            
-            document.getElementById('settings-btn')?.addEventListener('click', () => {
-                alert('Configurações em desenvolvimento!');
-            });
-            
-            document.getElementById('account-data-btn')?.addEventListener('click', () => {
-                alert('Dados da conta em desenvolvimento!');
-            });
-        }
-        
+                    // Botão de voltar do inventário para o perfil
+                    document.getElementById('back-to-profile-from-inventory')?.addEventListener('click', () => {
+                        switchScreen('profile-screen');
+                        updateNavigation('profile-screen');
+                    });
+
             function switchScreen(screenId) {
                 // Esconde todas as telas
                 screens.forEach(screen => {
@@ -2109,7 +2089,7 @@
             
             // Avatar Customization
             initializeAvatarCustomization();
-        }
+        
         
         function initializeProjectForm() {
             const formModal = document.getElementById('project-form-modal');
@@ -2147,20 +2127,33 @@
         }
         
                 function showProjectForm() {
+                      // 1) Atualiza o título
                 const titles = {
-                routine: 'Criar Rotina',
-                complex: 'Criar Projeto Complexo',
-                challenge: 'Criar Desafio',
-                sprint: 'Criar Sprint'
-            };
+                    routine: 'Criar Rotina',
+                    complex: 'Criar Projeto Complexo',
+                    challenge: 'Criar Desafio',
+                    sprint: 'Criar Sprint'
+                };
 
             document.getElementById('form-title').textContent = titles[selectedProjectType];
             }
+
+             // 2) Exibe somente os campos do tipo ativo:
+                document.getElementById('date-fields').classList.toggle('hidden', selectedProjectType !== 'challenge');
+                document.getElementById('routine-fields').classList.toggle('hidden', selectedProjectType !== 'routine');
+                document.getElementById('challenge-fields').classList.toggle('hidden', selectedProjectType !== 'challenge');
+                document.getElementById('sprint-fields').classList.toggle('hidden', selectedProjectType !== 'sprint');
+
+                // 3) Finalmente, abre o modal
+                showModal('project-form-modal');
+
+            
              // Show/hide date fields for challenges
+             
 
             // Show or hide fields based on project type
             // Show/hide date fields for challenges
-            const dateFields = document.getElementById('date-fields');
+           
             if (selectedProjectType === 'challenge') {
                 dateFields.classList.remove('hidden');
             } else {
@@ -2302,7 +2295,7 @@
             showProjectForm();
             selectedProject = projectId;
 
-            const form = document.getElementById('project-form');
+            const projectForm = document.getElementById('project-form');
 
             // Preenche campos
             document.getElementById('project-name').value       = project.name;
@@ -2397,10 +2390,10 @@
             updateProjectListDisplay();
             updateProjectCounts();        // Atualiza total de projetos, progresso, etc.
             showSuccessMessage('Projeto removido com sucesso!');
-        }
+        
 
         
-         initializeTrophyCreation() {
+         function initializeTrophyCreation() {
             const createTrophyBtn = document.getElementById('create-trophy-btn');
             const trophyFormModal = document.getElementById('trophy-form-modal');
             const closeTrophyFormBtn = document.getElementById('close-trophy-form');
@@ -2428,7 +2421,7 @@
                 e.preventDefault();
                 createTrophy();
             });
-        }function
+        }
         
         function createTrophy() {
             const name = document.getElementById('trophy-name').value;
@@ -2520,9 +2513,8 @@
         // Life Wheel Chart
         function initializeLifeWheel() {
             const ctx = document.getElementById('lifeWheelChart');
-            if (!ctx) return;
+            if (!ctx) return;            
             
-            new Chart(ctx, {
                 lifeWheelChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
