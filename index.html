@@ -1741,15 +1741,15 @@
                 gender: 'male',
                 hairColor: '#8b4513',
                 shirtColor: '#3b82f6',
-                pantsColor: '#1e40af'
+                pantsColor: '#1e40af',
             },
             scenario: 'day',
             projects: [],
             trophies: [],
             completedProjects: 0,
-             activeChallengeAccepted: false
             activeChallengeAccepted: false,
-            inventory: []
+            inventory: [],
+
         };
 
         let lifeWheelChart;
@@ -1764,11 +1764,20 @@
         let selectedProject = null;
         let currentProjectListType = null;
         
-         // DOM Elements
-        const screens = ['home-screen', 'projects-screen', 'project-details-screen', 'life-wheel-screen', 'trophies-screen', 'profile-screen', 'avatar-customization-screen', 'shop-screen'];
-        const screens = ['home-screen', 'projects-screen', 'project-details-screen', 'life-wheel-screen', 'trophies-screen', 'profile-screen', 'avatar-customization-screen', 'shop-screen', 'inventory-screen'];
-        const navButtons = document.querySelectorAll('.nav-icon');
-        
+                // DOM Elements
+                const screens = [
+                'home-screen',
+                'projects-screen',
+                'project-details-screen',
+                'life-wheel-screen',
+                'trophies-screen',
+                'profile-screen',
+                'avatar-customization-screen',
+                'shop-screen',
+                'inventory-screen'    // adicionado aqui
+                ];
+                const navButtons = document.querySelectorAll('.nav-icon');
+
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
             initializeIntro();
@@ -1854,16 +1863,18 @@
         }
         
         // Navigation
-        function initializeNavigation() {
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetScreen = button.dataset.screen;
-                    switchScreen(targetScreen);
-                    
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                });
+       function initializeNavigation() {
+         navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+            const targetScreen = button.dataset.screen;
+            switchScreen(targetScreen);
+
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
             });
+        });
+        }
+        
             
             // Project details navigation
             document.querySelectorAll('[data-project-type]').forEach(card => {
@@ -1946,20 +1957,22 @@
             });
         }
         
-        function switchScreen(screenId) {
-            screens.forEach(screen => {
-                const element = document.getElementById(screen);
-                if (element) {
-                    element.classList.add('hidden');
+            function switchScreen(screenId) {
+                // Esconde todas as telas
+                screens.forEach(screen => {
+                    const element = document.getElementById(screen);
+                    if (element) {
+                        element.classList.add('hidden');
+                    }
+                });
+
+                // Mostra a tela alvo
+                const targetElement = document.getElementById(screenId);
+                if (targetElement) {
+                    targetElement.classList.remove('hidden');
+                    currentScreen = screenId;
                 }
-            });
-            
-            const targetElement = document.getElementById(screenId);
-            if (targetElement) {
-                targetElement.classList.remove('hidden');
-                currentScreen = screenId;
             }
-        }
         
         function updateNavigation(screenId) {
             navButtons.forEach(btn => btn.classList.remove('active'));
@@ -2133,17 +2146,16 @@
             });
         }
         
-        function showProjectForm() {
-            const titles = {
+                function showProjectForm() {
+                const titles = {
                 routine: 'Criar Rotina',
                 complex: 'Criar Projeto Complexo',
                 challenge: 'Criar Desafio',
                 sprint: 'Criar Sprint'
             };
-            
-            document.getElementById('form-title').textContent = titles[selectedProjectType];
-            
 
+            document.getElementById('form-title').textContent = titles[selectedProjectType];
+            }
              // Show/hide date fields for challenges
 
             // Show or hide fields based on project type
@@ -2524,7 +2536,7 @@
                         pointBackgroundColor: 'rgba(59, 130, 246, 1)',
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
                     }]
                 },
                 options: {
