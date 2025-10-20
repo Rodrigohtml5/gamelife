@@ -97,10 +97,73 @@
             border-color: #3b82f6;
             transform: scale(1.05);
         }
-        
+
         .character-option.selected {
             border-color: #3b82f6;
             background: rgba(59, 130, 246, 0.2);
+        }
+
+        .character-img,
+        .avatar-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .character-option:hover .character-img {
+            transform: scale(1.1);
+        }
+
+        .weather-effect {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .weather-img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .sun-effect {
+            animation: rotateSun 6s linear infinite;
+        }
+
+        .rain-effect {
+            animation: rainMove 1s linear infinite;
+        }
+
+        .snow-effect {
+            animation: snowMove 2s linear infinite;
+        }
+
+        .wind-effect {
+            animation: windMove 3s ease-in-out infinite;
+        }
+
+        @keyframes rotateSun {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rainMove {
+            from { transform: translateY(-10px); }
+            to { transform: translateY(10px); }
+        }
+
+        @keyframes snowMove {
+            from { transform: translateY(-5px); }
+            to { transform: translateY(5px); }
+        }
+
+        @keyframes windMove {
+            from { transform: translateX(-5px); }
+            to { transform: translateX(5px); }
         }
         
         /* Pixel Art Styles */
@@ -627,12 +690,37 @@
         }
 
         #avatar-section {
-            background-image: url("./chuva fundo.jpg");
+        background-image: url("./chuva fundo.jpg");
             background-color: transparent;
+            background: linear-gradient(180deg, #1e3a8a, #1e40af);
             background-repeat: no-repeat;
             background-position: center;
             background-size: 200px;
+            background-size: cover;
         }
+
+        .routine-day-btn {
+    background: rgba(59,130,246,0.15);
+    color: #fff;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.routine-day-btn.selected, .routine-day-btn:active {
+    background: #3b82f6;
+    color: #fff;
+    border-color: #3b82f6;
+}
+.routine-day-btn:hover {
+    background: #2563eb;
+    color: #fff;
+}
+.routine-mode-btn.active {
+    background: #3b82f6;
+}
     </style>
 </head>
 <body class="bg-slate-900 flex items-center justify-center min-h-screen p-4">
@@ -650,47 +738,19 @@
             </div>
             
             <div class="character-selection mb-8">
-                <h2 class="text-white text-xl font-semibold mb-4">Escolha seu Avatar</h2>
-                <div class="flex space-x-4 justify-center">
-                    <button class="character-option p-4 rounded-xl" data-character="male">
-                        <div class="w-16 h-16 mx-auto mb-2 relative">
-                            <div class="pixel-character">
-                                <div class="pixel-hair"></div>
-                                <div class="pixel-head">
-                                    <div class="pixel-eyes pixel-eye-left"></div>
-                                    <div class="pixel-eyes pixel-eye-right"></div>
-                                    <div class="pixel-mouth"></div>
-                                </div>
-                                <div class="pixel-body"></div>
-                                <div class="pixel-arms pixel-arm-left"></div>
-                                <div class="pixel-arms pixel-arm-right"></div>
-                                <div class="pixel-legs pixel-leg-left"></div>
-                                <div class="pixel-legs pixel-leg-right"></div>
-                            </div>
-                        </div>
-                        <span class="text-white text-sm">Masculino</span>
-                    </button>
-                    <button class="character-option p-4 rounded-xl" data-character="female">
-                        <div class="w-16 h-16 mx-auto mb-2 relative">
-                            <div class="pixel-character">
-                                <div class="pixel-hair" style="background: #8b4513; border-radius: 8px;"></div>
-                                <div class="pixel-head">
-                                    <div class="pixel-eyes pixel-eye-left"></div>
-                                    <div class="pixel-eyes pixel-eye-right"></div>
-                                    <div class="pixel-mouth"></div>
-                                </div>
-                                <div class="pixel-body" style="background: #ec4899;"></div>
-                                <div class="pixel-arms pixel-arm-left"></div>
-                                <div class="pixel-arms pixel-arm-right"></div>
-                                <div class="pixel-legs pixel-leg-left" style="background: #7c3aed;"></div>
-                                <div class="pixel-legs pixel-leg-right" style="background: #7c3aed;"></div>
-                            </div>
-                        </div>
-                        <span class="text-white text-sm">Feminino</span>
-                    </button>
-                </div>
-            </div>
-            
+            <h2 class="text-white text-xl font-semibold mb-4">Escolha seu Avatar</h2>
+            <div class="flex space-x-4 justify-center">
+                  <button class="character-option p-4 rounded-xl" data-character="male">
+      <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/Imagens/menino.png" alt="Masculino" class="character-img w-16 h-16 mx-auto mb-2">
+      <span class="text-white text-sm">Masculino</span>
+    </button>
+    <button class="character-option p-4 rounded-xl" data-character="female">
+      <img src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/Imagens/menina.png" alt="Feminino" class="character-img w-16 h-16 mx-auto mb-2">
+      <span class="text-white text-sm">Feminino</span>
+    </button>
+  </div>
+</div>
+
             <button id="start-journey-btn" class="intro-button px-8 py-4 rounded-full text-white font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                 Iniciar Jornada Épica
             </button>
@@ -720,7 +780,8 @@
                 
                 <!-- Avatar Section -->
                 <div class="scenario-bg relative h-48 flex items-end justify-center pb-4" id="avatar-section">
-                    <img src="./personagem.png" width="50">
+                    <img id="home-avatar" class="avatar-img" src="C:\Users\rodri\OneDrive\Documentos\GitHub\gamelife/male.svg" alt="Avatar" />
+                    <div id="weather-effect" class="weather-effect"></div>
                 </div>
                 
                 <!-- Level Progress -->
@@ -776,11 +837,14 @@
                                 <div class="text-xl mb-1">📚</div>
                                 <h3 class="text-white font-semibold text-sm">Foco Atual</h3>
                                 <p class="text-blue-200 text-xs">Começando</p>
+                                <p class="text-blue-200 text-xs" id="current-focus-text">Começando
                             </div>
                             <div class="journey-point rounded-xl p-3 text-center">
                                 <div class="text-xl mb-1">🎯</div>
                                 <h3 class="text-white font-semibold text-sm">Meta Semanal</h3>
                                 <p class="text-blue-200 text-xs">0% Completa</p>
+                                <h3 class="text-white font-semibold text-sm">Missão do Dia</h3>
+                                <p class="text-blue-200 text-xs" id="daily-mission-text">Sem missão
                             </div>
                         </div>
                     </div>
@@ -894,9 +958,11 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Carreira</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-carreira">0/10</span>
                         </div>
                         <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
+                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-carreira" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -905,64 +971,76 @@
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Finanças</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-financas">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-financas" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-white font-semibold">Saúde</h3>
-                            <span class="text-blue-400 font-bold">0/10</span>
-                        </div>
-                        <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
-                        </div>
-                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
-                    </div>
-                    
-                    <div class="bg-slate-800/50 rounded-lg p-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-white font-semibold">Família</h3>
-                            <span class="text-blue-400 font-bold">0/10</span>
-                        </div>
-                        <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
-                        </div>
-                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
-                    </div>
+    <div class="flex justify-between items-center mb-2">
+        <h3 class="text-white font-semibold">Saúde</h3>
+        <span class="text-blue-400 font-bold">0/10</span>
+        <span class="text-blue-400 font-bold" id="count-saude">0/10</span>
+    </div>
+    <div class="life-area-bar">
+        <div class="life-area-progress" style="width: 0%"></div>
+        <div class="life-area-progress" id="progress-saude" style="width: 0%"></div>
+    </div>
+    <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+</div>
+
+<div class="bg-slate-800/50 rounded-lg p-3">
+    <div class="flex justify-between items-center mb-2">
+        <h3 class="text-white font-semibold">Família</h3>
+        <span class="text-blue-400 font-bold">0/10</span>
+        <span class="text-blue-400 font-bold" id="count-familia">0/10</span>
+    </div>
+    <div class="life-area-bar">
+        <div class="life-area-progress" style="width: 0%"></div>
+        <div class="life-area-progress" id="progress-familia" style="width: 0%"></div>
+    </div>
+    <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+</div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Social</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-social">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-social" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-white font-semibold">Lazer</h3>
-                            <span class="text-blue-400 font-bold">0/10</span>
-                        </div>
-                        <div class="life-area-bar">
-                            <div class="life-area-progress" style="width: 0%"></div>
-                        </div>
-                        <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
-                    </div>
+    <div class="flex justify-between items-center mb-2">
+        <h3 class="text-white font-semibold">Lazer</h3>
+        <span class="text-blue-400 font-bold">0/10</span>
+        <span class="text-blue-400 font-bold" id="count-lazer">0/10</span>
+    </div>
+    <div class="life-area-bar">
+        <div class="life-area-progress" style="width: 0%"></div>
+        <div class="life-area-progress" id="progress-lazer" style="width: 0%"></div>
+    </div>
+    <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
+</div>
                     
                     <div class="bg-slate-800/50 rounded-lg p-3">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-white font-semibold">Intelectual</h3>
                             <span class="text-blue-400 font-bold">0/10</span>
+                            <span class="text-blue-400 font-bold" id="count-intelectual">0/10</span>
                         </div>
                         <div class="life-area-bar">
                             <div class="life-area-progress" style="width: 0%"></div>
+                            <div class="life-area-progress" id="progress-intelectual" style="width: 0%"></div>
                         </div>
                         <p class="text-slate-400 text-xs mt-1">0 projetos ativos</p>
                     </div>
@@ -1045,6 +1123,11 @@
                         
                         <button id="shop-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
                             <span>🛍️ Loja</span>
+                            <span class="text-slate-400">›</span>
+                        </button>
+
+                        <button id="inventory-btn" class="w-full bg-slate-800/50 text-white p-4 rounded-xl text-left flex items-center justify-between hover:bg-slate-700/50 transition">
+                            <span>🎒 Meus Itens</span>
                             <span class="text-slate-400">›</span>
                         </button>
                         
@@ -1205,7 +1288,7 @@
                             </div>
                             <div class="text-right">
                                 <div class="gold-text font-bold">500 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Chapéu Elegante" data-price="500">
                                     Comprar
                                 </button>
                             </div>
@@ -1220,7 +1303,7 @@
                             </div>
                             <div class="text-right">
                                 <div class="gold-text font-bold">300 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                  <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Óculos de Sol" data-price="300">
                                     Comprar
                                 </button>
                             </div>
@@ -1236,7 +1319,7 @@
                             </div>
                             <div class="text-right">
                                 <div class="gold-text font-bold">1000 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                   <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Tema Praia" data-price="1000">
                                     Comprar
                                 </button>
                             </div>
@@ -1250,8 +1333,8 @@
                                 <p class="text-slate-400 text-sm">Cenário montanhoso épico</p>
                             </div>
                             <div class="text-right">
-                                <div class="gold-text font-bold">1200 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <div class="gold-text font-bold">1200 🪙</div>                                
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Tema Montanha" data-price="1200">
                                     Comprar
                                 </button>
                             </div>
@@ -1266,8 +1349,8 @@
                                 <p class="text-slate-400 text-sm">Dobra XP por 24 horas</p>
                             </div>
                             <div class="text-right">
-                                <div class="gold-text font-bold">200 🪙</div>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                <div class="gold-text font-bold">200 🪙</div>                              
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition" data-item="Boost de XP" data-price="200">
                                     Comprar
                                 </button>
                             </div>
@@ -1276,6 +1359,17 @@
                 </div>
             </div>
             
+            
+            <!-- Inventory Screen -->
+            <div id="inventory-screen" class="hidden min-h-full p-4">
+                <header class="mb-6 flex items-center">
+                    <button id="back-to-profile-from-inventory" class="back-btn p-2 rounded-lg mr-3">←</button>
+                    <h1 class="font-bold text-2xl text-white">Meus Itens</h1>
+                </header>
+                <div id="inventory-items" class="space-y-2"></div>
+            </div>
+
+
         </main>
         
         <!-- Floating Action Button -->
@@ -1373,7 +1467,7 @@
         
         <!-- Project Creation Modal -->
         <div id="project-modal" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
-            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600 w-full max-w-sm">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl transform transition-all scale-95 border border-slate-600">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="font-bold text-xl text-white">Qual será seu projeto?</h2>
                     <button id="close-project-modal" class="text-slate-400 text-2xl hover:text-white">×</button>
@@ -1450,38 +1544,116 @@
                             <option value="lazer">Lazer</option>
                             <option value="intelectual">Intelectual</option>
                         </select>
-                    </div>
-                    
+                    </div>                   
+                        <!-- Routine specific fields -->
+                <div id="routine-fields" class="space-y-4">
+    <label class="block text-white font-semibold mb-2">Frequência</label>
+    <div class="flex flex-col gap-2">
+        <!-- Alternador entre modos -->
+        <div class="flex gap-2">
+            <button type="button" id="btn-select-days" class="routine-mode-btn bg-blue-700 text-white px-3 py-1 rounded active">Escolher Dias</button>
+            <button type="button" id="btn-select-times" class="routine-mode-btn bg-blue-700 text-white px-3 py-1 rounded">Vezes na Semana</button>
+        </div>
+        <!-- Dias da semana -->
+        <div id="routine-days-group" class="flex gap-1 justify-between">
+            <button type="button" class="routine-day-btn" data-day="dom">Dom</button>
+            <button type="button" class="routine-day-btn" data-day="seg">Seg</button>
+            <button type="button" class="routine-day-btn" data-day="ter">Ter</button>
+            <button type="button" class="routine-day-btn" data-day="qua">Qua</button>
+            <button type="button" class="routine-day-btn" data-day="qui">Qui</button>
+            <button type="button" class="routine-day-btn" data-day="sex">Sex</button>
+            <button type="button" class="routine-day-btn" data-day="sab">Sáb</button>
+        </div>
+        <!-- Vezes por semana -->
+        <div id="routine-times-group" class="hidden">
+            <input
+                type="number"
+                id="routine-frequency"
+                class="form-input w-full p-3 rounded-lg text-sm"
+                min="1"
+                max="7"
+                placeholder="Vezes por semana"
+            />
+        </div>
+    </div>
+</div>
+
                     <!-- Difficulty -->
                     <div>
-                        <label class="block text-white font-semibold mb-2">Dificuldade</label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button type="button" class="difficulty-btn bg-green-600/20 text-green-300 p-3 rounded-lg" data-difficulty="facil">
-                                <div class="text-lg mb-1">😊</div>
-                                <div class="text-xs">Fácil</div>
-                            </button>
-                            <button type="button" class="difficulty-btn bg-yellow-600/20 text-yellow-300 p-3 rounded-lg" data-difficulty="medio">
-                                <div class="text-lg mb-1">😐</div>
-                                <div class="text-xs">Médio</div>
-                            </button>
-                            <button type="button" class="difficulty-btn bg-red-600/20 text-red-300 p-3 rounded-lg" data-difficulty="dificil">
-                                <div class="text-lg mb-1">😤</div>
-                                <div class="text-xs">Difícil</div>
-                            </button>
+                <label class="block text-white font-semibold mb-2">Dificuldade</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button" class="difficulty-btn bg-green-600/20 text-green-300 p-3 rounded-lg" data-difficulty="facil">
+                    <div class="text-lg mb-1">😊</div>
+                    <div class="text-xs">Fácil</div>
+                    </button>
+                    <button type="button" class="difficulty-btn bg-yellow-600/20 text-yellow-300 p-3 rounded-lg" data-difficulty="medio">
+                    <button type="button" class="difficulty-btn bg-red-600/20 text-red-300 p-3 rounded-lg" data-difficulty="dificil">
+                    <div class="text-lg mb-1">😤</div>
+                    <div class="text-xs">Difícil</div>
+                    </button>
+                </div>
+                </div>
+
+                <!-- Date fields for challenges -->
+                <div id="date-fields" class="hidden space-y-4">
+                <div>
+                    <label class="block text-white font-semibold mb-2">Data de Início</label>
+                    <input type="date" id="project-start-date" class="date-input w-full p-3 rounded-lg" />
+                </div>
+                <div>
+                    <label class="block text-white font-semibold mb-2">Data de Término</label>
+                    <input type="date" id="project-end-date" class="date-input w-full p-3 rounded-lg" />
+                </div>
+                </div>
+
+                <!-- Challenge extra fields -->
+                <div id="challenge-fields" class="hidden space-y-4">
+                <label class="block text-white font-semibold mb-2">Descrição do Desafio</label>
+                <textarea id="challenge-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
+                </div>
+
+                <!-- Sprint extra fields -->
+                <div id="sprint-fields" class="hidden space-y-4">
+                <label class="block text-white font-semibold mb-2">Descrição da Sprint</label>
+                <textarea id="sprint-description" class="w-full p-2 rounded-lg h-20 resize-none"></textarea>
+                </div>
+
+                <!-- Complex project fields -->
+                <div id="complex-fields" class="hidden space-y-4">
+                <div>
+                    <label class="block text-white font-semibold mb-2">Descrição ou Marcos</label>
+                    <textarea
+                    id="complex-description"
+                    class="form-input w-full p-3 rounded-lg h-20 resize-none"
+                    placeholder="Descreva o projeto ou seus marcos..."
+                    ></textarea>
+                </div>
+                </div>
+
+                    <!-- Challenge extra fields -->
+                    <div id="challenge-extra-fields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Descrição do Desafio</label>
+                            <textarea id="challenge-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Detalhes do desafio..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-white font-semibold mb-2">Recompensa Textual</label>
+                            <input type="text" id="challenge-reward" class="form-input w-full p-3 rounded-lg" placeholder="Ex: Medalha especial">
                         </div>
                     </div>
+
+                    <!-- Sprint fields -->
                     
-                    <!-- Date fields for challenges -->
-                    <div id="date-fields" class="hidden space-y-4">
                         <div>
-                            <label class="block text-white font-semibold mb-2">Data de Início</label>
-                            <input type="date" id="project-start-date" class="date-input w-full p-3 rounded-lg">
+                            <label class="block text-white font-semibold mb-2">Descrição da Sprint</label>
+                            <textarea id="sprint-description" class="form-input w-full p-3 rounded-lg h-20 resize-none" placeholder="Objetivos da sprint..."></textarea>
                         </div>
                         <div>
-                            <label class="block text-white font-semibold mb-2">Data de Término</label>
-                            <input type="date" id="project-end-date" class="date-input w-full p-3 rounded-lg">
+                            <label class="block text-white font-semibold mb-2">Cards</label>
+                            <div id="sprint-cards-placeholder" class="p-2 rounded-lg bg-slate-700 text-white text-sm">Gerenciamento de cards em breve...</div>
                         </div>
-                    </div>
+                   
+
                     
                     <!-- Tasks Section -->
                     <div>
@@ -1564,6 +1736,14 @@
             </div>
         </div>
         
+        <!-- Project Detail Screen -->
+        <div id="project-detail-screen" class="hidden absolute inset-0 modal-overlay flex items-center justify-center p-5 z-50">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto relative">
+                <button id="close-project-detail" class="absolute top-3 right-4 text-slate-400 text-2xl hover:text-white">×</button>
+                <div id="project-detail-content"></div>
+            </div>
+        </div>
+        
     </div>
 
     <script>
@@ -1578,14 +1758,18 @@
                 gender: 'male',
                 hairColor: '#8b4513',
                 shirtColor: '#3b82f6',
-                pantsColor: '#1e40af'
+                pantsColor: '#1e40af',
             },
             scenario: 'day',
             projects: [],
             trophies: [],
             completedProjects: 0,
-            activeChallengeAccepted: false
+            activeChallengeAccepted: false,
+            inventory: [],
+
         };
+
+        let lifeWheelChart;
         
         let scenarios = ['day', 'night', 'rain', 'snow', 'desert', 'forest'];
         let currentScenarioIndex = 0;
@@ -1595,52 +1779,80 @@
         let selectedDifficulty = null;
         let selectedTrophyIcon = null;
         let selectedProject = null;
+        let currentProjectListType = null;
         
-        // DOM Elements
-        const screens = ['home-screen', 'projects-screen', 'project-details-screen', 'life-wheel-screen', 'trophies-screen', 'profile-screen', 'avatar-customization-screen', 'shop-screen'];
-        const navButtons = document.querySelectorAll('.nav-icon');
-        
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeIntro();
-        });
-        
-        // Introduction
-        function initializeIntro() {
-            const characterOptions = document.querySelectorAll('.character-option');
-            const startButton = document.getElementById('start-journey-btn');
-            
-            characterOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    characterOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedCharacter = option.dataset.character;
-                    startButton.disabled = false;
+                // DOM Elements
+                const screens = [
+                'home-screen',
+                'projects-screen',
+                'project-details-screen',
+                'life-wheel-screen',
+                'trophies-screen',
+                'profile-screen',
+                'avatar-customization-screen',
+                'shop-screen',
+                'inventory-screen'    // adicionado aqui
+                ];
+                const navButtons = document.querySelectorAll('.nav-icon');
+
+    // Initialize app
+document.addEventListener('DOMContentLoaded', () => {
+    initializeIntro();
+
+    // Project Modal: abrir/fechar
+    const projectModal     = document.getElementById('project-modal');
+    const addProjectBtn    = document.getElementById('add-project-btn');
+    const closeProjectBtn  = document.getElementById('close-project-modal');
+
+    addProjectBtn?.addEventListener('click', () => {
+        selectedProjectType = null;
+        selectedProject = null;
+        showModal('project-modal');
+
+    closeProjectBtn?.addEventListener('click', () => {
+        hideModal('project-modal');
+    });
+});
+
+            // Introduction
+            function initializeIntro() {
+                const characterOptions = document.querySelectorAll('.character-option');
+                const startButton = document.getElementById('start-journey-btn');
+                
+                characterOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        characterOptions.forEach(opt => opt.classList.remove('selected'));
+                        option.classList.add('selected');
+                        selectedCharacter = option.dataset.character;
+                        startButton.disabled = false;
+                    });
                 });
-            });
-            
-            startButton.addEventListener('click', () => {
-                if (selectedCharacter) {
-                    startMainApp();
-                }
-            });
-        }
-        
-        function startMainApp() {
-            // Update avatar based on selection
-            currentUser.avatar.gender = selectedCharacter;
-            if (selectedCharacter === 'female') {
-                currentUser.avatar.shirtColor = '#ec4899';
-                currentUser.avatar.pantsColor = '#7c3aed';
+                
+                startButton.addEventListener('click', () => {
+                    if (selectedCharacter) {
+                        startMainApp();
+                    }
+                });
             }
-            
-            updateAvatarDisplay();
-            
-            // Hide intro and show main app
-            document.getElementById('intro-screen').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-            document.getElementById('add-project-btn').classList.remove('hidden');
-            document.getElementById('bottom-nav').classList.remove('hidden');
+
+            function startMainApp() {
+                // Update avatar based on selection
+                currentUser.avatar.gender = selectedCharacter;
+                if (selectedCharacter === 'female') {
+                    currentUser.avatar.shirtColor = '#ec4899';
+                    currentUser.avatar.pantsColor = '#7c3aed';
+                }
+
+                renderAvatar();
+                updateAvatarDisplay();
+                updateWeatherEffects(currentUser.scenario);
+                
+                // Hide intro and show main app
+                document.getElementById('intro-screen').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                document.getElementById('add-project-btn').classList.remove('hidden');
+                document.getElementById('bottom-nav').classList.remove('hidden');
+            }
             
             // Initialize main app
             initializeNavigation();
@@ -1654,26 +1866,28 @@
             
             // Change scenario every 60 seconds
             setInterval(changeScenario, 60000);
-        }
+        
         
         // Avatar Management
+        function renderAvatar() {
+            const avatarImg = document.getElementById('home-avatar');
+            if (!avatarImg) return;
+            avatarImg.src = currentUser.avatar.gender === 'female' ? './Imagens/menina.png' : './Imagens/menino.png';
+            updateWeatherEffects(currentUser.scenario);
+        }
+
         function updateAvatarDisplay() {
-            const avatarHair = document.getElementById('avatar-hair');
-            const avatarBody = document.getElementById('avatar-body');
-            const avatarLegs = document.getElementById('avatar-legs');
-            const avatarLegsRight = document.getElementById('avatar-legs-right');
-            
-            if (avatarHair) avatarHair.style.background = currentUser.avatar.hairColor;
-            if (avatarBody) avatarBody.style.background = currentUser.avatar.shirtColor;
-            if (avatarLegs) avatarLegs.style.background = currentUser.avatar.pantsColor;
-            if (avatarLegsRight) avatarLegsRight.style.background = currentUser.avatar.pantsColor;
-            
+            const homeAvatar = document.getElementById('home-avatar');
+            if (homeAvatar) {
+                homeAvatar.src = currentUser.avatar.gender === 'female' ? './Imagens/menina.png' : './Imagens/menino.png';
+            }
+
             // Update preview if on customization screen
             const previewHair = document.getElementById('preview-hair');
             const previewBody = document.getElementById('preview-body');
             const previewLegs = document.getElementById('preview-legs');
             const previewLegsRight = document.getElementById('preview-legs-right');
-            
+
             if (previewHair) previewHair.style.background = currentUser.avatar.hairColor;
             if (previewBody) previewBody.style.background = currentUser.avatar.shirtColor;
             if (previewLegs) previewLegs.style.background = currentUser.avatar.pantsColor;
@@ -1681,16 +1895,18 @@
         }
         
         // Navigation
-        function initializeNavigation() {
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetScreen = button.dataset.screen;
-                    switchScreen(targetScreen);
-                    
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                });
+       function initializeNavigation() {
+         navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+            const targetScreen = button.dataset.screen;
+            switchScreen(targetScreen);
+
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
             });
+        });
+        }
+        
             
             // Project details navigation
             document.querySelectorAll('[data-project-type]').forEach(card => {
@@ -1728,34 +1944,59 @@
                 updateAvatarDisplay();
             });
             
-            document.getElementById('shop-btn')?.addEventListener('click', () => {
+             document.getElementById('shop-btn')?.addEventListener('click', () => {
                 switchScreen('shop-screen');
-                updateShopGold();
+                updateShopGold();           
+           });
+
+            document.querySelectorAll('#shop-items button[data-item]')?.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const price = parseInt(btn.dataset.price);
+                    const item = btn.dataset.item;
+                    if (currentUser.gold >= price) {
+                        currentUser.gold -= price;
+                        currentUser.inventory.push(item);
+                        btn.disabled = true;
+                        btn.textContent = 'Adquirido';
+                        btn.parentElement.parentElement.parentElement.classList.add('owned');
+                        updateShopGold();
+                    } else {
+                        showErrorMessage('Ouro insuficiente!');
+                    }
+                });
             });
-            
-            document.getElementById('settings-btn')?.addEventListener('click', () => {
-                alert('Configurações em desenvolvimento!');
-            });
-            
-            document.getElementById('account-data-btn')?.addEventListener('click', () => {
-                alert('Dados da conta em desenvolvimento!');
-            });
-        }
-        
-        function switchScreen(screenId) {
-            screens.forEach(screen => {
-                const element = document.getElementById(screen);
-                if (element) {
-                    element.classList.add('hidden');
+                    // Ao clicar em “Configurações”
+                    document.getElementById('settings-btn')?.addEventListener('click', () => {
+                        alert('Configurações em desenvolvimento!');
+                    });
+
+                    // Ao clicar em “Dados da Conta”
+                    document.getElementById('account-data-btn')?.addEventListener('click', () => {
+                        alert('Dados da conta em desenvolvimento!');
+                    });
+
+                    // Botão de voltar do inventário para o perfil
+                    document.getElementById('back-to-profile-from-inventory')?.addEventListener('click', () => {
+                        switchScreen('profile-screen');
+                        updateNavigation('profile-screen');
+                    });
+
+            function switchScreen(screenId) {
+                // Esconde todas as telas
+                screens.forEach(screen => {
+                    const element = document.getElementById(screen);
+                    if (element) {
+                        element.classList.add('hidden');
+                    }
+                });
+
+                // Mostra a tela alvo
+                const targetElement = document.getElementById(screenId);
+                if (targetElement) {
+                    targetElement.classList.remove('hidden');
+                    currentScreen = screenId;
                 }
-            });
-            
-            const targetElement = document.getElementById(screenId);
-            if (targetElement) {
-                targetElement.classList.remove('hidden');
-                currentScreen = screenId;
             }
-        }
         
         function updateNavigation(screenId) {
             navButtons.forEach(btn => btn.classList.remove('active'));
@@ -1766,27 +2007,27 @@
         }
         
         function showProjectDetails(projectType) {
+            currentProjectListType = projectType;
             const titles = {
                 routine: 'Projetos de Rotina',
                 complex: 'Projetos Complexos',
                 challenge: 'Desafios',
                 sprint: 'Sprints'
             };
-            
             const subtitles = {
                 routine: 'Seus hábitos e atividades regulares',
                 complex: 'Projetos de longo prazo e objetivos grandes',
                 challenge: 'Metas com prazo definido',
                 sprint: 'Projetos rápidos e intensos'
             };
-            
+
             document.getElementById('project-details-title').textContent = titles[projectType];
             document.getElementById('project-details-subtitle').textContent = subtitles[projectType];
-            
+
             // Filter and display projects
             const filteredProjects = currentUser.projects.filter(p => p.type === projectType);
             const contentContainer = document.getElementById('project-details-content');
-            
+
             if (filteredProjects.length === 0) {
                 contentContainer.innerHTML = `
                     <div class="text-center mt-8">
@@ -1795,36 +2036,193 @@
                     </div>
                 `;
             } else {
-                contentContainer.innerHTML = filteredProjects.map(project => `
-                    <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
-                        <h3 class="text-white font-bold mb-2">${project.name}</h3>
-                        <p class="text-slate-300 text-sm mb-1">Área: ${project.lifeArea}</p>
-                        <p class="text-slate-400 text-sm mb-3">Dificuldade: ${project.difficulty}</p>
-                        <div class="flex justify-between items-center mb-3">
-                        <span class="text-green-400 font-bold">${project.progress}%</span>
-                        <span class="text-blue-400 text-sm">${project.tasks.filter(t => t.completed).length}/${project.tasks.length} tarefas</span>
-                        </div>
-                        <div class="flex justify-end space-x-2">
-                        <!-- Botão Editar chama a função updateProject -->
-                        <button
-                            onclick="populateFormForEdit(${project.id})"
-                            class="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-xs"
-                        >
-                            Editar
-                        </button>
-                        <!-- Botão Excluir chama a função deleteProject -->
-                        <button
-                            onclick="deleteProject(${project.id})"
-                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs"
-                        >
-                            Excluir
-                        </button>
-                        </div>
-                    </div>
-                    `).join('');
+                contentContainer.innerHTML = filteredProjects.map(project => {
+                    if (project.type === 'routine') {
+                        // Dias da semana ou vezes por semana
+                        const dias = project.schedule?.length
+                            ? project.schedule.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')
+                            : `${project.timesPerWeek}x/semana`;
+                        // Progresso semanal
+                        const total = project.schedule?.length || project.timesPerWeek || 1;
+                        const done = project.weekCompletions?.length || 0;
+                        // Pode marcar hoje?
+                        const canMark = canMarkRoutine(project);
+                        // Já completou a semana?
+                        const completed = done >= total;
+                        return `
+                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
+                                <h3 class="text-white font-bold mb-2">${project.name}</h3>
+                                <p class="text-slate-300 text-sm mb-1">Dias: ${dias}</p>
+                                <p class="text-slate-400 text-sm mb-1">Dificuldade: ${project.difficulty}</p>
+                                <div class="flex items-center mb-2">
+                                    <span class="text-green-400 font-bold">${done}/${total} concluídos na semana</span>
+                                </div>
+                                <button class="mark-routine-btn bg-green-600 text-white px-3 py-1 rounded text-xs mb-2"
+                                    data-project-id="${project.id}" ${!canMark || completed ? 'disabled' : ''}>
+                                    ${completed ? 'Semana concluída!' : 'Marcar como feito hoje'}
+                                </button>
+                                <button onclick="deleteProject(${project.id})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs ml-2">
+                                    Deletar Rotina
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        // ...exibição dos outros tipos de projeto...
+                        return `
+                            <div class="project-card rounded-xl p-4 mb-4 bg-slate-800">
+                                <h3 class="text-white font-bold mb-2">${project.name}</h3>
+                                <p class="text-slate-300 text-sm mb-1">Área: ${project.lifeArea}</p>
+                                <p class="text-slate-400 text-sm mb-3">Dificuldade: ${project.difficulty}</p>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-green-400 font-bold">${project.progress}%</span>
+                                    <span class="text-blue-400 text-sm">${project.tasks.filter(t => t.completed).length}/${project.tasks.length} tarefas</span>
+                                </div>
+                                <div class="flex justify-end space-x-2">
+                                    <button onclick="populateFormForEdit(${project.id})" class="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded text-xs">Editar</button>
+                                    <button onclick="deleteProject(${project.id})" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs">Excluir</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
             }
             
             switchScreen('project-details-screen');
+        }
+
+        function showProjectDetailScreen(projectId) {
+            const project = currentUser.projects.find(p => p.id === projectId);
+            if (!project) return;
+
+            let html = `
+                <h2 class="text-white font-bold text-xl mb-2">${project.name}</h2>
+                <div class="text-slate-400 text-sm mb-2">Área: ${project.lifeArea ? project.lifeArea.charAt(0).toUpperCase() + project.lifeArea.slice(1) : ''}</div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs bg-slate-700 px-2 py-1 rounded">Dificuldade: ${project.difficulty}</span>
+                    <span class="text-xs bg-slate-700 px-2 py-1 rounded">XP: ${project.xpReward}</span>
+                    <span class="text-xs bg-slate-700 px-2 py-1 rounded">Ouro: ${project.goldReward}</span>
+                </div>
+            `;
+
+            // ROTINA
+            if (project.type === 'routine') {
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Detalhes da Rotina</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.schedule?.length ? 'Dias: ' + project.schedule.join(', ') : project.timesPerWeek + 'x por semana'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Check-in</div>
+                        <div class="flex gap-2 mb-2">
+                `;
+                if (project.schedule?.length) {
+                    // Dias da semana
+                    const weekDays = ['dom','seg','ter','qua','qui','sex','sab'];
+                    weekDays.forEach(day => {
+                        const today = new Date();
+                        const todayStr = today.toISOString().slice(0,10);
+                        const canMark = project.schedule.includes(day) && !project.weekCompletions?.includes(todayStr) && weekDays[today.getDay()] === day;
+                        html += `<button class="routine-check-btn px-2 py-1 rounded ${canMark ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-400'}" 
+                            data-project-id="${project.id}" data-day="${day}" ${canMark ? '' : 'disabled'}>${day.charAt(0).toUpperCase() + day.slice(1)}</button>`;
+                    });
+                } else {
+                    // Vezes por semana
+                    html += `<button class="routine-check-btn px-4 py-1 rounded bg-green-600 text-white" data-project-id="${project.id}">Marcar hoje</button>`;
+                }
+                html += `</div>
+                    <div class="text-xs text-slate-400">Progresso semanal: ${project.weekCompletions?.length || 0}/${project.schedule?.length || project.timesPerWeek || 1}</div>
+                    </div>
+                `;
+            }
+
+            // COMPLEXO
+            if (project.type === 'complex') {
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Descrição</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.complexDescription || 'Sem descrição.'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Tarefas</div>
+                        <ul class="space-y-1">
+                            ${project.tasks.map((t, i) => `
+                                <li>
+                                    <input type="checkbox" class="complex-task-check" data-project-id="${project.id}" data-task-index="${i}" ${t.completed ? 'checked' : ''}>
+                                    <span class="${t.completed ? 'line-through text-slate-500' : 'text-white'}">${t.text}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <button class="add-subtask-btn mt-2 px-2 py-1 bg-blue-600 text-white rounded text-xs" data-project-id="${project.id}">+ Subtarefa</button>
+                    </div>
+                `;
+            }
+
+            // DESAFIO
+            if (project.type === 'challenge') {
+                // Barra de progresso (dias)
+                let totalDays = 1;
+                let doneDays = 0;
+                if (project.startDate && project.endDate) {
+                    const start = new Date(project.startDate);
+                    const end = new Date(project.endDate);
+                    totalDays = Math.max(1, Math.ceil((end - start) / (1000*60*60*24)) + 1);
+                    doneDays = (project.completions || []).length;
+                }
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Descrição do Desafio</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.challengeDescription || 'Sem descrição.'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Progresso</div>
+                        <div class="w-full bg-slate-700 rounded-full h-3 mb-2">
+                            <div class="bg-blue-500 h-3 rounded-full" style="width: ${(doneDays/totalDays)*100}%"></div>
+                        </div>
+                        <div class="text-xs text-slate-400">${doneDays}/${totalDays} dias</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="complete-challenge-btn px-3 py-1 bg-green-600 text-white rounded text-xs" data-project-id="${project.id}">Completar Desafio</button>
+                        <button class="give-up-challenge-btn px-3 py-1 bg-red-600 text-white rounded text-xs" data-project-id="${project.id}">Desistir</button>
+                    </div>
+                `;
+            }
+
+            // SPRINT
+            if (project.type === 'sprint') {
+                html += `
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Descrição da Sprint</div>
+                        <div class="text-slate-300 text-sm mb-2">${project.sprintDescription || 'Sem descrição.'}</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-white font-semibold mb-1">Etapas</div>
+                        <ul class="space-y-2">
+                            ${(project.sprintCards || []).map((card, i) => `
+                                <li class="flex items-center gap-2">
+                                    <span class="text-white">${card.title}</span>
+                                    <select class="sprint-stage-select bg-slate-700 text-white rounded px-2 py-1 text-xs" data-project-id="${project.id}" data-card-index="${i}">
+                                        <option value="aguardando" ${card.status === 'aguardando' ? 'selected' : ''}>Aguardando</option>
+                                        <option value="andamento" ${card.status === 'andamento' ? 'selected' : ''}>Em andamento</option>
+                                        <option value="concluido" ${card.status === 'concluido' ? 'selected' : ''}>Concluído</option>
+                                    </select>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Exibe na tela
+            document.getElementById('project-detail-content').innerHTML = html;
+            document.getElementById('project-detail-screen').classList.remove('hidden');
+
+            // Fechar modal
+            document.getElementById('close-project-detail').onclick = () => {
+                document.getElementById('project-detail-screen').classList.add('hidden');
+            };
+
+            // Listeners para ações específicas (check-in, completar desafio, etc)
+            addProjectDetailListeners(project);
         }
         
         // Modals
@@ -1862,7 +2260,11 @@
             const addProjectBtn = document.getElementById('add-project-btn');
             const closeProjectBtn = document.getElementById('close-project-modal');
             
-            addProjectBtn?.addEventListener('click', () => showModal('project-modal'));
+            addProjectBtn?.addEventListener('click', () => {
+                selectedProjectType = null;
+                selectedProject = null;
+                showModal('project-modal');
+            });
             closeProjectBtn?.addEventListener('click', () => hideModal('project-modal'));
             
             // Project type selection
@@ -1882,14 +2284,19 @@
             
             // Avatar Customization
             initializeAvatarCustomization();
-        }
+        } // <-- Add this closing brace to fix the error
         
         function initializeProjectForm() {
+            // Garante que, sempre que o usuário clicar em “+”, o botão mostrará “Criar Projeto”
+                selectedProject = null;
+                const projectForm = document.getElementById('project-form');
+                projectForm.querySelector('.create-btn').textContent = 'Criar Projeto';
+
+            
             const formModal = document.getElementById('project-form-modal');
             const closeFormBtn = document.getElementById('close-form-modal');
             const cancelFormBtn = document.getElementById('cancel-form');
-            const projectForm = document.getElementById('project-form');
-            
+                   
             closeFormBtn?.addEventListener('click', () => hideModal('project-form-modal'));
             cancelFormBtn?.addEventListener('click', () => hideModal('project-form-modal'));
             
@@ -1917,28 +2324,48 @@
                 e.preventDefault();
                 saveProject();
             });
-        }
+        } // <-- This closing brace was missing
         
-        function showProjectForm() {
-            const titles = {
-                routine: 'Criar Rotina',
-                complex: 'Criar Projeto Complexo',
-                challenge: 'Criar Desafio',
-                sprint: 'Criar Sprint'
-            };
-            
-            document.getElementById('form-title').textContent = titles[selectedProjectType];
-            
-            // Show/hide date fields for challenges
-            const dateFields = document.getElementById('date-fields');
-            if (selectedProjectType === 'challenge') {
-                dateFields.classList.remove('hidden');
-            } else {
-                dateFields.classList.add('hidden');
-            }
-            
-            showModal('project-form-modal');
-        }
+                function showProjectForm() {
+                      // 1) Atualiza o título
+                const titles = {
+                    routine: 'Criar Rotina',
+                    complex: 'Criar Projeto Complexo',
+                    challenge: 'Criar Desafio',
+                    sprint: 'Criar Sprint'
+                };
+                document.getElementById('form-title').textContent = titles[selectedProjectType] || 'Criar Projeto';
+
+                // Mostra/esconde campos extras
+                const dateFields = document.getElementById('date-fields');
+                const routineFields = document.getElementById('routine-fields');
+                const challengeFields = document.getElementById('challenge-fields');
+                const sprintFields = document.getElementById('sprint-fields');
+                const complexFields = document.getElementById('complex-fields');
+
+                if (dateFields) dateFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
+                if (routineFields) routineFields.classList.toggle('hidden', selectedProjectType !== 'routine');
+                if (challengeFields) challengeFields.classList.toggle('hidden', selectedProjectType !== 'challenge');
+                if (sprintFields) sprintFields.classList.toggle('hidden', selectedProjectType !== 'sprint');
+                if (complexFields) complexFields.classList.toggle('hidden', selectedProjectType !== 'complex');
+
+                // Limpa campos extras
+                document.getElementById('project-form').reset();
+                document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => cb.checked = false);
+                document.getElementById('routine-frequency').value = '';
+                document.getElementById('challenge-description').value = '';
+                document.getElementById('sprint-description').value = '';
+                document.getElementById('complex-description').value = '';
+                selectedDifficulty = null;
+                document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('tasks-container').innerHTML =
+                    '<input type="text" class="task-input w-full p-2 rounded-lg text-sm" placeholder="Digite uma tarefa...">';
+
+                // Atualiza botão
+                document.querySelector('#project-form .create-btn').textContent = 'Criar Projeto';
+
+                showModal('project-form-modal');
+                }
         
         /**
          * Cria um novo projeto ou atualiza um existente se receber projectId.
@@ -1952,6 +2379,14 @@
             const endDate    = document.getElementById('project-end-date').value;
             const customXp   = parseInt(document.getElementById('custom-xp').value)   || 0;
             const customGold = parseInt(document.getElementById('custom-gold').value) || 0;
+
+            const schedule = Array.from(document.querySelectorAll('#routine-fields input[type=checkbox]:checked'))
+                .map(cb => cb.value);
+            const timesPerWeek = parseInt(document.getElementById('routine-frequency').value) || null;
+            const challengeDescription = document.getElementById('challenge-description').value.trim();
+            const sprintDescription = document.getElementById('sprint-description').value.trim();
+
+
 
             const taskInputs = document.querySelectorAll('#tasks-container .task-input');
             const tasks = Array.from(taskInputs)
@@ -1977,9 +2412,18 @@
                 startDate,
                 endDate,
                 tasks,
+                schedule,
+                timesPerWeek,
+                challengeDescription,
+                sprintDescription,
                 xpReward:    Math.floor(baseXp   * mul.xp)   + customXp,
                 goldReward:  Math.floor(baseGold * mul.gold) + customGold,
                 updatedAt:   new Date().toISOString()
+    
+               
+               
+          
+             
             };
 
             if (selectedProject) {
@@ -1990,16 +2434,20 @@
                     return;
                 }
 
-                currentUser.projects[idx] = projectData;
+                
+                const existing = currentUser.projects[idx];
+                currentUser.projects[idx] = { ...existing, ...projectData };
                 showSuccessMessage('Projeto atualizado com sucesso!');
                 selectedProject = null;
             } else {
 
                 const newProject = {
-                id:        Date.now(),
-                ...projectData,
-                progress: 0,
-                createdAt: new Date().toISOString()
+    id:        Date.now(),
+    ...projectData,
+    progress: 0,
+    createdAt: new Date().toISOString(),
+    completions: [],         // ← datas concluídas (para histórico)
+    weekCompletions: [],     // ← datas concluídas nesta semana
                 };
                 currentUser.projects.push(newProject);
                 // recompensa de criar
@@ -2011,10 +2459,16 @@
             }
             
             updateProjectCounts();
+            updateProjectListDisplay();
             // 3) Fecha modal e reseta formulário
             hideModal('project-form-modal');
             const form = document.getElementById('project-form');
             form.reset();
+            document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => cb.checked = false);
+            document.getElementById('routine-frequency').value = '';
+            document.getElementById('challenge-description').value = '';
+            document.getElementById('sprint-description').value = '';
+            document.getElementById('complex-description').value = '';
             selectedDifficulty = null;
             document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
             // reseta tarefas
@@ -2029,19 +2483,55 @@
         function populateFormForEdit(projectId) {
             const project = currentUser.projects.find(p => p.id === projectId);
             if (!project) {
-                showErrorMessage('Projeto não encontrado.');
-                return;
+            showErrorMessage('Projeto não encontrado.');
+            return;
             }
 
+            // Keep track of the project type being edited
+            selectedProjectType = project.type;
+
+            // Show or hide date fields based on the type
+            const dateFields = document.getElementById('date-fields');
+            if (selectedProjectType === 'challenge') {
+                dateFields.classList.remove('hidden');
+            } else {
+                dateFields.classList.add('hidden');
+            }
+
+           
             // Exibe o modal
             showModal('project-form-modal');
+            // Define tipo e exibe o modal com campos corretos
+            selectedProjectType = project.type;
+            showProjectForm();
             selectedProject = projectId;
+
+            const projectForm = document.getElementById('project-form');
 
             // Preenche campos
             document.getElementById('project-name').value       = project.name;
             document.getElementById('project-life-area').value  = project.lifeArea;
             document.getElementById('project-start-date').value = project.startDate;
             document.getElementById('project-end-date').value   = project.endDate;
+
+            // Campos extras por tipo
+            document.getElementById('routine-fields').classList.add('hidden');
+            document.getElementById('challenge-fields').classList.add('hidden');
+            document.getElementById('sprint-fields').classList.add('hidden');
+
+            if (project.type === 'routine') {
+                document.getElementById('routine-fields').classList.remove('hidden');
+                document.querySelectorAll('#routine-fields input[type=checkbox]').forEach(cb => {
+                    cb.checked = project.schedule && project.schedule.includes(cb.value);
+                });
+                document.getElementById('routine-frequency').value = project.timesPerWeek || '';
+            } else if (project.type === 'challenge') {
+                document.getElementById('challenge-fields').classList.remove('hidden');
+                document.getElementById('challenge-description').value = project.challengeDescription || '';
+            } else if (project.type === 'sprint') {
+                document.getElementById('sprint-fields').classList.remove('hidden');
+                document.getElementById('sprint-description').value = project.sprintDescription || '';
+            }
 
             // Dificuldade
             selectedDifficulty = project.difficulty;
@@ -2066,6 +2556,16 @@
             blank.placeholder = 'Digite uma tarefa...';
             tasksContainer.appendChild(blank);
 
+            // Campos adicionais
+            document.getElementById('routine-frequency').value = project.schedule?.frequency || '';
+            document.querySelectorAll('#routine-fields .routine-day').forEach(cb => {
+                cb.checked = project.schedule && project.schedule.includes(cb.value);
+            });
+            document.getElementById('complex-description').value = project.complexDescription || '';
+            document.getElementById('challenge-description').value = project.challengeDescription || '';
+            document.getElementById('challenge-reward').value = project.rewardText || '';
+            document.getElementById('sprint-description').value = project.sprintDescription || '';
+
             // Recompensas custom
             const mult = { facil:{xp:1,gold:1}, medio:{xp:1.5,gold:1.5}, dificil:{xp:2,gold:2} };
             const baseXp=50, baseGold=25;
@@ -2076,8 +2576,9 @@
             document.getElementById('custom-gold').value = project.goldReward - calcGold;
 
             // Atualiza o texto do botão
-            const submitBtn = form.querySelector('.create-btn');
-            submitBtn.text = 'Salvar Projeto';
+            const form = document.getElementById('project-form');
+            const submitBtn = form.querySelector('.create-btn');            
+            submitBtn.textContent = 'Salvar Projeto';
         }
 
         /**
@@ -2099,9 +2600,8 @@
             updateProjectCounts();        // Atualiza total de projetos, progresso, etc.
             showSuccessMessage('Projeto removido com sucesso!');
         }
-
         
-        function initializeTrophyCreation() {
+         function initializeTrophyCreation() {
             const createTrophyBtn = document.getElementById('create-trophy-btn');
             const trophyFormModal = document.getElementById('trophy-form-modal');
             const closeTrophyFormBtn = document.getElementById('close-trophy-form');
@@ -2221,9 +2721,9 @@
         // Life Wheel Chart
         function initializeLifeWheel() {
             const ctx = document.getElementById('lifeWheelChart');
-            if (!ctx) return;
+            if (!ctx) return;            
             
-            new Chart(ctx, {
+                lifeWheelChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
                     labels: ['Carreira', 'Finanças', 'Saúde', 'Família', 'Social', 'Lazer', 'Intelectual'],
@@ -2236,7 +2736,7 @@
                         pointBackgroundColor: 'rgba(59, 130, 246, 1)',
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
                     }]
                 },
                 options: {
@@ -2299,8 +2799,15 @@
             document.getElementById('complex-count').textContent = complexCount;
             document.getElementById('challenge-count').textContent = challengeCount;
             document.getElementById('sprint-count').textContent = sprintCount;
+
+            updateLifeData();
         }
-        
+            function updateProjectListDisplay() {
+            if (currentProjectListType) {
+                showProjectDetails(currentProjectListType);
+            }
+        }
+
         function updateTrophiesDisplay() {
             const trophiesGrid = document.getElementById('trophies-grid');
             if (!trophiesGrid) return;
@@ -2330,6 +2837,81 @@
             }
         }
         
+
+
+        function updateInventoryDisplay() {
+            const container = document.getElementById('inventory-items');
+            if (!container) return;
+            if (currentUser.inventory.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-sm">Nenhum item adquirido</p>';
+                return;
+            }
+            container.innerHTML = currentUser.inventory.map(item => `
+                <div class="bg-slate-800/50 rounded-lg p-3 text-white">${item}</div>
+            `).join('');
+        }
+
+        function updateLifeData() {
+            const counts = {
+                carreira: 0,
+                financas: 0,
+                saude: 0,
+                familia: 0,
+                social: 0,
+                lazer: 0,
+                intelectual: 0
+            };
+
+            currentUser.projects.forEach(p => {
+                if (counts[p.lifeArea] !== undefined) counts[p.lifeArea]++;
+            });
+
+            if (lifeWheelChart) {
+                lifeWheelChart.data.datasets[0].data = [
+                    counts.carreira,
+                    counts.financas,
+                    counts.saude,
+                    counts.familia,
+                    counts.social,
+                    counts.lazer,
+                    counts.intelectual
+                ];
+                lifeWheelChart.update();
+            }
+
+            const areas = ['carreira','financas','saude','familia','social','lazer','intelectual'];
+            areas.forEach(area => {
+                const count = counts[area];
+                const bar = document.getElementById(`progress-${area}`);
+                const text = document.getElementById(`count-${area}`);
+                if (bar) bar.style.width = Math.min(count * 10, 100) + '%';
+                if (text) text.textContent = `${count}/10`;
+            });
+
+            // Atualiza foco atual e missão do dia
+            updateFocusAndMission(counts);
+        }
+
+        function updateFocusAndMission(counts) {
+            // Determine foco atual
+            let focusArea = 'Nenhum';
+            let max = 0;
+            for (const [area, value] of Object.entries(counts)) {
+                if (value > max) { max = value; focusArea = area; }
+            }
+            const focusMap = {
+                carreira:'Carreira', financas:'Finanças', saude:'Saúde', familia:'Família',
+                social:'Social', lazer:'Lazer', intelectual:'Intelectual'
+            };
+            const focusText = document.getElementById('current-focus-text');
+            if (focusText) focusText.textContent = focusMap[focusArea] || 'Nenhum';
+
+            // Missão do dia = primeiro projeto com tarefas pendentes
+            const missionEl = document.getElementById('daily-mission-text');
+            const mission = currentUser.projects.find(p => p.tasks.some(t => !t.completed));
+            if (missionEl) missionEl.textContent = mission ? mission.name : 'Sem missão';
+        }
+
         // Daily Reward
         function collectDailyReward() {
             currentUser.xp += 25;
@@ -2381,106 +2963,78 @@
             currentUser.level++;
             currentUser.xp = currentUser.xp - currentUser.nextLevelXp;
             currentUser.nextLevelXp = Math.floor(currentUser.nextLevelXp * 1.2);
-            
-            // Show celebration
-            showLevelUpCelebration();
-            updateUserStats();
-        }
-        
-        function showLevelUpCelebration() {
-            const celebration = document.getElementById('level-up-celebration');
-            const newLevelSpan = document.getElementById('new-level');
-            
-            newLevelSpan.textContent = currentUser.level;
-            celebration.classList.remove('hidden');
-            
-            // Hide after 3 seconds
+        const total = project.schedule?.length || project.timesPerWeek || 1;
+        if (project.weekCompletions.length >= total) completed = true;
+
+        if (completed) {
+            // Dá recompensa
+            const mult = { facil:1, medio:1.5, dificil:2 };
+            const xp = Math.floor(10 * (mult[project.difficulty]||1));
+            const gold = Math.floor(5 * (mult[project.difficulty]||1));
+            currentUser.xp += xp;
+            currentUser.gold += gold;
+            showSuccessMessage(`Rotina da semana concluída! +${xp} XP, +${gold} 🪙`);
+            checkLevelUp();
+
+            // Pergunta se renova
             setTimeout(() => {
-                celebration.classList.add('hidden');
-            }, 3000);
-            
-            // Avatar celebration
-            const avatar = document.getElementById('main-avatar');
-            if (avatar) {
-                avatar.classList.add('celebration');
-                setTimeout(() => avatar.classList.remove('celebration'), 1000);
-            }
-        }
-        
-        // Scenario Management
-        function changeScenario() {
-            currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
-            const newScenario = scenarios[currentScenarioIndex];
-            
-            const avatarSection = document.getElementById('avatar-section');
-            // if (avatarSection) {
-            //     // Remove all scenario classes
-            //     scenarios.forEach(scenario => {
-            //         avatarSection.classList.remove(scenario);
-            //     });
-                
-            //     // Add new scenario class
-            //     if (newScenario !== 'day') {
-            //         avatarSection.classList.add(newScenario);
-            //     }
-                
-            //     // Add weather effects
-            //     addWeatherEffects(newScenario, avatarSection);
-            // }
-        }
-        
-        function addWeatherEffects(scenario, container) {
-            // Remove existing weather effects
-            container.querySelectorAll('.pixel-stars, .pixel-moon, .pixel-rain-drop, .pixel-snow-flake').forEach(el => el.remove());
-            
-            if (scenario === 'night') {
-                // Add stars
-                for (let i = 0; i < 5; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'pixel-stars';
-                    star.style.left = Math.random() * 80 + 10 + '%';
-                    star.style.top = Math.random() * 40 + 10 + '%';
-                    container.appendChild(star);
+                if (confirm('Deseja renovar a rotina para a próxima semana?')) {
+                    project.weekCompletions = [];
+                } else {
+                    deleteProject(project.id);
                 }
-                
-                // Add moon
-                const moon = document.createElement('div');
-                moon.className = 'pixel-moon';
-                container.appendChild(moon);
-            } else if (scenario === 'rain') {
-                // Add rain drops
-                for (let i = 0; i < 10; i++) {
-                    const drop = document.createElement('div');
-                    drop.className = 'pixel-rain-drop';
-                    drop.style.left = Math.random() * 100 + '%';
-                    drop.style.animationDelay = Math.random() * 1 + 's';
-                    container.appendChild(drop);
-                }
-            } else if (scenario === 'snow') {
-                // Add snow flakes
-                for (let i = 0; i < 8; i++) {
-                    const flake = document.createElement('div');
-                    flake.className = 'pixel-snow-flake';
-                    flake.style.left = Math.random() * 100 + '%';
-                    flake.style.animationDelay = Math.random() * 3 + 's';
-                    container.appendChild(flake);
-                }
-            }
+                updateProjectListDisplay();
+            }, 500);
+        } else {
+            showSuccessMessage('Rotina marcada para hoje!');
         }
-        
-        // Utility Functions
-        function showSuccessMessage(message) {
-            // Create a temporary success message
-            const successDiv = document.createElement('div');
-            successDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg z-50 shadow-lg';
-            successDiv.textContent = message;
-            document.body.appendChild(successDiv);
-            
-            setTimeout(() => {
-                successDiv.remove();
-            }, 3000);
-        }
+        updateProjectListDisplay();
+        updateUserStats();
+    }
+});
+
+// Rotina: alternância entre modos e seleção de dias
+document.addEventListener('DOMContentLoaded', () => {
+    const btnDays = document.getElementById('btn-select-days');
+    const btnTimes = document.getElementById('btn-select-times');
+    const daysGroup = document.getElementById('routine-days-group');
+    const timesGroup = document.getElementById('routine-times-group');
+    const freqInput = document.getElementById('routine-frequency');
+    let selectedDays = [];
+
+    if (btnDays && btnTimes && daysGroup && timesGroup && freqInput) {
+        btnDays.addEventListener('click', () => {
+            btnDays.classList.add('active');
+            btnTimes.classList.remove('active');
+            daysGroup.classList.remove('hidden');
+            timesGroup.classList.add('hidden');
+            freqInput.value = '';
+        });
+        btnTimes.addEventListener('click', () => {
+            btnTimes.classList.add('active');
+            btnDays.classList.remove('active');
+            daysGroup.classList.add('hidden');
+            timesGroup.classList.remove('hidden');
+            // Limpa seleção de dias
+            daysGroup.querySelectorAll('.routine-day-btn').forEach(btn => btn.classList.remove('selected'));
+            selectedDays = [];
+        });
+        // Seleção dos dias
+        daysGroup.querySelectorAll('.routine-day-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('selected');
+                const day = btn.dataset.day;
+                if (btn.classList.contains('selected')) {
+                    selectedDays.push(day);
+                } else {
+                    selectedDays = selectedDays.filter(d => d !== day);
+                }
+            });
+        });
+    }
+});
+
+// (Removido código inválido que sobrescrevia saveProject e causava erro de sintaxe)
     </script>
 </body>
 </html>
-
